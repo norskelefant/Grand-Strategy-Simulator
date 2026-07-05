@@ -10,4 +10,4 @@ Things i plan on adding:
 - Simulating for more countries, taking unique focus trees, decisions and starting factories and equipment into account.
 - Maybe a war simulator to compare different types of equipment. 
 - Maybe expanding to mods like Old World Blues and Kaiserreich.
-
+- Testing
