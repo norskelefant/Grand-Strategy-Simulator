@@ -1,5 +1,5 @@
-from country import *
-from state import *
+from hoi_simulator.country import *
+from hoi_simulator.state import *
 
 
 

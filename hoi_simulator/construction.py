@@ -1,5 +1,5 @@
-from country import Country
-from setup_countries import create_germany
+from hoi_simulator.country import *
+from hoi_simulator.setup_countries import *
 
 CIV_COST = 10800
 MIL_COST = 7200
@@ -11,11 +11,11 @@ civ_ic_production = 4
 
 germany = create_germany()
 
-def create_country(): 
+#def create_country(): 
 
 
 
-def start_construction(): 
+#def start_construction(): 
 
 
 

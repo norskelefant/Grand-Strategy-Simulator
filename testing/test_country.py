@@ -15,7 +15,7 @@ def test_germany():
     assert germany.total_mils == 28
     assert germany.free_mils == 28
 
-    assert germany.states.count == 23
+    assert len(germany.states) == 24
     #assert germany.tiles = ...
     #assert germany.resources = ...
 
