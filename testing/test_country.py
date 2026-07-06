@@ -19,6 +19,19 @@ def test_germany():
     #assert germany.tiles = ...
     #assert germany.resources = ...
 
+def test_brandenburg(): 
+    #Given Germany
+    germany = create_germany()
+
+    #When brandenburg is selected
+    brandenburg = germany.states["brandenburg"]
+
+    #Then the following should hold for brandenburg
+    assert brandenburg.name == "Brandenburg"
+    assert brandenburg.construction_slots == 12
+    assert brandenburg.civs == 4
+    assert brandenburg.mils == 5
+    assert brandenburg.infrastructure_level == 4
 
 
 #def test_state

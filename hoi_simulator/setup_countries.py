@@ -30,7 +30,7 @@ def create_germany():
     wurttemberg = State("Württemberg", 8, 1, 5, 4)
 
     germany = Country("Germany", 
-                      [baden, brandenburg, ermland_masuren, franken, hannover, hessen, hinterpommern, holstein, konigsberg, mecklenburg, moselland, niederbayern, niederschlesien, oberbayern, oberschlesien, ostmark, rhineland, sachsen, schleswig, thuringen, vorpommern, weser_ems, westfalen, wurttemberg],
+                       {"baden": baden, "brandenburg": brandenburg, "ermland_masuren": ermland_masuren, "franken": franken, "hannover": hannover, "hessen": hessen, "hinterpommern": hinterpommern, "holstein": holstein, "konigsberg": konigsberg, "mecklenburg": mecklenburg, "moselland": moselland, "niederbayern": niederbayern, "niederschlesien": niederschlesien, "oberbayern": oberbayern, "oberschlesien": oberschlesien, "ostmark": ostmark, "rhineland": rhineland, "sachsen": sachsen, "schleswig": schleswig, "thuringen": thuringen, "vorpommern": vorpommern, "weser_ems": weser_ems, "westfalen": westfalen, "wurttemberg": wurttemberg},
                       None, None, 35, 20, 28, 28)
 
     return germany
