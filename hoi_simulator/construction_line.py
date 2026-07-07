@@ -36,3 +36,6 @@ class Construction_line:
     
     def get_construction_type(self): 
         return self.construction_type
+    
+    def set_amount_of_constructions(self): 
+        self.amount_of_constructions += 1
