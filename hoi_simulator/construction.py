@@ -23,6 +23,26 @@ class Construction:
 
         return construction_line
 
+    def create_construction_line(self, construction_type, state_name, country_name): 
+        check = self.check_if_construction_is_valid(construction_type, state_name, country_name)
+        if check != True: 
+            raise Exception("Dockyard not allowed to be built on non-coastal state")
+        
+        const_line = construction_line.Construction_line(
+            state_name,
+            country_name, 
+            state_name.infrastructure_level, 
+            construction_type.value, 
+            self.calculate_assigned_civs(country_name), 
+            self.calculate_amount_of_constructions(), 
+            self.calculate_priority(), 
+            self.calculate_time_left(),
+            construction_type.name
+        )
+        country_name.construction.construction_lines.append(const_line)
+
+        return const_line
+
     def finish_construction(self): 
         return None
 
@@ -55,23 +75,12 @@ class Construction:
 
     def get_construction_line_size(self): 
         return len(self.construction_lines) 
+    
+    def check_if_construction_is_valid(self, construction_type, state_name, country_name): 
+        if construction_type == construction_types.Constructions.DOCKYARD and state_name.get_is_coastal() == False: 
+            return False
+        return True
 
-    def create_construction_line(self, construction_type, state_name, country_name): 
-        #construction_already_exists = check_for_construction()
-        const_line = construction_line.Construction_line(
-            state_name,
-            country_name, 
-            state_name.infrastructure_level, 
-            construction_type.value, 
-            self.calculate_assigned_civs(country_name), 
-            self.calculate_amount_of_constructions(), 
-            self.calculate_priority(), 
-            self.calculate_time_left(),
-            construction_type.name
-        )
-        country_name.construction.construction_lines.append(const_line)
-
-        return const_line
 
 
 
