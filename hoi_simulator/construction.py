@@ -1,8 +1,6 @@
 from hoi_simulator import country, construction_line, construction_types, production_line, production, setup_countries, state, tile
 
-
 import hoi_simulator as hoi
-
 
 CIV_COST = 10800
 MIL_COST = 7200
@@ -15,63 +13,66 @@ month = 1
 year = 1936
 
 civ_ic_production = 4
-construction_lines = []
 
-germany = setup_countries.create_germany()
+class Construction: 
+    def __init__(self):
+        self.construction_lines = []
 
-def start_construction(building_type, state_name, country_name): 
-    construction_line = create_construction_line(building_type, state_name, country_name)
+    def start_construction(self, building_type, state_name, country_name): 
+        construction_line = self.create_construction_line(building_type, state_name, country_name)
 
-    return construction_line
+        return construction_line
 
-def finish_construction(): 
-    return None
+    def finish_construction(self): 
+        return None
 
-def stop_construction(): 
-    return None
+    def stop_construction(self): 
+        return None
 
-def day_has_passed(): 
-    return None
+    def day_has_passed(self): 
+        return None
 
-def calculate_construction_speed(): 
-    return None
+    def calculate_construction_speed(self): 
+        return None
 
-def move_priority_level(): 
-    return None
+    def move_priority_level(self): 
+        return None
+    
+    def calculate_assigned_civs(self, country_name): 
+        return 1
 
-def create_construction_line(construction_type, state_name, country_name): 
-    #construction_already_exists = check_for_construction()
-    const_line = construction_line.Construction_line(
-        state_name,
-        country_name, 
-        state_name.infrastructure_level, 
-        construction_type.value, 
-        calculate_assigned_civs(country_name), 
-        calculate_amount_of_constructions(), 
-        calculate_priority(), 
-        calculate_time_left()
-    )
-    construction_lines.append(const_line)
+    def calculate_amount_of_constructions(self): 
+        return 1
 
-    return const_line
+    def calculate_priority(self): 
+        return 0
 
-def calculate_assigned_civs(country_name): 
-    return 1
+    def calculate_time_left(self): 
+        return 0
 
-def calculate_amount_of_constructions(): 
-    return 1
+    def get_construction_line_list(self): 
+        return self.construction_lines
 
-def calculate_priority(): 
-    return 0
+    def get_construction_line_size(self): 
+        return len(self.construction_lines) 
 
-def calculate_time_left(): 
-    return 0
+    def create_construction_line(self, construction_type, state_name, country_name): 
+        #construction_already_exists = check_for_construction()
+        const_line = construction_line.Construction_line(
+            state_name,
+            country_name, 
+            state_name.infrastructure_level, 
+            construction_type.value, 
+            self.calculate_assigned_civs(country_name), 
+            self.calculate_amount_of_constructions(), 
+            self.calculate_priority(), 
+            self.calculate_time_left()
+        )
+        country_name.construction.construction_lines.append(const_line)
 
-def get_construction_line_list(): 
-    return construction_lines
+        return const_line
 
-def get_construction_line_size(): 
-    return len(construction_lines) 
+
 
 
 
