@@ -26,8 +26,8 @@ class Construction:
     def create_construction_line(self, construction_type, state_name, country_name): 
         check = self.check_if_construction_is_valid(construction_type, state_name, country_name)
         if check != True: 
-            raise Exception("Dockyard not allowed to be built on non-coastal state")
-        
+            return None
+
         const_line = construction_line.Construction_line(
             state_name,
             country_name, 
@@ -78,6 +78,8 @@ class Construction:
     
     def check_if_construction_is_valid(self, construction_type, state_name, country_name): 
         if construction_type == construction_types.Constructions.DOCKYARD and state_name.get_is_coastal() == False: 
+            return False
+        if state_name.get_free_construction_slots() <= 0: 
             return False
         return True
 

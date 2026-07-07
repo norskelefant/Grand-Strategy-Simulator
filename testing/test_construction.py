@@ -52,18 +52,33 @@ def test_can_not_start_building_dockyard_in_coastal_state_at_default_start(germa
     #Given default Germany start
 
     baden_state = germany.states["baden"]
-    print(baden_state.get_is_coastal())
 
     #When a dockyard starts construction in Baden
     #Then it should NOT be part of the construction line
-    with pytest.raises(Exception, match="Dockyard not allowed to be built on non-coastal state"): 
-        construction_line_1 = germany.construction.start_construction(construction_types.Constructions.DOCKYARD, baden_state, germany)
+    construction_line_1 = germany.construction.start_construction(construction_types.Constructions.DOCKYARD, baden_state, germany)
+    assert construction_line_1 is None
+    assert len(germany.construction.get_construction_line_list()) == 0
 
+def test_cannot_start_building_civ_in_state_with_no_free_building_slots(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When brandenburg state gets 3 building slots removed, such that it has 0 free building slots
+    remove_building_slots(brandenburg_state)
+
+    #Then it should not be able to construct anything in brandenburg
+    assert brandenburg_state.get_total_construction_slots() == 9
+    assert brandenburg_state.get_free_construction_slots() == 0
+    construction_line_1 = germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    assert construction_line_1 is None
+    assert len(germany.construction.get_construction_line_list()) == 0
 
 def create_germany(): 
     return setup_countries.create_germany()
 
-
+def remove_building_slots(state): 
+    state.total_construction_slots -= 3
 
 
 
