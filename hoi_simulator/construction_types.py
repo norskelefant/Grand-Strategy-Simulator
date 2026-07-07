@@ -1,8 +1,8 @@
 from enum import Enum
 
 class Constructions(Enum): 
-    CIV = "civ"
-    MIL = "mil"
-    DOCKYARD = "naval dockyard"
-    INFRASTRUCTURE = "infrastructure"
-    LAND_FORT = "land fort"
+    CIV = 10800
+    MIL = 7200
+    DOCKYARD = 6400
+    INFRASTRUCTURE = 6000
+

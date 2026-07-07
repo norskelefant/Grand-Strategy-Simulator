@@ -66,7 +66,8 @@ class Construction:
             self.calculate_assigned_civs(country_name), 
             self.calculate_amount_of_constructions(), 
             self.calculate_priority(), 
-            self.calculate_time_left()
+            self.calculate_time_left(),
+            construction_type.name
         )
         country_name.construction.construction_lines.append(const_line)
 

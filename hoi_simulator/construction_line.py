@@ -1,5 +1,5 @@
 class Construction_line: 
-    def __init__(self, state_name, country_name, infrastructure_level, construction_cost, assigned_civs, amount_of_constructions, priority, time_left): 
+    def __init__(self, state_name, country_name, infrastructure_level, construction_cost, assigned_civs, amount_of_constructions, priority, time_left, construction_type): 
         self.state_name = state_name
         self.country_name = country_name
         self.infrastructure_level = infrastructure_level
@@ -8,6 +8,7 @@ class Construction_line:
         self.amount_of_constructions = amount_of_constructions
         self.priority = priority
         self.time_left = time_left
+        self.construction_type = construction_type
 
     def get_state_name(self): 
         return self.state_name
@@ -32,3 +33,6 @@ class Construction_line:
     
     def get_time_left(self): 
         return self.time_left
+    
+    def get_construction_type(self): 
+        return self.construction_type

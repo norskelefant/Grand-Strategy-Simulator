@@ -19,6 +19,7 @@ def test_can_start_building_civ_at_default_start(germany):
     assert germany.construction.get_construction_line_size() == 1
     assert (germany.construction.get_construction_line_list()[0]).get_state_name().get_name() == "Oberbayern"
     assert construction_line_1.get_amount_of_constructions() == 1
+    assert construction_line_1.get_construction_type() == construction_types.Constructions.CIV.name
 
 def test_can_start_building_mil_at_default_start(germany): 
     #Given default Germany start
@@ -30,6 +31,13 @@ def test_can_start_building_mil_at_default_start(germany):
     assert germany.construction.get_construction_line_size() == 1
     assert (germany.construction.get_construction_line_list()[0]).get_state_name().get_name() == "Westfalen"
     assert construction_line_1.get_amount_of_constructions() == 1
+    assert construction_line_1.get_construction_type() == construction_types.Constructions.MIL.name
+
+
+
+
+
+
 
 def create_germany(): 
     return setup_countries.create_germany()
