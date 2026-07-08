@@ -56,11 +56,10 @@ class Country:
         amount = 0
         for construction_line in self.get_construction().get_construction_line_list(): 
             amount += construction_line.get_assigned_civs()
-        amount += self.get_free_civs()
+        #amount += self.get_free_civs()
         return amount
     
     def update_free_civs(self, amount): 
         self.free_civs += amount
 
-    def set_free_civs(self, amount): 
-        self.free_civs = amount
+

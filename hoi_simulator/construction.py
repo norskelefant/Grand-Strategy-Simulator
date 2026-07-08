@@ -86,7 +86,9 @@ class Construction:
     
     def calculate_moved_assigned_civs(self, country): 
         amount = country.get_total_assigned_factories_for_country()
-        country.set_free_civs(amount)
+        free_civs = country.get_free_civs()
+        country.update_free_civs(amount)
+        amount += free_civs
         for construction_line in self.get_construction_line_list(): 
             picked_amount = min(amount, CONSTRUCTION_FACTORIES)
             construction_line.set_assigned_civs(picked_amount)
