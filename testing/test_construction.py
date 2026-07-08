@@ -88,10 +88,6 @@ def test_can_start_construction_of_two_civs_in_same_state(germany):
     assert get_construction_line(germany, 0).get_amount_of_constructions() == 2
     assert get_construction_line(germany, 0).get_construction_type() == construction_types.Constructions.CIV.name
 
-
-
-
-
 def test_can_start_construction_of_a_civ_in_two_different_states(germany): 
     #Given default Germany start
 
@@ -112,6 +108,27 @@ def test_can_start_construction_of_a_civ_in_two_different_states(germany):
 
     assert get_construction_line(germany, 0).get_construction_type() == construction_types.Constructions.CIV.name
     assert get_construction_line(germany, 1).get_construction_type() == construction_types.Constructions.CIV.name
+
+def test_can_start_construction_of_civ_and_mil_in_same_state(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When brandenburg state gets two constructed buildings
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    #Then it should be able to start the construction of both
+    assert germany.construction.get_construction_line_size() == 2
+    assert (get_construction_line(germany, 0)).get_state_name().get_name() == "Brandenburg"
+
+    assert get_construction_line(germany, 0).get_amount_of_constructions() == 1
+    assert get_construction_line(germany, 1).get_amount_of_constructions() == 1
+
+    assert get_construction_line(germany, 0).get_construction_type() == construction_types.Constructions.MIL.name
+    assert get_construction_line(germany, 1).get_construction_type() == construction_types.Constructions.CIV.name
+
+
 
 
 
