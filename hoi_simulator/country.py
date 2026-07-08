@@ -34,6 +34,11 @@ class Country:
     def get_free_mils(self): 
         return self.free_mils
     
+    def get_total_dockyards(self): 
+        amount = 0
+        for state in self.states: 
+            amount += state.get_dockyards()
+    
     def get_construction(self): 
         return self.construction
 
@@ -43,3 +48,6 @@ class Country:
             if single_construction.get_state_name() == state_name: 
                 amount += single_construction.get_amount_of_constructions()
         return amount
+    
+    def use_free_civs(self, amount): 
+        self.free_civs -= amount

@@ -192,6 +192,81 @@ def test_cannot_add_more_buidlings_to_construction_line_when_there_are_no_free_b
     assert get_construction_line(germany, 0).get_amount_of_constructions() == 3
     assert get_construction_line(germany, 0).get_construction_type() == construction_types.Constructions.CIV.name
 
+def test_construction_gets_fifteen_factories(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When brandenburg state gets a civ constructed
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    #Then it should assign 15 factories to it
+    assert germany.construction.get_construction_line_size() == 1
+    assert get_construction_line(germany, 0).get_amount_of_constructions() == 1
+    assert get_construction_line(germany, 0).get_construction_type() == construction_types.Constructions.CIV.name
+
+    assert get_construction_line(germany, 0).get_assigned_civs() == 15
+    assert germany.get_free_civs() == 5
+
+def test_multiple_constructions_assigned_factories(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    holstein_state = germany.states["holstein"]
+
+    #When three states gets a civ constructed
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, holstein_state, germany)
+
+
+    #Then it should correctly assign factories to all three depending on the order
+    assert germany.construction.get_construction_line_size() == 3
+    assert get_construction_line(germany, 0).get_amount_of_constructions() == 1
+    assert get_construction_line(germany, 1).get_amount_of_constructions() == 1
+    assert get_construction_line(germany, 2).get_amount_of_constructions() == 1
+
+    assert get_construction_line(germany, 0).get_construction_type() == construction_types.Constructions.CIV.name
+    assert get_construction_line(germany, 1).get_construction_type() == construction_types.Constructions.CIV.name
+    assert get_construction_line(germany, 2).get_construction_type() == construction_types.Constructions.CIV.name
+
+    assert get_construction_line(germany, 0).get_assigned_civs() == 15
+    assert get_construction_line(germany, 1).get_assigned_civs() == 5
+    assert get_construction_line(germany, 2).get_assigned_civs() == 0
+    assert germany.get_free_civs() == 0
+
+def test_multiple_constructions_in_same_states_assigned_factories(germany): 
+        #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    rhineland_state = germany.states["rhineland"]
+
+
+    #When three states gets a civ constructed
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, rhineland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, rhineland_state, germany)
+
+    #Then it should correctly assign factories to all three depending on the order
+    assert germany.construction.get_construction_line_size() == 3
+    assert get_construction_line(germany, 0).get_amount_of_constructions() == 2
+    assert get_construction_line(germany, 1).get_amount_of_constructions() == 2
+
+    assert get_construction_line(germany, 2).get_amount_of_constructions() == 2
+
+    assert get_construction_line(germany, 0).get_construction_type() == construction_types.Constructions.CIV.name
+    assert get_construction_line(germany, 1).get_construction_type() == construction_types.Constructions.CIV.name
+    assert get_construction_line(germany, 2).get_construction_type() == construction_types.Constructions.CIV.name
+
+    assert get_construction_line(germany, 0).get_assigned_civs() == 15
+    assert get_construction_line(germany, 1).get_assigned_civs() == 5
+    assert get_construction_line(germany, 2).get_assigned_civs() == 0
+    assert germany.get_free_civs() == 0
 
 
 

@@ -37,7 +37,7 @@ def test_brandenburg():
     assert brandenburg.get_dockyards() == 0
     assert brandenburg.get_infrastructure_level() == 4
     assert brandenburg.get_is_coastal() == False
-    assert brandenburg.get_free_construction_slots() == 3
+    assert brandenburg.get_free_construction_slots(germany) == 3
 
 
 
