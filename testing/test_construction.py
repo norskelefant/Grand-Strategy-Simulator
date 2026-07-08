@@ -416,7 +416,7 @@ def test_can_move_construction_lines_with_multiple_factories(germany):
     assert construction_line_brandenburg_mil.get_priority() == 2
     assert construction_line_baden_civ.get_priority() == 1
 
-def test_can_switch_production_lines_and__factories_will_be_reassigned_based_on_priority_order(germany): 
+def test_can_switch_production_lines_and_factories_will_be_reassigned_based_on_priority_order(germany): 
     #Given default Germany start
 
     brandenburg_state = germany.states["brandenburg"]
@@ -460,9 +460,135 @@ def test_can_switch_production_lines_and__factories_will_be_reassigned_based_on_
     for construction_line in germany.construction.get_construction_line_list(): 
         print(construction_line)
 
+def test_remove_civ_from_construction_line(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When constructions start in states and a factory is removed from one of them
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    assert germany.construction.get_construction_line_size() == 1
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 2
+
+    remove_building_from_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    #Then it should remove it from the construction line
+    assert germany.construction.get_construction_line_size() == 1
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 1
+
+def test_delete_construction_line(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When constructions start in states and the construction line is removed
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    assert germany.construction.get_construction_line_size() == 1
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 2
+
+    remove_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    #Then there should be no more construction lines
+    assert germany.construction.get_construction_line_size() == 0
+
+def test_delete_construction_line_priority_levels_and_assigned_factories(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+
+    assert germany.construction.get_construction_line_size() == 3
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_brandenburg_mil = find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany)
+    construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 2
+    assert construction_line_brandenburg_mil.get_amount_of_constructions() == 1
+    assert construction_line_baden_civ.get_amount_of_constructions() == 3
+
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 5
+    assert construction_line_baden_civ.get_assigned_civs() == 0
+
+    assert germany.construction.get_construction_line_size() == 3
+
+    #Then when a construction line is removed, it should change priority levels and assigned factories
+    remove_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    assert germany.construction.get_construction_line_size() == 2
+
+    assert construction_line_brandenburg_mil.get_priority() == 0
+    assert construction_line_baden_civ.get_priority() == 1
+
+    print(construction_line_brandenburg_civ.get_assigned_civs())
+
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 15
+    assert construction_line_baden_civ.get_assigned_civs() == 5
+
+    remove_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany)
+
+    assert germany.construction.get_construction_line_size() == 1
+
+    assert construction_line_baden_civ.get_priority() == 0
+    
+    assert construction_line_baden_civ.get_assigned_civs() == 15
+
+    assert germany.get_free_civs() == 5
+
+def test_free_civs(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    assert germany.get_free_civs() == 20
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+
+
+    assert germany.get_free_civs() == 0
+
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_baden_civ.get_assigned_civs() == 5
+
+    remove_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    assert construction_line_baden_civ.get_assigned_civs() == 15
+
+    assert germany.get_free_civs() == 5
+
+    remove_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+
+    assert germany.get_free_civs() == 20
 
 
 
+
+
+def test_delete_construction_line_with_one_building(germany): 
+    return None
 
 
 
@@ -480,7 +606,10 @@ def find_construction_line(construction_type, state, country):
     return country.construction.find_construction_line(construction_type, state)
 
 def move_priority_level(construction_type, state, country): 
-    return country.construction.move_priority_level(construction_type, state, country)
+    country.construction.move_priority_level(construction_type, state, country)
 
+def remove_building_from_construction_line(construction_type, state, country): 
+    country.construction.remove_building_from_construction_line(find_construction_line(construction_type, state, country))
 
-
+def remove_construction_line(construction_type, state, country): 
+    country.construction.delete_construction_line(find_construction_line(construction_type, state, country), country)

@@ -44,9 +44,6 @@ class Construction:
     def finish_construction(self): 
         return None
 
-    def stop_construction(self): 
-        return None
-
     def day_has_passed(self): 
         return None
 
@@ -61,6 +58,17 @@ class Construction:
         self.get_construction_line_list().insert(new_priority_level, old_construction_line)
         self.set_new_priority_levels()
         self.calculate_moved_assigned_civs(country)
+
+    def delete_construction_line(self, construction_line, country): 
+        priority = construction_line.get_priority()
+        civs_back_in_pool = construction_line.get_assigned_civs()
+        country.update_free_civs(civs_back_in_pool)
+        del self.construction_lines[priority]
+        self.set_new_priority_levels()
+        self.calculate_moved_assigned_civs(country)
+
+    def remove_building_from_construction_line(self, construction_line): 
+        construction_line.decrement_amount_of_constructions()
 
     def set_new_priority_levels(self): 
         for index, construction_line in enumerate(self.get_construction_line_list()): 
@@ -78,9 +86,12 @@ class Construction:
     
     def calculate_moved_assigned_civs(self, country): 
         amount = country.get_total_assigned_factories_for_country()
+        country.set_free_civs(amount)
         for construction_line in self.get_construction_line_list(): 
             picked_amount = min(amount, CONSTRUCTION_FACTORIES)
             construction_line.set_assigned_civs(picked_amount)
+            country.use_free_civs(picked_amount)
+            print(country.get_free_civs())
             amount -= picked_amount
 
     def increment_amount_of_constructions(self, building_type, state_name): 

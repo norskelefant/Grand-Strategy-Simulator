@@ -49,3 +49,7 @@ class Construction_line:
     def set_assigned_civs(self, amount): 
         self.assigned_civs = amount
 
+    def decrement_amount_of_constructions(self): 
+        self.amount_of_constructions -= 1
+
+
