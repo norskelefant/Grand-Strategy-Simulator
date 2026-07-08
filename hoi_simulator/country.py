@@ -51,3 +51,10 @@ class Country:
     
     def use_free_civs(self, amount): 
         self.free_civs -= amount
+
+    def get_total_assigned_factories_for_country(self): 
+        amount = 0
+        for construction_line in self.get_construction().get_construction_line_list(): 
+            amount += construction_line.get_assigned_civs()
+        return amount
+    

@@ -428,28 +428,39 @@ def test_can_switch_production_lines_and__factories_will_be_reassigned_based_on_
     germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
     germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
 
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_brandenburg_mil = find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany)
+    construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 5
+    assert construction_line_baden_civ.get_assigned_civs() == 0
+
     #Then when the order is switched, then the number of assigned factories should be switched
     move_priority_level(find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany), 2, germany)
 
-    construction_line_0 = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
-    construction_line_1 = find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany)
-    construction_line_2 = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+    assert construction_line_brandenburg_civ.get_priority() == 2
+    assert construction_line_brandenburg_mil.get_priority() == 0
+    assert construction_line_baden_civ.get_priority() == 1
 
-    assert construction_line_0.get_priority() == 2
-    assert construction_line_1.get_priority() == 0
-    assert construction_line_2.get_priority() == 1
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 0
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 15
+    assert construction_line_baden_civ.get_assigned_civs() == 5
 
-    move_priority_level(construction_line_2, 0, germany)
+    move_priority_level(construction_line_baden_civ, 0, germany)
 
-    assert construction_line_0.get_priority() == 2
-    assert construction_line_1.get_priority() == 1
-    assert construction_line_2.get_priority() == 0
+    assert construction_line_brandenburg_civ.get_priority() == 2
+    assert construction_line_brandenburg_mil.get_priority() == 1
+    assert construction_line_baden_civ.get_priority() == 0
+
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 0
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 5
+    assert construction_line_baden_civ.get_assigned_civs() == 15
 
     for construction_line in germany.construction.get_construction_line_list(): 
         print(construction_line)
 
 
-    #assert get_construction_line(germany, 0).get_assigned_civs() == 15
 
 
 
@@ -469,7 +480,7 @@ def find_construction_line(construction_type, state, country):
     return country.construction.find_construction_line(construction_type, state)
 
 def move_priority_level(construction_type, state, country): 
-    return country.construction.move_priority_level(construction_type, state)
+    return country.construction.move_priority_level(construction_type, state, country)
 
 
 

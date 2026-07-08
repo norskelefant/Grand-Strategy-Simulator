@@ -46,3 +46,6 @@ class Construction_line:
     def set_priority_level(self, index): 
         self.priority = index
 
+    def set_assigned_civs(self, amount): 
+        self.assigned_civs = amount
+

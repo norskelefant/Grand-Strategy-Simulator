@@ -53,15 +53,15 @@ class Construction:
     def calculate_construction_speed(self): 
         return None
 
-    def move_priority_level(self, construction_line, new_priority_level): 
+    def move_priority_level(self, construction_line, new_priority_level, country): 
         check = self.check_if_priority_level_legal(new_priority_level)
         if check == False: 
             return
         old_construction_line = self.get_construction_line_list().pop(construction_line.get_priority())
         self.get_construction_line_list().insert(new_priority_level, old_construction_line)
         self.set_new_priority_levels()
+        self.calculate_moved_assigned_civs(country)
 
-    
     def set_new_priority_levels(self): 
         for index, construction_line in enumerate(self.get_construction_line_list()): 
             construction_line.set_priority_level(index)
@@ -75,7 +75,14 @@ class Construction:
         amount = min(country_name.get_free_civs(), CONSTRUCTION_FACTORIES)
         country_name.use_free_civs(amount)
         return amount
-        
+    
+    def calculate_moved_assigned_civs(self, country): 
+        amount = country.get_total_assigned_factories_for_country()
+        for construction_line in self.get_construction_line_list(): 
+            picked_amount = min(amount, CONSTRUCTION_FACTORIES)
+            construction_line.set_assigned_civs(picked_amount)
+            amount -= picked_amount
+
     def increment_amount_of_constructions(self, building_type, state_name): 
         construction_line = self.find_construction_line(building_type, state_name)
         construction_line.set_amount_of_constructions()
