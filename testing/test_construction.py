@@ -73,7 +73,7 @@ def test_cannot_start_building_civ_in_state_with_no_free_building_slots(germany)
     germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
     assert len(germany.construction.get_construction_line_list()) == 0
 
-def test_can_build_two_civs_in_same_state(germany): 
+def test_can_start_construction_of_two_civs_in_same_state(germany): 
     #Given default Germany start
 
     brandenburg_state = germany.states["brandenburg"]
@@ -93,7 +93,30 @@ def test_can_build_two_civs_in_same_state(germany):
 
 
 def test_can_start_construction_of_a_civ_in_two_different_states(germany): 
-    return None
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    #When two states get constructed a civ each
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+
+    #Then it should be able to start the construction of both
+    assert germany.construction.get_construction_line_size() == 2
+    assert (get_construction_line(germany, 0)).get_state_name().get_name() == "Brandenburg"
+    assert (get_construction_line(germany, 1)).get_state_name().get_name() == "Baden"
+
+    assert get_construction_line(germany, 0).get_amount_of_constructions() == 1
+    assert get_construction_line(germany, 1).get_amount_of_constructions() == 1
+
+    assert get_construction_line(germany, 0).get_construction_type() == construction_types.Constructions.CIV.name
+    assert get_construction_line(germany, 1).get_construction_type() == construction_types.Constructions.CIV.name
+
+
+
+
+
 
 def create_germany(): 
     return setup_countries.create_germany()
