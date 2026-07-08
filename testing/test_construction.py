@@ -327,6 +327,25 @@ def test_moving_priority_order(germany):
     assert get_construction_line(germany, 1).get_construction_type() == construction_types.Constructions.CIV.name
     assert get_construction_line(germany, 2).get_construction_type() == construction_types.Constructions.MIL.name
 
+def test_cannot_change_priority_level_to_non_existent_priority_level(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+
+    #Then it should not be possible to change priority level to something that doesn't exist
+    move_priority_level(get_construction_line(germany, 1), 3, germany)
+
+    assert find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany).get_priority() == 0
+    assert find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany).get_priority() == 1
+    assert find_construction_line(construction_types.Constructions.CIV, baden_state, germany).get_priority() == 2
+
+
 
 
 

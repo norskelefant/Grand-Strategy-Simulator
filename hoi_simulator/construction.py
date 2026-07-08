@@ -54,12 +54,24 @@ class Construction:
         return None
 
     def move_priority_level(self, construction_line, new_priority_level): 
+        check = self.check_if_priority_level_legal(new_priority_level)
+        if check == False: 
+            return
         old_construction_line = self.get_construction_line_list().pop(construction_line.get_priority())
         self.get_construction_line_list().insert(new_priority_level, old_construction_line)
-        for index, construction_line in enumerate(self.get_construction_line_list()): 
-            construction_line.set_priority_level(index)
+        self.set_new_priority_levels()
+
         #self.calculate_priority()
     
+    def set_new_priority_levels(self): 
+        for index, construction_line in enumerate(self.get_construction_line_list()): 
+            construction_line.set_priority_level(index)
+
+    def check_if_priority_level_legal(self, new_priority_level): 
+        if new_priority_level < 0 or new_priority_level > self.get_construction_line_size() - 1: 
+            return False
+        return True
+
     def calculate_assigned_civs(self, construction_type, state_name, country_name): 
         amount = min(country_name.get_free_civs(), CONSTRUCTION_FACTORIES)
         country_name.use_free_civs(amount)
