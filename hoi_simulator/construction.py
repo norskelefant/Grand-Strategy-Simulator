@@ -35,7 +35,7 @@ class Construction:
             construction_type.value, 
             self.calculate_assigned_civs(construction_type, state_name, country_name), 
             1, 
-            self.calculate_priority(), 
+            self.calculate_default_priority(), 
             self.calculate_time_left(),
             construction_type.name
         )
@@ -53,8 +53,12 @@ class Construction:
     def calculate_construction_speed(self): 
         return None
 
-    def move_priority_level(self): 
-        return None
+    def move_priority_level(self, construction_line, new_priority_level): 
+        old_construction_line = self.get_construction_line_list().pop(construction_line.get_priority())
+        self.get_construction_line_list().insert(new_priority_level, old_construction_line)
+        for index, construction_line in enumerate(self.get_construction_line_list()): 
+            construction_line.set_priority_level(index)
+        #self.calculate_priority()
     
     def calculate_assigned_civs(self, construction_type, state_name, country_name): 
         amount = min(country_name.get_free_civs(), CONSTRUCTION_FACTORIES)
@@ -65,8 +69,8 @@ class Construction:
         construction_line = self.find_construction_line(building_type, state_name)
         construction_line.set_amount_of_constructions()
 
-    def calculate_priority(self): 
-        return 0
+    def calculate_default_priority(self): 
+        return self.get_construction_line_size()
 
     def calculate_time_left(self): 
         return 0

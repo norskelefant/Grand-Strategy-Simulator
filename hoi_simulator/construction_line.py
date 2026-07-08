@@ -9,6 +9,9 @@ class Construction_line:
         self.priority = priority
         self.time_left = time_left
         self.construction_type = construction_type
+    
+    def __str__(self): 
+        return self.state_name.get_name() + " " + self.construction_type
 
     def get_state_name(self): 
         return self.state_name
@@ -39,3 +42,7 @@ class Construction_line:
     
     def set_amount_of_constructions(self): 
         self.amount_of_constructions += 1
+
+    def set_priority_level(self, index): 
+        self.priority = index
+
