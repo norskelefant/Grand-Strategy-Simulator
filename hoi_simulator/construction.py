@@ -61,7 +61,6 @@ class Construction:
         self.get_construction_line_list().insert(new_priority_level, old_construction_line)
         self.set_new_priority_levels()
 
-        #self.calculate_priority()
     
     def set_new_priority_levels(self): 
         for index, construction_line in enumerate(self.get_construction_line_list()): 

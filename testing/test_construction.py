@@ -137,13 +137,9 @@ def test_different_constructions(germany):
 
     #When different states get different buildings constructed
     germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
-    print(germany.construction.get_construction_line_size())
     germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
-    print(germany.construction.get_construction_line_size())
     germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
-    print(germany.construction.get_construction_line_size())
     germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
-    print(germany.construction.get_construction_line_size())
     germany.construction.start_construction(construction_types.Constructions.DOCKYARD, holstein_state, germany)
 
     #Then it should be able to start the construction of them all
@@ -305,27 +301,21 @@ def test_moving_priority_order(germany):
     germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
     germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
 
-    print(find_construction_line(construction_types.Constructions.CIV, baden_state, germany).get_priority())
-
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_brandenburg_mil = find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany)
+    construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
 
     #And the priority order is moved
-    move_priority_level(get_construction_line(germany, 2), 0, germany)
+    move_priority_level(construction_line_baden_civ, 0, germany)
 
     #Then the order should be the following
+    assert construction_line_baden_civ.get_priority() == 0
+    assert construction_line_brandenburg_civ.get_priority() == 1
+    assert construction_line_brandenburg_mil.get_priority() == 2
 
-    print(get_construction_line(germany, 0))
-    print(get_construction_line(germany, 1))
-    print(get_construction_line(germany, 2))
-
-    print(find_construction_line(construction_types.Constructions.CIV, baden_state, germany).get_priority())
-
-    assert find_construction_line(construction_types.Constructions.CIV, baden_state, germany).get_priority() == 0
-    assert find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany).get_priority() == 1
-    assert find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany).get_priority() == 2
-
-    assert get_construction_line(germany, 0).get_construction_type() == construction_types.Constructions.CIV.name
-    assert get_construction_line(germany, 1).get_construction_type() == construction_types.Constructions.CIV.name
-    assert get_construction_line(germany, 2).get_construction_type() == construction_types.Constructions.MIL.name
+    assert construction_line_baden_civ.get_construction_type() == construction_types.Constructions.CIV.name
+    assert construction_line_brandenburg_civ.get_construction_type() == construction_types.Constructions.CIV.name
+    assert construction_line_brandenburg_mil.get_construction_type() == construction_types.Constructions.MIL.name
 
 def test_cannot_change_priority_level_to_non_existent_priority_level(germany): 
     #Given default Germany start
@@ -338,13 +328,128 @@ def test_cannot_change_priority_level_to_non_existent_priority_level(germany):
     germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
     germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
 
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_brandenburg_mil = find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany)
+    construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+
     #Then it should not be possible to change priority level to something that doesn't exist
-    move_priority_level(get_construction_line(germany, 1), 3, germany)
+    move_priority_level(construction_line_brandenburg_civ, 3, germany)
 
-    assert find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany).get_priority() == 0
-    assert find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany).get_priority() == 1
-    assert find_construction_line(construction_types.Constructions.CIV, baden_state, germany).get_priority() == 2
+    assert construction_line_brandenburg_civ.get_priority() == 0
+    assert construction_line_brandenburg_mil.get_priority() == 1
+    assert construction_line_baden_civ.get_priority() == 2
 
+def test_moving_priority_levels_multiple_times(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_brandenburg_mil = find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany)
+    construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+
+    #Then it should not be possible to change priority level to something that doesn't exist
+    move_priority_level(find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany), 2, germany)
+
+    assert construction_line_brandenburg_civ.get_priority() == 2
+    assert construction_line_brandenburg_mil.get_priority() == 0
+    assert construction_line_baden_civ.get_priority() == 1
+
+    move_priority_level(construction_line_brandenburg_mil, 1, germany)
+
+    assert construction_line_brandenburg_civ.get_priority() == 2
+    assert construction_line_brandenburg_mil.get_priority() == 1
+    assert construction_line_baden_civ.get_priority() == 0
+
+    move_priority_level(construction_line_brandenburg_civ, 0, germany)
+
+    assert construction_line_brandenburg_civ.get_priority() == 0
+    assert construction_line_brandenburg_mil.get_priority() == 2
+    assert construction_line_baden_civ.get_priority() == 1
+
+def test_can_move_construction_lines_with_multiple_factories(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+
+    assert germany.construction.get_construction_line_size() == 3
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_brandenburg_mil = find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany)
+    construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 2
+    assert construction_line_brandenburg_mil.get_amount_of_constructions() == 1
+    assert construction_line_baden_civ.get_amount_of_constructions() == 3
+
+    #Then the priority order should be correct after each moving of priority level
+    move_priority_level(find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany), 2, germany)
+
+    assert construction_line_brandenburg_civ.get_priority() == 2
+    assert construction_line_brandenburg_mil.get_priority() == 0
+    assert construction_line_baden_civ.get_priority() == 1
+
+    move_priority_level(find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany), 1, germany)
+
+    assert construction_line_brandenburg_civ.get_priority() == 2
+    assert construction_line_brandenburg_mil.get_priority() == 1
+    assert construction_line_baden_civ.get_priority() == 0
+
+    move_priority_level(find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany), 0, germany)
+
+    assert construction_line_brandenburg_civ.get_priority() == 0
+    assert construction_line_brandenburg_mil.get_priority() == 2
+    assert construction_line_baden_civ.get_priority() == 1
+
+def test_can_switch_production_lines_and__factories_will_be_reassigned_based_on_priority_order(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+
+    #Then when the order is switched, then the number of assigned factories should be switched
+    move_priority_level(find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany), 2, germany)
+
+    construction_line_0 = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_1 = find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany)
+    construction_line_2 = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+
+    assert construction_line_0.get_priority() == 2
+    assert construction_line_1.get_priority() == 0
+    assert construction_line_2.get_priority() == 1
+
+    move_priority_level(construction_line_2, 0, germany)
+
+    assert construction_line_0.get_priority() == 2
+    assert construction_line_1.get_priority() == 1
+    assert construction_line_2.get_priority() == 0
+
+    for construction_line in germany.construction.get_construction_line_list(): 
+        print(construction_line)
+
+
+    #assert get_construction_line(germany, 0).get_assigned_civs() == 15
 
 
 
