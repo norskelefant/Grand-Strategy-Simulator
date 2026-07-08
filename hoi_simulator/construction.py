@@ -24,7 +24,6 @@ class Construction:
             return
         self.create_construction_line(building_type, state_name, country_name)
 
-
     def create_construction_line(self, construction_type, state_name, country_name): 
         check = self.check_if_construction_is_valid(construction_type, state_name, country_name)
         if check != True: 
@@ -42,8 +41,6 @@ class Construction:
             construction_type.name
         )
         country_name.construction.construction_lines.append(const_line)
-
-        
 
     def finish_construction(self): 
         return None
@@ -82,12 +79,12 @@ class Construction:
     def check_if_construction_is_valid(self, construction_type, state_name, country_name): 
         if self.building_dockyard_in_non_coastal_state(construction_type, state_name) == True: 
             return False
-        if self.no_free_building_slots(state_name) == True: 
+        if self.no_free_building_slots(state_name, country_name) == True: 
             return False
         return True
 
-    def no_free_building_slots(self, state_name): 
-        return state_name.get_free_construction_slots() <= 0
+    def no_free_building_slots(self, state_name, country_name): 
+        return state_name.get_free_construction_slots(country_name) <= 0
 
     def building_dockyard_in_non_coastal_state(self, construction_type, state_name): 
         return construction_type == construction_types.Constructions.DOCKYARD and state_name.get_is_coastal() == False
@@ -102,14 +99,8 @@ class Construction:
     
     def find_construction_line(self, construction_type, state_name): 
         for construction_line in self.get_construction_line_list():
-            print(construction_line.get_construction_type())
-            print(construction_type.name)
-            print(construction_line.get_state_name().get_name() == state_name.get_name())
-            print(construction_line.get_state_name().get_name())
-            print(state_name.get_name())
             if construction_line.get_construction_type() == construction_type.name and construction_line.get_state_name().get_name() == state_name.get_name(): 
                 return construction_line
-        print("I AM HERE")    
         return None
 
 

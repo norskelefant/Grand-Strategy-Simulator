@@ -9,3 +9,36 @@ class Country:
         self.total_mils = total_mils
         self.free_mils = free_mils
         self.construction = construction
+
+    def get_state_name(self):
+        return self.name
+    
+    def get_states(self): 
+        return self.states
+    
+    def get_tiles(self): 
+        return self.tiles
+    
+    def get_resources(self): 
+        return self.resources
+    
+    def get_total_civs(self): 
+        return self.total_civs
+    
+    def get_free_civs(self): 
+        return self.free_civs
+    
+    def get_total_mils(self): 
+        return self.total_mils
+    
+    def get_free_mils(self): 
+        return self.free_mils
+    
+    def get_construction(self): 
+        return self.construction
+
+    def get_constructions_being_done_in_state(self): 
+        amount = 0
+        for single_construction in self.get_construction().get_construction_line_list(): 
+            amount += single_construction.get_amount_of_constructions()
+        return amount

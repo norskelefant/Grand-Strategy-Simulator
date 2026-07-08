@@ -128,7 +128,65 @@ def test_can_start_construction_of_civ_and_mil_in_same_state(germany):
     assert get_construction_line(germany, 0).get_construction_type() == construction_types.Constructions.MIL.name
     assert get_construction_line(germany, 1).get_construction_type() == construction_types.Constructions.CIV.name
 
+def test_different_constructions(germany): 
+    #Given default Germany start
 
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    holstein_state = germany.states["holstein"]
+
+    #When brandenburg state gets two constructed buildings
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+
+    #Then it should be able to start the construction of both
+    assert germany.construction.get_construction_line_size() == 4
+
+    assert (get_construction_line(germany, 0)).get_state_name().get_name() == "Brandenburg"
+    assert (get_construction_line(germany, 1)).get_state_name().get_name() == "Brandenburg"
+    assert (get_construction_line(germany, 2)).get_state_name().get_name() == "Baden"
+    assert (get_construction_line(germany, 3)).get_state_name().get_name() == "Holstein"
+
+    assert get_construction_line(germany, 0).get_amount_of_constructions() == 1
+    assert get_construction_line(germany, 1).get_amount_of_constructions() == 1
+    assert get_construction_line(germany, 2).get_amount_of_constructions() == 2
+    assert get_construction_line(germany, 3).get_amount_of_constructions() == 1
+
+    assert get_construction_line(germany, 0).get_construction_type() == construction_types.Constructions.MIL.name
+    assert get_construction_line(germany, 1).get_construction_type() == construction_types.Constructions.CIV.name
+    assert get_construction_line(germany, 2).get_construction_type() == construction_types.Constructions.MIL.name
+    assert get_construction_line(germany, 3).get_construction_type() == construction_types.Constructions.DOCKYARD.name
+
+def test_cannot_add_more_buidlings_to_construction_line_when_there_are_no_free_building_slots(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    print(brandenburg_state.get_free_construction_slots(germany))
+
+    #When brandenburg state gets 3 civ constructions
+    for i in range(3): 
+        germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    #Then it should be able to start the construction of them all
+    assert germany.construction.get_construction_line_size() == 1
+    assert (get_construction_line(germany, 0)).get_state_name().get_name() == "Brandenburg"
+    assert get_construction_line(germany, 0).get_amount_of_constructions() == 3
+    assert get_construction_line(germany, 0).get_construction_type() == construction_types.Constructions.CIV.name
+
+    print(brandenburg_state.get_free_construction_slots(germany))
+
+    #When another civ starts construction
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    #Then it should not start the construction of it(because Brandenburg only has 3 free slots in the beginning)
+    assert germany.construction.get_construction_line_size() == 1
+    assert (get_construction_line(germany, 0)).get_state_name().get_name() == "Brandenburg"
+    assert get_construction_line(germany, 0).get_amount_of_constructions() == 3
+    assert get_construction_line(germany, 0).get_construction_type() == construction_types.Constructions.CIV.name
 
 
 

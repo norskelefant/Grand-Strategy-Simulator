@@ -29,5 +29,5 @@ class State:
     def get_is_coastal(self): 
         return self.is_coastal 
 
-    def get_free_construction_slots(self): 
-        return self.total_construction_slots - self.civs - self.mils - self.dockyards
+    def get_free_construction_slots(self, country_name): 
+        return self.total_construction_slots - self.civs - self.mils - self.dockyards - country_name.get_constructions_being_done_in_state()
