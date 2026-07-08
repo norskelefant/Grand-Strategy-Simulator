@@ -37,8 +37,9 @@ class Country:
     def get_construction(self): 
         return self.construction
 
-    def get_constructions_being_done_in_state(self): 
+    def get_constructions_being_done_in_state(self, state_name): 
         amount = 0
         for single_construction in self.get_construction().get_construction_line_list(): 
-            amount += single_construction.get_amount_of_constructions()
+            if single_construction.get_state_name() == state_name: 
+                amount += single_construction.get_amount_of_constructions()
         return amount

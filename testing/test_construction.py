@@ -68,7 +68,7 @@ def test_cannot_start_building_civ_in_state_with_no_free_building_slots(germany)
 
     #Then it should not be able to construct anything in brandenburg
     assert brandenburg_state.get_total_construction_slots() == 9
-    assert brandenburg_state.get_free_construction_slots() == 0
+    assert brandenburg_state.get_free_construction_slots(germany) == 0
     
     germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
     assert len(germany.construction.get_construction_line_list()) == 0
@@ -135,14 +135,18 @@ def test_different_constructions(germany):
     baden_state = germany.states["baden"]
     holstein_state = germany.states["holstein"]
 
-    #When brandenburg state gets two constructed buildings
+    #When different states get different buildings constructed
     germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    print(germany.construction.get_construction_line_size())
     germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    print(germany.construction.get_construction_line_size())
     germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    print(germany.construction.get_construction_line_size())
     germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    print(germany.construction.get_construction_line_size())
     germany.construction.start_construction(construction_types.Constructions.DOCKYARD, holstein_state, germany)
 
-    #Then it should be able to start the construction of both
+    #Then it should be able to start the construction of them all
     assert germany.construction.get_construction_line_size() == 4
 
     assert (get_construction_line(germany, 0)).get_state_name().get_name() == "Brandenburg"

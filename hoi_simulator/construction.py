@@ -18,17 +18,16 @@ class Construction:
     def __init__(self):
         self.construction_lines = []
 
-    def start_construction(self, building_type, state_name, country_name): 
-        if self.check_for_existing_construction_line(building_type, state_name) == True and len(self.get_construction_line_list()) != 0: 
-            self.increment_amount_of_constructions(building_type, state_name)
-            return
-        self.create_construction_line(building_type, state_name, country_name)
-
-    def create_construction_line(self, construction_type, state_name, country_name): 
+    def start_construction(self, construction_type, state_name, country_name): 
         check = self.check_if_construction_is_valid(construction_type, state_name, country_name)
         if check != True: 
             return
+        if self.check_for_existing_construction_line(construction_type, state_name) == True and len(self.get_construction_line_list()) != 0: 
+            self.increment_amount_of_constructions(construction_type, state_name)
+            return
+        self.create_construction_line(construction_type, state_name, country_name)
 
+    def create_construction_line(self, construction_type, state_name, country_name): 
         const_line = construction_line.Construction_line(
             state_name,
             country_name, 
