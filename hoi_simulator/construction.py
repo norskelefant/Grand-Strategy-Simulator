@@ -44,9 +44,9 @@ class Construction:
     def finish_construction(self): 
         return None
 
-    def day_has_passed(self): 
+    def day_has_passed(self, date): 
         return None
-
+    
     def calculate_construction_speed(self): 
         return None
 

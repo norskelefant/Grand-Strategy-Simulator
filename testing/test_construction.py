@@ -567,7 +567,6 @@ def test_free_civs(germany):
     construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
     construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
 
-
     assert germany.get_free_civs() == 0
 
     assert construction_line_brandenburg_civ.get_assigned_civs() == 15
@@ -584,11 +583,11 @@ def test_free_civs(germany):
     assert germany.get_free_civs() == 20
 
 
-
-
-
-def test_delete_construction_line_with_one_building(germany): 
+def test_day_can_pass(germany): 
     return None
+
+
+
 
 
 
