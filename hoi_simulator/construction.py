@@ -8,10 +8,6 @@ NAVAL_DOCKYARD_COST = 6400
 
 CONSTRUCTION_FACTORIES = 15
 
-day = 1
-month = 1
-year = 1936
-
 civ_ic_production = 4
 
 class Construction: 
@@ -44,9 +40,12 @@ class Construction:
     def finish_construction(self): 
         return None
 
-    def day_has_passed(self, date): 
-        return None
+    #def day_has_passed(self, date): 
+    #    self.calculate_remaining_time()
     
+    def calculate_remaining_time(self, construction_line): 
+        construction_line.set_amount_of_time_left()
+
     def calculate_construction_speed(self): 
         return None
 

@@ -39,6 +39,7 @@ class Country:
         for state in self.states: 
             amount += state.get_dockyards()
     
+    #Construction object, which has list of constructions for the country
     def get_construction(self): 
         return self.construction
 
@@ -61,5 +62,8 @@ class Country:
     
     def update_free_civs(self, amount): 
         self.free_civs += amount
+
+    def get_ic(self): 
+        return 4
 
 

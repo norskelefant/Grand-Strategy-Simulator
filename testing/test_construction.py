@@ -2,12 +2,17 @@ import hoi_simulator as hoi
 
 import pytest
 
-from hoi_simulator import country, state, setup_countries, construction, construction_types, construction_line
+from hoi_simulator import country, state, setup_countries, construction, construction_types, construction_line, date, game
 
 @pytest.fixture
 def germany(): 
     #Creates a new Germany instance before each test
     return create_germany()
+
+@pytest.fixture
+def new_game(germany): 
+    #Creates a new game instance before each test, which has default date
+    return create_game(germany)
 
 def test_can_start_building_civ_at_default_start(germany): 
     #Given default Germany start
@@ -564,6 +569,7 @@ def test_free_civs(germany):
     germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
     germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
 
+    #Then the amount of free civs should be correct
     construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
     construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
 
@@ -582,9 +588,93 @@ def test_free_civs(germany):
 
     assert germany.get_free_civs() == 20
 
+def test_construction_cost_left_on_civ_and_mil_default_start(germany): 
+    #Given default Germany start
 
-def test_day_can_pass(germany): 
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    assert germany.get_free_civs() == 20
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #Then the construction cost should be the default costs
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10800
+    assert construction_line_baden_mil.get_construction_cost() == 7200
+
+
+def test_construction_cost_left_on_civ_and_mil_after_a_day_with_default_construction_speed(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    assert germany.get_free_civs() == 20
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #Then then the construction cost should be the default costs
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10800
+    assert construction_line_baden_mil.get_construction_cost() == 7200
+
+    #When a day passes
+    new_game.pass_day()
+
+    #Then the construction costs should be the new ones
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10740
+    assert construction_line_baden_mil.get_construction_cost() == 7180
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def test_amount_of_time_left_on_civ_construction_with_default_construction_speed(germany): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    assert germany.get_free_civs() == 20
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #Then the amount of time left should be correct
+
     return None
+    #assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    #assert construction_line_baden_mil.get_assigned_civs() == 5
 
 
 
@@ -594,6 +684,9 @@ def test_day_can_pass(germany):
 
 def create_germany(): 
     return setup_countries.create_germany()
+
+def create_game(germany): 
+    return game.Game(date.Date(1, 1, 1936), [germany])
 
 def remove_building_slots(state): 
     state.total_construction_slots -= 3
@@ -612,3 +705,6 @@ def remove_building_from_construction_line(construction_type, state, country):
 
 def remove_construction_line(construction_type, state, country): 
     country.construction.delete_construction_line(find_construction_line(construction_type, state, country), country)
+
+def get_construction_line_list(country): 
+    return country.construction.get_construction_line_list()

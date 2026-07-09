@@ -1,3 +1,5 @@
+import math
+
 class Construction_line: 
     def __init__(self, state_name, country_name, infrastructure_level, construction_cost, assigned_civs, amount_of_constructions, priority, time_left, construction_type): 
         self.state_name = state_name
@@ -52,4 +54,15 @@ class Construction_line:
     def decrement_amount_of_constructions(self): 
         self.amount_of_constructions -= 1
 
+    def calculate_construction_cost(self, ic): 
+        self.construction_cost -= self.get_assigned_civs() * ic
 
+    def amount_of_time_left(self, ic): 
+        self.time_left = math.ceil(self.get_construction_cost() / (self.get_assigned_civs() * ic))
+
+    def set_amount_of_time_left(self, time): 
+        self.time_left = math.ceil(time)
+
+    def day_has_passed(self, ic): 
+        self.amount_of_time_left(ic)
+        self.calculate_construction_cost(ic)
