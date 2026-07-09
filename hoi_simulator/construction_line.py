@@ -66,3 +66,7 @@ class Construction_line:
     def day_has_passed(self, ic): 
         self.amount_of_time_left(ic)
         self.calculate_construction_cost(ic)
+    
+    def pass_to_next_month(self, ic, days_to_pass): 
+        for i in range(days_to_pass): 
+            self.day_has_passed(ic)

@@ -630,11 +630,43 @@ def test_construction_cost_left_on_civ_and_mil_after_a_day_with_default_construc
     #When a day passes
     new_game.pass_day()
 
-    #Then the construction costs should be the new ones
+    #Then the construction costs should be the following
     assert construction_line_brandenburg_civ.get_construction_cost() == 10740
     assert construction_line_baden_mil.get_construction_cost() == 7180
 
+    real_date = new_game.get_date()
+    correct_date = date.Date(2, 1, 1936)
+    same_dates = check_date(real_date, correct_date)
 
+    assert same_dates == True
+
+
+
+def test_construction_cost_left_on_civ_and_mil_after_a_month_with_default_construction_speed(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    assert germany.get_free_civs() == 20
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #Then then the construction cost should be the default costs
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10800
+    assert construction_line_baden_mil.get_construction_cost() == 7200
+
+    #When days pass until next month begins
+    new_game.pass_month()
+
+    #Then the construction costs should be the following
+    assert construction_line_brandenburg_civ.get_construction_cost() == 8940
+    assert construction_line_baden_mil.get_construction_cost() == 6580
 
 
 
@@ -708,3 +740,6 @@ def remove_construction_line(construction_type, state, country):
 
 def get_construction_line_list(country): 
     return country.construction.get_construction_line_list()
+
+def check_date(date_one, date_two): 
+    return date_one.get_day() == date_two.get_day() and date_one.get_month() == date_two.get_month() and date_one.get_year() == date_two.get_year()

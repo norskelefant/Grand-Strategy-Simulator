@@ -73,7 +73,14 @@ class Date:
             month = self.get_month()
 
         return month == 2
-    
+
+    def get_days_remaining_in_month(self, day, month):
+        if self.month_has_28_days(month) == True: 
+            return 28 - day + 1
+        elif self.month_has_30_days(month) == True: 
+             return 30 - day + 1
+        elif self.month_has_31_days(month) == True: 
+             return 31 - day + 1
     
     
 
