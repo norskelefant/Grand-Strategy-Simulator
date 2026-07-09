@@ -668,8 +668,59 @@ def test_construction_cost_left_on_civ_and_mil_after_a_month_with_default_constr
     assert construction_line_brandenburg_civ.get_construction_cost() == 8940
     assert construction_line_baden_mil.get_construction_cost() == 6580
 
+def test_construction_cost_left_on_civ_and_mil_after_52_with_default_construction_speed(germany, new_game): 
+    #Given default Germany start
 
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    assert germany.get_free_civs() == 20
 
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #Then then the construction cost should be the default costs
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10800
+    assert construction_line_baden_mil.get_construction_cost() == 7200
+
+    #When 52 days pass
+    for i in range(52): 
+        new_game.pass_day()
+
+    #Then the construction costs should be the following
+    assert construction_line_brandenburg_civ.get_construction_cost() == 7680
+    assert construction_line_baden_mil.get_construction_cost() == 6160
+
+def test_construction_cost_left_on_civ_should_be_0_after_180_days(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    assert germany.get_free_civs() == 20
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #Then then the construction cost should be the default costs
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10800
+    assert construction_line_baden_mil.get_construction_cost() == 7200
+
+    #When 180 days pass
+    for i in range(180): 
+        new_game.pass_day()
+
+    #Then the construction costs should be the following
+    assert construction_line_brandenburg_civ.get_construction_cost() == 0
+    assert construction_line_baden_mil.get_construction_cost() == 3600
 
 
 
