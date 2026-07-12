@@ -58,6 +58,8 @@ class Construction_line:
         self.construction_cost -= self.get_assigned_civs() * ic
 
     def amount_of_time_left(self, ic): 
+        if self.get_assigned_civs() == 0: 
+            return
         self.time_left = math.ceil(self.get_construction_cost() / (self.get_assigned_civs() * ic))
 
     def set_amount_of_time_left(self, time): 

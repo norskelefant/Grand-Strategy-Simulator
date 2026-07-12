@@ -722,8 +722,43 @@ def test_construction_cost_left_on_civ_should_be_0_after_180_days(germany, new_g
     assert construction_line_brandenburg_civ.get_construction_cost() == 0
     assert construction_line_baden_mil.get_construction_cost() == 3600
 
+def test_construction_cost_doesnt_change_if_no_factories_are_assigned(germany, new_game): 
+        #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    holstein_state = germany.states["holstein"]
+    assert germany.get_free_civs() == 20
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, holstein_state, germany)
 
 
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+    construction_line_holstein_dockyard = find_construction_line(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+
+
+    #Then then the construction cost should be the default costs
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10800
+    assert construction_line_baden_mil.get_construction_cost() == 7200
+    assert construction_line_holstein_dockyard.get_construction_cost() == 6400
+
+    #When 180 days pass
+    for i in range(180): 
+        new_game.pass_day()
+
+    #Then the construction costs should be the following
+    assert construction_line_brandenburg_civ.get_construction_cost() == 0
+    assert construction_line_baden_mil.get_construction_cost() == 3600
+    assert construction_line_holstein_dockyard.get_construction_cost() == 6400
+
+def test_civ_count_updates_if_civ_finishes_building(germany, new_game): 
+    return None
 
 
 
