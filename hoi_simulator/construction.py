@@ -33,12 +33,19 @@ class Construction:
             1, 
             self.calculate_default_priority(), 
             self.calculate_time_left(),
-            construction_type.name
+            construction_type
         )
         country_name.construction.construction_lines.append(const_line)
 
-    def finish_construction(self): 
-        return None
+    def finish_construction(self, construction_line): 
+        country = construction_line.get_country_name()
+        construction_type = construction_line.get_construction_type()
+        if construction_line.get_amount_of_constructions() == 1: 
+            self.delete_construction_line(construction_line, country)
+        elif construction_line.get_amount_of_constructions() > 1: 
+            construction_line.decrement_amount_of_constructions()
+            construction_line.reset_construction_cost(construction_type)
+        country.increment_building_type(construction_type)
 
     #def day_has_passed(self, date): 
     #    self.calculate_remaining_time()
@@ -92,7 +99,6 @@ class Construction:
             picked_amount = min(amount, CONSTRUCTION_FACTORIES)
             construction_line.set_assigned_civs(picked_amount)
             country.use_free_civs(picked_amount)
-            print(country.get_free_civs())
             amount -= picked_amount
 
     def increment_amount_of_constructions(self, building_type, state_name): 
@@ -128,13 +134,13 @@ class Construction:
         if len(self.get_construction_line_list()) == 0: 
             return False
         for construction_line in self.get_construction_line_list(): 
-            if construction_line.get_construction_type() == construction_type.name and construction_line.get_state_name().get_name() == state_name.get_name(): 
+            if construction_line.get_construction_type() == construction_type and construction_line.get_state_name().get_name() == state_name.get_name(): 
                 return True
         return False
     
     def find_construction_line(self, construction_type, state_name): 
         for construction_line in self.get_construction_line_list():
-            if construction_line.get_construction_type() == construction_type.name and construction_line.get_state_name().get_name() == state_name.get_name(): 
+            if construction_line.get_construction_type() == construction_type and construction_line.get_state_name().get_name() == state_name.get_name(): 
                 return construction_line
         return None
 

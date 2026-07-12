@@ -65,5 +65,8 @@ class Country:
 
     def get_ic(self): 
         return 4
+    
+    def increment_building_type(self, building_type): 
+        return None
 
 

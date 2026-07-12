@@ -1,4 +1,5 @@
 import math
+from enum import Enum
 
 class Construction_line: 
     def __init__(self, state_name, country_name, infrastructure_level, construction_cost, assigned_civs, amount_of_constructions, priority, time_left, construction_type): 
@@ -55,7 +56,15 @@ class Construction_line:
         self.amount_of_constructions -= 1
 
     def calculate_construction_cost(self, ic): 
-        self.construction_cost -= self.get_assigned_civs() * ic
+        if self.construction_cost == 0: 
+            self.construction_cost = 0 
+        if self.get_assigned_civs() == 0: 
+            self.construction_cost = self.construction_cost
+        else: 
+            self.construction_cost -= self.get_assigned_civs() * ic
+
+    def reset_construction_cost(self, construction_type): 
+        self.construction_cost = construction_type.value
 
     def amount_of_time_left(self, ic): 
         if self.get_assigned_civs() == 0: 
@@ -69,6 +78,12 @@ class Construction_line:
         self.amount_of_time_left(ic)
         self.calculate_construction_cost(ic)
     
+    def check_for_finished_buildings(self): 
+        if self.get_construction_cost() <= 0: 
+            self.get_country_name().get_construction().finish_construction(self)
+
     def pass_to_next_month(self, ic, days_to_pass): 
         for i in range(days_to_pass): 
             self.day_has_passed(ic)
+    
+            self.check_for_finished_buildings()
