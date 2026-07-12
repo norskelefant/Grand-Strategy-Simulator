@@ -1,5 +1,5 @@
 class Country: 
-    def __init__(self, name, states, tiles, resources, total_civs, free_civs, total_mils, free_mils, construction): 
+    def __init__(self, name, states, tiles, resources, total_civs, free_civs, total_mils, free_mils, construction, ic, consumer_goods): 
         self.name = name
         self.states = states
         self.tiles = tiles
@@ -9,6 +9,8 @@ class Country:
         self.total_mils = total_mils
         self.free_mils = free_mils
         self.construction = construction
+        self.ic = ic
+        self.consumer_goods = consumer_goods
 
     def get_state_name(self):
         return self.name
@@ -39,6 +41,12 @@ class Country:
         for state in self.states: 
             amount += state.get_dockyards()
     
+    def get_ic(self): 
+        return self.ic
+    
+    def get_consumer_goods(self): 
+        return self.consumer_goods
+    
     #Construction object, which has list of constructions for the country
     def get_construction(self): 
         return self.construction
@@ -62,9 +70,6 @@ class Country:
     
     def update_free_civs(self, amount): 
         self.free_civs += amount
-
-    def get_ic(self): 
-        return 4
     
     def increment_building_type(self, building_type): 
         return None
