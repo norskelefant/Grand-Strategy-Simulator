@@ -910,6 +910,141 @@ def test_check_for_finished_buildings_for_pass_month(germany, new_game):
     assert germany.get_free_civs() == 5
 
 
+def test_construction_line_gets_removed_if_mil_finishes_and_there_is_only_one_mil_in_construction_line(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    assert germany.get_free_civs() == 20
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #When 360 days pass
+    for i in range(365): 
+        new_game.pass_day()
+
+    #Then the first mil should finish and the construction line should be removed
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10500
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 1
+    assert germany.get_construction().get_construction_line_size() == 1
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert germany.get_free_civs() == 5
+
+def test_construction_line_gets_removed_if_three_mils_finish(germany, new_game): 
+    #Given default Germany start
+
+    baden_state = germany.states["baden"]
+    assert germany.get_free_civs() == 20
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #When 360 days pass
+    for i in range(360): 
+        new_game.pass_day()
+
+    #Then the mils should be finished and the construction line should be removed
+    assert germany.get_construction().get_construction_line_size() == 0
+    assert germany.get_free_civs() == 20
+
+def test_everything_continues_even_if_nothing_is_being_constructed(germany, new_game): 
+    #Given default Germany start
+
+    baden_state = germany.states["baden"]
+    assert germany.get_free_civs() == 20
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #When 360 days pass
+    for i in range(360): 
+        new_game.pass_day()
+
+    #Then the civs should be finished and the construction line should be removed
+    assert germany.get_construction().get_construction_line_size() == 0
+    assert germany.get_free_civs() == 20
+
+    #When 50 more days pass
+    for i in range(50): 
+        new_game.pass_day()
+
+    #Then everything should be as before
+    assert germany.get_construction().get_construction_line_size() == 0
+    assert germany.get_free_civs() == 20
+
+def test_constructions_can_start_later_and_still_work(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    holstein_state = germany.states["holstein"]
+    assert germany.get_free_civs() == 20
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #When 180 days pass
+    for i in range(180): 
+        new_game.pass_day()
+
+    #Then the first CIV should finish
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10800
+    assert construction_line_baden_mil.get_construction_cost() == 3600
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 1
+    assert construction_line_baden_mil.get_amount_of_constructions() == 2
+    assert germany.get_construction().get_construction_line_size() == 2
+
+    #When 30 more days pass
+    for i in range(30): 
+        new_game.pass_day()
+    
+    #Then these should be the updates values
+    assert construction_line_brandenburg_civ.get_construction_cost() == 9000
+    assert construction_line_baden_mil.get_construction_cost() == 3000
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 1
+    assert construction_line_baden_mil.get_amount_of_constructions() == 2
+    assert germany.get_construction().get_construction_line_size() == 2
+    
+    #When new constructions start
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+
+    construction_line_holstein_dockyard = find_construction_line(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+
+    #and 63 days pass
+    for i in range(155): 
+        new_game.pass_day()
+
+    #Then these should be the new costs
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10500
+    assert construction_line_baden_mil.get_construction_cost() == 7100
+    assert construction_line_holstein_dockyard.get_construction_cost() == 6400
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 1
+    assert construction_line_baden_mil.get_amount_of_constructions() == 2
+    assert construction_line_holstein_dockyard.get_amount_of_constructions() == 1
+    assert germany.get_construction().get_construction_line_size() == 3
 
 
 
