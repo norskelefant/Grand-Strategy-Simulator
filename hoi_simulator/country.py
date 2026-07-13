@@ -1,4 +1,6 @@
+from hoi_simulator import construction_types
 
+import math
 
 class Country: 
     def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, ic, consumer_goods): 
@@ -41,6 +43,9 @@ class Country:
             amount += self.states[state].get_mils()
         return amount
     
+    def get_civs_used_on_consumer_goods(self): 
+        return self.civs_used_on_consumer_goods
+
     def get_free_mils(self): 
         return self.free_mils
     
@@ -82,5 +87,26 @@ class Country:
     
     def update_free_civs(self, amount): 
         self.free_civs += amount
+
+    def update_free_factories(self, construction_type):
+        if construction_type == construction_types.Constructions.CIV: 
+            print(self.get_total_civs() + self.get_total_mils())
+            if self.find_amount_of_factories_needed_to_use_for_consumer_goods() > self.get_civs_used_on_consumer_goods(): 
+                self.civs_used_on_consumer_goods += 1
+            else: 
+                self.free_civs += 1
+                self.get_construction().calculate_moved_assigned_civs(self)
+        #Since production has not been implemented yet, mil and dockyards counts are just added to free factories directly
+        if construction_type == construction_types.Constructions.MIL: 
+            self.free_mils += 1
+        if construction_type == construction_types.Constructions.DOCKYARD: 
+            self.free_dockyards += 1
+    
+    def calculate_free_civs_consumer_goods(self, amount): 
+        return 
+    
+    def find_amount_of_factories_needed_to_use_for_consumer_goods(self): 
+        return math.floor((self.get_total_civs() + self.get_total_mils()) * self.get_consumer_goods())
+            
     
 

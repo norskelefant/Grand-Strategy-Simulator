@@ -50,3 +50,6 @@ class State:
             self.mils += 1
         if building_type == construction_types.Constructions.DOCKYARD:
             self.dockyards += 1
+
+
+    

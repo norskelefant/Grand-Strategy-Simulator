@@ -50,6 +50,7 @@ class Construction:
             construction_line.decrement_amount_of_constructions()
             construction_line.reset_construction_cost(construction_type)
         state.increment_building_type(construction_type)
+        country.update_free_factories(construction_type)
 
     #def day_has_passed(self, date): 
     #    self.calculate_remaining_time()

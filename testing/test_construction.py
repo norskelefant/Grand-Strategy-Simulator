@@ -798,7 +798,10 @@ def test_civ_count_updates_if_mil_finishes_building(germany, new_game):
     assert construction_line_brandenburg_civ.get_amount_of_constructions() == 1
     assert construction_line_baden_mil.get_amount_of_constructions() == 1
 
-    assert construction_line_brandenburg_civ.get_construction_cost() == 9600
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 6
+    assert construction_line_baden_mil.get_assigned_civs() == 15
+    
+    assert construction_line_brandenburg_civ.get_construction_cost() == 9360
     assert construction_line_baden_mil.get_construction_cost() == 7200
 
 def test_construction_cost_gets_reset(germany, new_game): 
@@ -852,7 +855,7 @@ def test_construction_line_gets_removed_if_civ_finishes_and_there_is_only_one_ci
     assert construction_line_baden_mil.get_construction_cost() == 3600
     assert germany.get_construction().get_construction_line_size() == 1
     assert construction_line_baden_mil.get_assigned_civs() == 15
-    assert germany.get_free_civs() == 5
+    assert germany.get_free_civs() == 6
 
 def test_construction_line_gets_removed_if_two_civs_finish(germany, new_game): 
     #Given default Germany start
@@ -874,12 +877,17 @@ def test_construction_line_gets_removed_if_two_civs_finish(germany, new_game):
     for i in range(360): 
         new_game.pass_day()
 
+    #These variables include how much construction was done in the first half with 5 free civs and in the second half with 6 free civs
+    first_half_construction_of_civ = (5 * 4) * 180
+    second_half_construction_of_mil = (6 * 4) * 180
+
     #Then the civs should be finished and the construction line should be removed
-    assert construction_line_baden_mil.get_construction_cost() == 7200
+    assert construction_line_baden_mil.get_construction_cost() == 6480
     assert construction_line_baden_mil.get_amount_of_constructions() == 1
     assert germany.get_construction().get_construction_line_size() == 1
     assert construction_line_baden_mil.get_assigned_civs() == 15
-    assert germany.get_free_civs() == 5
+    assert germany.get_free_civs() == 7
+    assert germany.get_free_mils() == 29
 
 def test_check_for_finished_buildings_for_pass_month(germany, new_game): 
     #Given default Germany start
@@ -909,7 +917,9 @@ def test_check_for_finished_buildings_for_pass_month(germany, new_game):
     assert construction_line_baden_mil.get_amount_of_constructions() == 2
     assert germany.get_construction().get_construction_line_size() == 1
     assert construction_line_baden_mil.get_assigned_civs() == 15
-    assert germany.get_free_civs() == 5
+    assert germany.get_free_civs() == 6
+    print(germany.get_total_civs())
+    print(germany.get_total_mils())
 
 
 def test_construction_line_gets_removed_if_mil_finishes_and_there_is_only_one_mil_in_construction_line(germany, new_game): 
@@ -937,7 +947,8 @@ def test_construction_line_gets_removed_if_mil_finishes_and_there_is_only_one_mi
     assert construction_line_brandenburg_civ.get_amount_of_constructions() == 1
     assert germany.get_construction().get_construction_line_size() == 1
     assert construction_line_brandenburg_civ.get_assigned_civs() == 15
-    assert germany.get_free_civs() == 5
+    assert germany.get_total_civs() + germany.get_total_mils() == 66
+    assert germany.get_free_civs() == 7
 
 def test_construction_line_gets_removed_if_three_mils_finish(germany, new_game): 
     #Given default Germany start
@@ -1013,6 +1024,7 @@ def test_constructions_can_start_later_and_still_work(germany, new_game):
     #Then the first CIV should finish
     assert construction_line_brandenburg_civ.get_construction_cost() == 10800
     assert construction_line_baden_mil.get_construction_cost() == 3600
+    assert construction_line_baden_mil.get_assigned_civs() == 6
     assert construction_line_brandenburg_civ.get_amount_of_constructions() == 1
     assert construction_line_baden_mil.get_amount_of_constructions() == 2
     assert germany.get_construction().get_construction_line_size() == 2
@@ -1023,7 +1035,8 @@ def test_constructions_can_start_later_and_still_work(germany, new_game):
     
     #Then these should be the updates values
     assert construction_line_brandenburg_civ.get_construction_cost() == 9000
-    assert construction_line_baden_mil.get_construction_cost() == 3000
+    assert construction_line_baden_mil.get_construction_cost() == 2880
+    assert construction_line_baden_mil.get_assigned_civs() == 6
     assert construction_line_brandenburg_civ.get_amount_of_constructions() == 1
     assert construction_line_baden_mil.get_amount_of_constructions() == 2
     assert germany.get_construction().get_construction_line_size() == 2
@@ -1035,18 +1048,29 @@ def test_constructions_can_start_later_and_still_work(germany, new_game):
 
     construction_line_holstein_dockyard = find_construction_line(construction_types.Constructions.DOCKYARD, holstein_state, germany)
 
+    assert germany.get_free_civs() == 0
+
     #and 155 days pass
     for i in range(155): 
         new_game.pass_day()
 
     #Then these should be the new costs
     assert construction_line_brandenburg_civ.get_construction_cost() == 10500
-    assert construction_line_baden_mil.get_construction_cost() == 7100
+
+    #Mil construction done for the first 150 days is with 6 free factories, accounting for 3600 construction cost, reducing it down to 6480 cost
+    #Mil construction for the 5 days after is with 7 free factories, accounting for 140 construction cost, reduing it down to 6340
+    assert construction_line_baden_mil.get_construction_cost() == 6340
     assert construction_line_holstein_dockyard.get_construction_cost() == 6400
     assert construction_line_brandenburg_civ.get_amount_of_constructions() == 1
     assert construction_line_baden_mil.get_amount_of_constructions() == 2
     assert construction_line_holstein_dockyard.get_amount_of_constructions() == 1
     assert germany.get_construction().get_construction_line_size() == 3
+
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_baden_mil.get_assigned_civs() == 7
+    assert germany.get_total_civs() == 37
+    assert germany.get_free_civs() == 0
+
 
 def test_construction_carries_over_to_next_factory_in_construction_line(germany, new_game): 
     #Given default Germany start
@@ -1361,7 +1385,10 @@ def test_construction_time_changes_when_construction_line_is_deleted(germany, ne
     assert construction_line_holstein_dockyard.get_construction_cost() == 6400
 
     assert construction_line_baden_mil.get_time_left() == 60
-    assert construction_line_holstein_dockyard.get_time_left() == 320
+    assert construction_line_holstein_dockyard.get_time_left() == 267
+
+    assert construction_line_baden_mil.get_assigned_civs() == 15
+    assert construction_line_holstein_dockyard.get_assigned_civs() == 6
 
 def test_should_add_civ_to_count_if_civ_finishes_building(germany, new_game): 
     #Given default Germany start
@@ -1390,8 +1417,12 @@ def test_should_add_civ_to_count_if_civ_finishes_building(germany, new_game):
     new_game.pass_day()
 
     assert construction_line_brandenburg_civ.get_time_left() == 180
-    assert construction_line_baden_mil.get_time_left() == 360
+    assert construction_line_baden_mil.get_time_left() == 300
     assert construction_line_holstein_dockyard.get_time_left() == math.inf
+
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_baden_mil.get_assigned_civs() == 6
+    assert construction_line_holstein_dockyard.get_assigned_civs() == 0
 
 def test_civ_count_is_updated_if_civ_finishes_construction(germany, new_game): 
     #Given default Germany start
@@ -1401,15 +1432,14 @@ def test_civ_count_is_updated_if_civ_finishes_construction(germany, new_game):
     #When constructions start in states
     germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
 
-    #NOTE THAT THE AMOUNT OF CIVS IN THE STATES IS 34, WHILE ON THE WIKI IT SAYS 35(WHICH PROBABLY COMES FROM TRADE OR SOMETHING ELSE). LOOK INTO THAT LATER, BUT FOR NOW THE TEST WORKS
-    assert germany.get_total_civs() == 34
+    assert germany.get_total_civs() == 35
 
     #When 180 days pass
     for i in range(180): 
         new_game.pass_day()
 
     #Then the amount of civs should be one larger for country and state
-    assert germany.get_total_civs() == 35
+    assert germany.get_total_civs() == 36
     assert brandenburg_state.get_civs() == 5
 
 def test_mil_count_is_updated_if_mil_finishes_construction(germany, new_game): 
@@ -1420,8 +1450,7 @@ def test_mil_count_is_updated_if_mil_finishes_construction(germany, new_game):
     #When constructions start in states
     germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
 
-    #NOTE THAT THE AMOUNT OF MILS IN THE STATES IS 30, WHILE ON THE WIKI IT SAYS 28
-    assert germany.get_total_mils() == 30
+    assert germany.get_total_mils() == 28
     assert brandenburg_state.get_mils() == 5
 
     #When 180 days pass
@@ -1429,7 +1458,7 @@ def test_mil_count_is_updated_if_mil_finishes_construction(germany, new_game):
         new_game.pass_day()
 
     #Then the amount of mils should be one larger for country and state
-    assert germany.get_total_mils() == 31
+    assert germany.get_total_mils() == 29
     assert brandenburg_state.get_mils() == 6
 
 def test_dockyard_count_is_updated_if_dockyard_finishes_construction(germany, new_game): 
@@ -1498,6 +1527,135 @@ def test_should_not_be_able_to_start_construction_in_state_where_factories_are_a
     #Then there should not be a new construction line created because there are no more free construction slots
 
     assert germany.construction.get_construction_line_size() == 0
+
+def test_more_free_civs_when_civ_is_constructed(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 63
+
+    assert germany.get_free_civs() == 5
+
+    #When 180 days pass
+    for i in range(180): 
+        new_game.pass_day()
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 64
+
+    #Then germany should have one more free civ(is not eaten up by consumer goods because 0.24*65=15.36, and it rounds down)
+    assert germany.get_civs_used_on_consumer_goods() == 15
+    assert germany.get_free_civs() == 21
+
+def test_free_civs_when_construction_done_and_a_construction_is_still_ongoing(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 63
+
+    total_civs = germany.get_total_civs()
+    assert total_civs == 35
+
+    assert germany.get_free_civs() == 5
+
+    #When 180 days pass
+    for i in range(180): 
+        new_game.pass_day()
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 64
+
+    total_civs = germany.get_total_civs()
+    assert total_civs == 36
+
+    #Then germany should have one more free civ(is not eaten up by consumer goods because 0.24*65=15.36, and it rounds down)
+    assert germany.get_civs_used_on_consumer_goods() == 15
+    assert germany.get_free_civs() == 6
+
+
+def test_civs_help_constructing_when_finished(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+
+    assert germany.get_construction().get_construction_line_size() == 2
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 63
+
+    total_civs = germany.get_total_civs()
+    assert total_civs == 35
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_brandenburg_mil = find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany)
+
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_brandenburg_mil.get_time_left() == 360
+
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 5
+
+    #When 180 days pass
+    for i in range(180): 
+        new_game.pass_day()
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 64
+
+    total_civs = germany.get_total_civs()
+    assert total_civs == 36
+
+    assert germany.get_civs_used_on_consumer_goods() == 15
+    assert germany.get_free_civs() == 0
+
+    #Then the time left should be updated
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_brandenburg_mil.get_time_left() == 150
+
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 6
+
+def test_consumer_goods_affect_the_amount_of_free_factories(germany, new_game): 
+    #Given default Germany start
+
+    moselland_state = germany.states["moselland"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 63
+
+    #When the 4 civs are done
+    for i in range(720): 
+        new_game.pass_day()
+
+    #Then the amount of free civs should be 23, because 20 is the default and 3 of them become free, while 1 gets used on consumer goods
+
+    assert germany.get_free_civs() == 23
+    germany.get_civs_used_on_consumer_goods() == 16
+
+    return None
+
 
 
 
