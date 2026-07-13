@@ -1,14 +1,15 @@
+
+
 class Country: 
-    def __init__(self, name, states, tiles, resources, total_civs, free_civs, civs_used_on_consumer_goods, total_mils, free_mils, construction, ic, consumer_goods): 
+    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, ic, consumer_goods): 
         self.name = name
         self.states = states
         self.tiles = tiles
         self.resources = resources
-        self.total_civs = total_civs
         self.free_civs = free_civs
         self.civs_used_on_consumer_goods = civs_used_on_consumer_goods
-        self.total_mils = total_mils
         self.free_mils = free_mils
+        self.free_dockyards = free_dockyards
         self.construction = construction
         self.ic = ic
         self.consumer_goods = consumer_goods
@@ -26,13 +27,19 @@ class Country:
         return self.resources
     
     def get_total_civs(self): 
-        return self.total_civs
+        amount = 0
+        for state in self.states: 
+            amount += self.states[state].get_civs()
+        return amount
     
     def get_free_civs(self): 
         return self.free_civs
     
     def get_total_mils(self): 
-        return self.total_mils
+        amount = 0
+        for state in self.states: 
+            amount += self.states[state].get_mils()
+        return amount
     
     def get_free_mils(self): 
         return self.free_mils
@@ -40,8 +47,12 @@ class Country:
     def get_total_dockyards(self): 
         amount = 0
         for state in self.states: 
-            amount += state.get_dockyards()
+            amount += self.states[state].get_dockyards()
+        return amount
     
+    def get_free_dockyards(self): 
+        return self.free_dockyards
+
     def get_ic(self): 
         return self.ic
     
@@ -72,7 +83,4 @@ class Country:
     def update_free_civs(self, amount): 
         self.free_civs += amount
     
-    def increment_building_type(self, building_type): 
-        return None
-
 

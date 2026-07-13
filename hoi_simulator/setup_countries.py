@@ -28,7 +28,7 @@ def create_germany():
 
     germany = country.Country("Germany", 
                        {"baden": baden, "brandenburg": brandenburg, "ermland_masuren": ermland_masuren, "franken": franken, "hannover": hannover, "hessen": hessen, "hinterpommern": hinterpommern, "holstein": holstein, "konigsberg": konigsberg, "mecklenburg": mecklenburg, "moselland": moselland, "niederbayern": niederbayern, "niederschlesien": niederschlesien, "oberbayern": oberbayern, "oberschlesien": oberschlesien, "ostmark": ostmark, "rhineland": rhineland, "sachsen": sachsen, "schleswig": schleswig, "thuringen": thuringen, "vorpommern": vorpommern, "weser_ems": weser_ems, "westfalen": westfalen, "wurttemberg": wurttemberg},
-                       None, None, 35, 20, 15, 28, 28, construction.Construction(), 4, 0.24)
+                       None, None, 20, 15, 28, 10, construction.Construction(), 4, 0.24)
 
     return germany
     

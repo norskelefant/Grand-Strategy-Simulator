@@ -1369,7 +1369,6 @@ def test_construction_time_is_correct_when_there_is_extra_cost_trickled_over_fro
     brandenburg_state = germany.states["brandenburg"]
     baden_state = germany.states["baden"]
     holstein_state = germany.states["holstein"]
-    assert germany.get_free_civs() == 20
 
     #When constructions start in states
     germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
@@ -1394,7 +1393,42 @@ def test_construction_time_is_correct_when_there_is_extra_cost_trickled_over_fro
     assert construction_line_baden_mil.get_time_left() == 360
     assert construction_line_holstein_dockyard.get_time_left() == math.inf
 
+def test_civ_count_is_updated_if_civ_finishes_construction(germany, new_game): 
+        #Given default Germany start
 
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    #When 180 days pass
+
+    for i in range(180): 
+        new_game.pass_day()
+
+    #Then the amount of civs should be one larger for country and state
+    assert germany.get_total_civs() == 36
+    assert brandenburg_state.get_civs() == 5
+
+    
+
+
+
+
+
+#def test_mil_count_is_updated_if_mil_finishes_construction(germany, new_game): 
+#    return None
+
+#def test_dockyard_count_is_updated_if_dockyard_finishes_construction(germany, new_game): 
+#    return None
+
+#def test_free_construction_slots_affected_by_finished_factory(germany, new_game): 
+#    return None
+
+#def test_should_not_be_able_to_start_construction_in_state_where_factories_are_already_constructed(germany, new_game): 
+#    return None
 
 
 

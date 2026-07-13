@@ -42,13 +42,14 @@ class Construction:
 
     def finish_construction(self, construction_line): 
         country = construction_line.get_country_name()
+        state = construction_line.get_state_name()
         construction_type = construction_line.get_construction_type()
         if construction_line.get_amount_of_constructions() == 1: 
             self.delete_construction_line(construction_line, country)
         elif construction_line.get_amount_of_constructions() > 1: 
             construction_line.decrement_amount_of_constructions()
             construction_line.reset_construction_cost(construction_type)
-        country.increment_building_type(construction_type)
+        state.increment_building_type(construction_type)
 
     #def day_has_passed(self, date): 
     #    self.calculate_remaining_time()
