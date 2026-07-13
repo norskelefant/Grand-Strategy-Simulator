@@ -1,11 +1,12 @@
 class Country: 
-    def __init__(self, name, states, tiles, resources, total_civs, free_civs, total_mils, free_mils, construction, ic, consumer_goods): 
+    def __init__(self, name, states, tiles, resources, total_civs, free_civs, civs_used_on_consumer_goods, total_mils, free_mils, construction, ic, consumer_goods): 
         self.name = name
         self.states = states
         self.tiles = tiles
         self.resources = resources
         self.total_civs = total_civs
         self.free_civs = free_civs
+        self.civs_used_on_consumer_goods = civs_used_on_consumer_goods
         self.total_mils = total_mils
         self.free_mils = free_mils
         self.construction = construction

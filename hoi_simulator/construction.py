@@ -2,6 +2,8 @@ from hoi_simulator import country, construction_line, construction_types, produc
 
 import hoi_simulator as hoi
 
+import math
+
 CIV_COST = 10800
 MIL_COST = 7200
 NAVAL_DOCKYARD_COST = 6400
@@ -24,15 +26,16 @@ class Construction:
         self.create_construction_line(construction_type, state_name, country_name)
 
     def create_construction_line(self, construction_type, state_name, country_name): 
+        assigned_civs = self.calculate_assigned_civs(construction_type, state_name, country_name)
         const_line = construction_line.Construction_line(
             state_name,
             country_name, 
             state_name.infrastructure_level, 
             construction_type.value, 
-            self.calculate_assigned_civs(construction_type, state_name, country_name), 
+            assigned_civs, 
             1, 
             self.calculate_default_priority(), 
-            self.calculate_time_left(),
+            self.default_time_left(construction_type, assigned_civs, state_name, country_name),
             construction_type
         )
         country_name.construction.construction_lines.append(const_line)
@@ -51,7 +54,8 @@ class Construction:
     #    self.calculate_remaining_time()
     
     def calculate_remaining_time(self, construction_line): 
-        construction_line.set_amount_of_time_left()
+        return None
+        #construction_line.set_amount_of_time_left()
 
     def calculate_construction_speed(self): 
         return None
@@ -108,8 +112,17 @@ class Construction:
     def calculate_default_priority(self): 
         return self.get_construction_line_size()
 
-    def calculate_time_left(self): 
-        return 0
+    def default_time_left(self, construction_type, assigned_civs, state, country): 
+        ic = country.get_ic()
+        cost = construction_type.value
+        ic_production_each_day = ic * assigned_civs
+        if ic_production_each_day == 0: 
+            return math.inf
+        construction_speed = 1
+        #Use state for construction speed later, as well as country
+        time_left = math.ceil(cost / (ic_production_each_day * construction_speed))
+        return time_left
+
 
     def get_construction_line_list(self): 
         return self.construction_lines

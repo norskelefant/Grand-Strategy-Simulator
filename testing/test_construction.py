@@ -1033,7 +1033,7 @@ def test_constructions_can_start_later_and_still_work(germany, new_game):
 
     construction_line_holstein_dockyard = find_construction_line(construction_types.Constructions.DOCKYARD, holstein_state, germany)
 
-    #and 63 days pass
+    #and 155 days pass
     for i in range(155): 
         new_game.pass_day()
 
@@ -1046,13 +1046,58 @@ def test_constructions_can_start_later_and_still_work(germany, new_game):
     assert construction_line_holstein_dockyard.get_amount_of_constructions() == 1
     assert germany.get_construction().get_construction_line_size() == 3
 
+def test_construction_carries_over_to_next_factory_in_construction_line(germany, new_game): 
+    #Given default Germany start
 
+    brandenburg_state = germany.states["brandenburg"]
+    assert germany.get_free_civs() == 20
 
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
 
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
 
+    #and when when one of the civs has 30 construction left over
 
+    set_construction_left(construction_line_brandenburg_civ, 30)
 
-def test_amount_of_time_left_on_civ_construction_with_default_construction_speed(germany): 
+    #Then it should give the 30 extra to the next civ in line after a day passes
+
+    new_game.pass_day()
+
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10770
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 1
+    assert germany.get_construction().get_construction_line_size() == 1
+
+def test_construction_does_not_carry_over_to_other_construction_line(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    holstein_state = germany.states["holstein"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+    construction_line_holstein_dockyard = find_construction_line(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+
+    #and when when the Brandenburg civ has 30 construction left over
+
+    set_construction_left(construction_line_brandenburg_civ, 30)
+
+    #Then it should not give 30 extra to the Baden mil after a day
+
+    new_game.pass_day()
+
+    assert construction_line_baden_mil.get_construction_cost() == 7180
+    assert construction_line_holstein_dockyard.get_construction_cost() == 6400
+
+def test_amount_of_time_left_on_civ_construction_with_default_construction_speed(germany, new_game): 
     #Given default Germany start
 
     brandenburg_state = germany.states["brandenburg"]
@@ -1068,11 +1113,11 @@ def test_amount_of_time_left_on_civ_construction_with_default_construction_speed
     construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
 
     #Then the amount of time left should be correct
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_baden_mil.get_time_left() == 360
 
-    return None
-    #assert construction_line_brandenburg_civ.get_assigned_civs() == 15
-    #assert construction_line_baden_mil.get_assigned_civs() == 5
-
+    
+  
 
 
 
@@ -1108,3 +1153,6 @@ def get_construction_line_list(country):
 
 def check_date(date_one, date_two): 
     return date_one.get_day() == date_two.get_day() and date_one.get_month() == date_two.get_month() and date_one.get_year() == date_two.get_year()
+
+def set_construction_left(construction_line, amount): 
+    construction_line.construction_cost = amount

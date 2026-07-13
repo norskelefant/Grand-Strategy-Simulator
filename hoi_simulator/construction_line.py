@@ -79,11 +79,17 @@ class Construction_line:
         self.calculate_construction_cost(ic)
     
     def check_for_finished_buildings(self): 
+        print(self.get_construction_cost())
         if self.get_construction_cost() <= 0: 
+            construction_cost_left = self.get_construction_cost()
             self.get_country_name().get_construction().finish_construction(self)
+            self.reduce_construction_cost(construction_cost_left)
 
     def pass_to_next_month(self, ic, days_to_pass): 
         for i in range(days_to_pass): 
             self.day_has_passed(ic)
     
             self.check_for_finished_buildings()
+
+    def reduce_construction_cost(self, cost): 
+        self.construction_cost += cost

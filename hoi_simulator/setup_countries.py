@@ -28,9 +28,24 @@ def create_germany():
 
     germany = country.Country("Germany", 
                        {"baden": baden, "brandenburg": brandenburg, "ermland_masuren": ermland_masuren, "franken": franken, "hannover": hannover, "hessen": hessen, "hinterpommern": hinterpommern, "holstein": holstein, "konigsberg": konigsberg, "mecklenburg": mecklenburg, "moselland": moselland, "niederbayern": niederbayern, "niederschlesien": niederschlesien, "oberbayern": oberbayern, "oberschlesien": oberschlesien, "ostmark": ostmark, "rhineland": rhineland, "sachsen": sachsen, "schleswig": schleswig, "thuringen": thuringen, "vorpommern": vorpommern, "weser_ems": weser_ems, "westfalen": westfalen, "wurttemberg": wurttemberg},
-                       None, None, 35, 20, 28, 28, construction.Construction(), 4, None)
+                       None, None, 35, 20, 15, 28, 28, construction.Construction(), 4, 0.24)
 
     return germany
     
+    #Formula for consumer goods: 
+    #https://www.reddit.com/r/hoi4/comments/17io39g/can_someone_explain_how_consumer_goods_percantage/
+    #base_factor * math.floor(product(1-f_i) * 100) / 100
+    #Starting germany consumer goods: 
+    #25% * floor((1-(-10%))*(1-12.4%) * 100) / 100 = 0.24
+    #Where -12.4% comes from the stability at the start of the game. Implement this later when implementing focus trees, decisions and events
+
+    #Other example: 
+    #35% * floor((1-30%)*(1-13.5%)*100) / 100
+
+    #From research: 
+    #Construction from one line to another DOES NOT carry over when the line finishes
+    #Construction from one factory in a construction line to the next DOES carry over when the first factory finishes 
+
+
 
     #nummer 5
