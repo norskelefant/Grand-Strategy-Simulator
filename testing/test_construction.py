@@ -1662,6 +1662,8 @@ def test_consumer_goods_affect_the_amount_of_free_factories(germany, new_game):
 
 
 
+
+
 def create_germany(): 
     return setup_countries.create_germany()
 
