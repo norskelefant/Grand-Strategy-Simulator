@@ -68,6 +68,7 @@ class Construction_line:
 
     def amount_of_time_left(self, ic): 
         if self.get_assigned_civs() == 0: 
+            self.time_left = math.inf
             return
         self.time_left = math.ceil(self.get_construction_cost() / (self.get_assigned_civs() * ic))
 
@@ -75,11 +76,10 @@ class Construction_line:
         self.time_left = math.ceil(time)
 
     def day_has_passed(self, ic): 
-        self.amount_of_time_left(ic)
         self.calculate_construction_cost(ic)
-    
+        self.amount_of_time_left(ic)
+
     def check_for_finished_buildings(self): 
-        print(self.get_construction_cost())
         if self.get_construction_cost() <= 0: 
             construction_cost_left = self.get_construction_cost()
             self.get_country_name().get_construction().finish_construction(self)
@@ -88,7 +88,6 @@ class Construction_line:
     def pass_to_next_month(self, ic, days_to_pass): 
         for i in range(days_to_pass): 
             self.day_has_passed(ic)
-    
             self.check_for_finished_buildings()
 
     def reduce_construction_cost(self, cost): 
