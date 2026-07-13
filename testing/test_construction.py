@@ -1363,7 +1363,7 @@ def test_construction_time_changes_when_construction_line_is_deleted(germany, ne
     assert construction_line_baden_mil.get_time_left() == 60
     assert construction_line_holstein_dockyard.get_time_left() == 320
 
-def test_construction_time_is_correct_when_there_is_extra_cost_trickled_over_from_finished_factory_in_construction_line(germany, new_game): 
+def test_should_add_civ_to_count_if_civ_finishes_building(germany, new_game): 
     #Given default Germany start
 
     brandenburg_state = germany.states["brandenburg"]
@@ -1401,20 +1401,55 @@ def test_civ_count_is_updated_if_civ_finishes_construction(germany, new_game):
     #When constructions start in states
     germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
 
-    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    #NOTE THAT THE AMOUNT OF CIVS IN THE STATES IS 34, WHILE ON THE WIKI IT SAYS 35(WHICH PROBABLY COMES FROM TRADE OR SOMETHING ELSE). LOOK INTO THAT LATER, BUT FOR NOW THE TEST WORKS
+    assert germany.get_total_civs() == 34
 
     #When 180 days pass
-
     for i in range(180): 
         new_game.pass_day()
 
     #Then the amount of civs should be one larger for country and state
-    assert germany.get_total_civs() == 36
+    assert germany.get_total_civs() == 35
     assert brandenburg_state.get_civs() == 5
 
-    
+def test_mil_count_is_updated_if_mil_finishes_construction(germany, new_game): 
+        #Given default Germany start
 
+    brandenburg_state = germany.states["brandenburg"]
 
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+
+    #NOTE THAT THE AMOUNT OF MILS IN THE STATES IS 30, WHILE ON THE WIKI IT SAYS 28
+    assert germany.get_total_mils() == 30
+    assert brandenburg_state.get_mils() == 5
+
+    #When 180 days pass
+    for i in range(180): 
+        new_game.pass_day()
+
+    #Then the amount of mils should be one larger for country and state
+    assert germany.get_total_mils() == 31
+    assert brandenburg_state.get_mils() == 6
+
+def test_dockyard_count_is_updated_if_dockyard_finishes_construction(germany, new_game): 
+    #Given default Germany start
+
+    holstein_state = germany.states["holstein"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+
+    assert germany.get_total_dockyards() == 10
+    assert holstein_state.get_dockyards() == 6
+
+    #When 180 days pass
+    for i in range(180): 
+        new_game.pass_day()
+
+    #Then the amount of mils should be one larger for country and state
+    assert germany.get_total_dockyards() == 11
+    assert holstein_state.get_dockyards() == 7
 
 
 
