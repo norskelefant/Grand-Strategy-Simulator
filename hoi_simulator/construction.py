@@ -139,7 +139,7 @@ class Construction:
         return True
 
     def no_free_building_slots(self, state_name, country_name): 
-        return state_name.get_free_construction_slots(country_name) <= 0
+        return state_name.get_free_construction_slots() <= 0
 
     def building_dockyard_in_non_coastal_state(self, construction_type, state_name): 
         return construction_type == construction_types.Constructions.DOCKYARD and state_name.get_is_coastal() == False

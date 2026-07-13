@@ -75,7 +75,7 @@ def test_cannot_start_building_civ_in_state_with_no_free_building_slots(germany)
 
     #Then it should not be able to construct anything in brandenburg
     assert brandenburg_state.get_total_construction_slots() == 9
-    assert brandenburg_state.get_free_construction_slots(germany) == 0
+    assert brandenburg_state.get_free_construction_slots() == 0
     
     germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
     assert len(germany.construction.get_construction_line_list()) == 0
@@ -1394,7 +1394,7 @@ def test_should_add_civ_to_count_if_civ_finishes_building(germany, new_game):
     assert construction_line_holstein_dockyard.get_time_left() == math.inf
 
 def test_civ_count_is_updated_if_civ_finishes_construction(germany, new_game): 
-        #Given default Germany start
+    #Given default Germany start
 
     brandenburg_state = germany.states["brandenburg"]
 
@@ -1413,7 +1413,7 @@ def test_civ_count_is_updated_if_civ_finishes_construction(germany, new_game):
     assert brandenburg_state.get_civs() == 5
 
 def test_mil_count_is_updated_if_mil_finishes_construction(germany, new_game): 
-        #Given default Germany start
+    #Given default Germany start
 
     brandenburg_state = germany.states["brandenburg"]
 
@@ -1451,19 +1451,54 @@ def test_dockyard_count_is_updated_if_dockyard_finishes_construction(germany, ne
     assert germany.get_total_dockyards() == 11
     assert holstein_state.get_dockyards() == 7
 
+def test_free_construction_slots_should_be_affected_by_finished_factory(germany, new_game): 
+    #Given default Germany start
 
+    brandenburg_state = germany.states["brandenburg"]
 
-#def test_mil_count_is_updated_if_mil_finishes_construction(germany, new_game): 
-#    return None
+    assert brandenburg_state.get_free_construction_slots() == 3
 
-#def test_dockyard_count_is_updated_if_dockyard_finishes_construction(germany, new_game): 
-#    return None
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
 
-#def test_free_construction_slots_affected_by_finished_factory(germany, new_game): 
-#    return None
+    assert brandenburg_state.get_free_construction_slots() == 2
 
-#def test_should_not_be_able_to_start_construction_in_state_where_factories_are_already_constructed(germany, new_game): 
-#    return None
+    #When 180 days pass
+    for i in range(180): 
+        new_game.pass_day()
+
+    #Then the amount of free slots should be 2
+
+    assert brandenburg_state.get_free_construction_slots() == 2
+
+def test_should_not_be_able_to_start_construction_in_state_where_factories_are_already_constructed(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    assert brandenburg_state.get_free_construction_slots() == 3
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    assert brandenburg_state.get_free_construction_slots() == 0
+
+    #When 180 days pass
+    for i in range(540): 
+        new_game.pass_day()
+
+    #Then the amount of free slots should be 0
+    assert brandenburg_state.get_free_construction_slots() == 0
+
+    #When a new civ starts construction in Brandenburg
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    #Then there should not be a new construction line created because there are no more free construction slots
+
+    assert germany.construction.get_construction_line_size() == 0
+
 
 
 

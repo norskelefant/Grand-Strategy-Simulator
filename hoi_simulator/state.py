@@ -3,7 +3,7 @@ from hoi_simulator import construction_types
 import hoi_simulator as hoi
 
 class State: 
-    def __init__(self, name, total_construction_slots, civs, mils, dockyards, infrastructure_level, is_coastal): 
+    def __init__(self, name, total_construction_slots, civs, mils, dockyards, infrastructure_level, is_coastal, country): 
         self.name = name
         self.total_construction_slots = total_construction_slots
         self.civs = civs
@@ -11,6 +11,7 @@ class State:
         self.dockyards = dockyards
         self.infrastructure_level = infrastructure_level
         self.is_coastal = is_coastal
+        self.country = country
 
     def get_name(self):
         return self.name
@@ -32,9 +33,15 @@ class State:
 
     def get_is_coastal(self): 
         return self.is_coastal 
+    
+    def get_country(self): 
+        return self.country
+    
+    def set_country(self, country_name):
+        self.country = country_name
 
-    def get_free_construction_slots(self, country_name): 
-        return self.total_construction_slots - self.civs - self.mils - self.dockyards - country_name.get_constructions_being_done_in_state(self)
+    def get_free_construction_slots(self): 
+        return self.total_construction_slots - self.civs - self.mils - self.dockyards - self.get_country().get_constructions_being_done_in_state(self)
     
     def increment_building_type(self, building_type): 
         if building_type == construction_types.Constructions.CIV: 
