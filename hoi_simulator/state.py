@@ -51,5 +51,20 @@ class State:
         if building_type == construction_types.Constructions.DOCKYARD:
             self.dockyards += 1
 
+    def decrement_building_type(self, building_type): 
+        if building_type == construction_types.Constructions.CIV: 
+            self.civs -= 1
+        if building_type == construction_types.Constructions.MIL:
+            self.mils -= 1
+        if building_type == construction_types.Constructions.DOCKYARD:
+            self.dockyards -= 1
+
+    def get_amount_of_building_type(self, building_type): 
+        if building_type == construction_types.Constructions.CIV: 
+            return self.get_civs()
+        if building_type == construction_types.Constructions.MIL: 
+            return self.get_mils()
+        if building_type == construction_types.Constructions.DOCKYARD: 
+            return self.get_dockyards()
 
     

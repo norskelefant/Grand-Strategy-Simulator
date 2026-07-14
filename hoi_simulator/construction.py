@@ -82,6 +82,24 @@ class Construction:
     def remove_building_from_construction_line(self, construction_line): 
         construction_line.decrement_amount_of_constructions()
 
+    def delete_factory(self, building_type, state_name): 
+        check = self.has_factory_type_in_state(building_type, state_name)
+        if check == True: 
+            state_name.decrement_building_type(building_type)
+
+
+
+
+    def has_factory_type_in_state(self, building_type, state_name): 
+        if state_name.get_amount_of_building_type(building_type) > 0: 
+            return True
+        return False
+ 
+
+ 
+
+
+
     def set_new_priority_levels(self): 
         for index, construction_line in enumerate(self.get_construction_line_list()): 
             construction_line.set_priority_level(index)

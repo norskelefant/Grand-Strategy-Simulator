@@ -13,10 +13,12 @@ def test_germany():
     #Then the following should hold for Germany
     assert germany.name == "Germany"
 
-    assert germany.total_civs == 35
-    assert germany.free_civs == 20
-    assert germany.total_mils == 28
-    assert germany.free_mils == 28
+    assert germany.get_total_civs() == 35
+    assert germany.get_free_civs() == 20
+    assert germany.get_total_mils() == 28
+    assert germany.get_free_mils() == 28
+    assert germany.get_total_dockyards() == 10
+    assert germany.get_free_dockyards() == 10
 
     assert len(germany.states) == 24
     #assert germany.tiles = ...
@@ -37,7 +39,8 @@ def test_brandenburg():
     assert brandenburg.get_dockyards() == 0
     assert brandenburg.get_infrastructure_level() == 4
     assert brandenburg.get_is_coastal() == False
-    assert brandenburg.get_free_construction_slots(germany) == 3
+    assert brandenburg.get_free_construction_slots() == 3
+    assert brandenburg.get_country() == germany
 
 
 

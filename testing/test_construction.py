@@ -1963,6 +1963,191 @@ def test_after_having_82_mils_there_should_be_one_free_factories_left(germany, n
     #Then the time left should be 2700 days
     assert construction_line_baden_civ.get_time_left() == 2700
 
+def test_can_delete_civ(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When a civ is deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+
+    #Then it should be successful, and the amount of civs in Brandenburg should be reduced to 3
+    assert brandenburg_state.get_civs() == 3
+    assert germany.get_total_civs() == 34
+
+def test_can_delete_mil(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When a mil is deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.MIL)
+
+    #Then it should be successful, and the amount of mils in Brandenburg should be reduced to 4
+    assert brandenburg_state.get_civs() == 4
+    assert germany.get_total_mils() == 27
+
+def test_can_delete_dockyard(germany, new_game): 
+    #Given default Germany start
+
+    holstein_state = germany.states["holstein"]
+
+    #When a dockyard is deleted
+    delete_factory(germany, holstein_state, construction_types.Constructions.DOCKYARD)
+
+    #Then it should be successful, and the amount of dockyards in Brandenburg should be reduced to 5
+    assert holstein_state.get_dockyards() == 5
+    assert germany.get_total_dockyards() == 9
+
+def test_a_deleted_factory_has_no_effect_on_other_factory_counts(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When a civ is deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+
+    #Then it should be successful, and the amount of civs in Brandenburg should be reduced to 3, and the amount of other factories should see no change
+    assert brandenburg_state.get_civs() == 3
+    assert brandenburg_state.get_mils() == 5
+    assert brandenburg_state.get_dockyards() == 0
+
+    assert germany.get_total_civs() == 34
+    assert germany.get_total_mils() == 28
+    assert germany.get_total_dockyards() == 10
+
+
+def test_can_delete_different_factories(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    holstein_state = germany.states["holstein"]
+
+    #When some factories are deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.MIL)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.MIL)
+    delete_factory(germany, baden_state, construction_types.Constructions.MIL)
+    delete_factory(germany, holstein_state, construction_types.Constructions.DOCKYARD)
+    delete_factory(germany, holstein_state, construction_types.Constructions.DOCKYARD)
+
+    #Then it should be successful, and the amount of factories should be correct in states and country
+    assert brandenburg_state.get_civs() == 3
+    assert brandenburg_state.get_mils() == 3
+    assert brandenburg_state.get_dockyards() == 0
+
+    assert baden_state.get_civs() == 0
+    assert baden_state.get_mils() == 1
+    assert baden_state.get_dockyards() == 0
+
+    assert holstein_state.get_civs() == 0
+    assert holstein_state.get_mils() == 1
+    assert holstein_state.get_dockyards() == 4
+
+    assert germany.get_total_civs() == 34
+    assert germany.get_total_mils() == 25
+    assert germany.get_total_dockyards() == 8
+
+def test_cannot_delete_civ_if_there_is_no_civ_in_state(germany, new_game): 
+    #Given default Germany start
+
+    baden_state = germany.states["baden"]
+
+    #When a civ is deleted in Baden(which has no civs)
+    delete_factory(germany, baden_state, construction_types.Constructions.CIV)
+
+    #Then the deletion should not happen, and the amount of factories should stay the same
+    assert baden_state.get_civs() == 0
+    assert baden_state.get_mils() == 2
+    assert baden_state.get_dockyards() == 0
+
+    assert germany.get_total_civs() == 35
+    assert germany.get_total_mils() == 28
+    assert germany.get_total_dockyards() == 10
+
+def test_cannot_delete_mil_if_there_is_no_mil_in_state(germany, new_game): 
+    #Given default Germany start
+
+    weser_ems_state = germany.states["weser_ems"]
+
+    #When a mil is deleted in weser-ems(which has no mils)
+    delete_factory(germany, weser_ems_state, construction_types.Constructions.MIL)
+
+    #Then the deletion should not happen, and the amount of factories should stay the same
+    assert weser_ems_state.get_civs() == 2
+    assert weser_ems_state.get_mils() == 0
+    assert weser_ems_state.get_dockyards() == 2
+
+    assert germany.get_total_civs() == 35
+    assert germany.get_total_mils() == 28
+    assert germany.get_total_dockyards() == 10
+
+def test_cannot_delete_dockyard_if_there_is_no_dockyard_in_state(germany, new_game): 
+    #Given default Germany start
+
+    schleswig_state = germany.states["schleswig"]
+
+    #When a dockyard is deleted in schleswig(which has no dockyards)
+    delete_factory(germany, schleswig_state, construction_types.Constructions.DOCKYARD)
+
+    #Then the deletion should not happen, and the amount of factories should stay the same
+    assert schleswig_state.get_civs() == 0
+    assert schleswig_state.get_mils() == 1
+    assert schleswig_state.get_dockyards() == 0
+
+    assert germany.get_total_civs() == 35
+    assert germany.get_total_mils() == 28
+    assert germany.get_total_dockyards() == 10
+
+def test_cannot_delete_dockyard_if_state_is_not_coastal(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When a dockyard is deleted in brandenburg(which is not coastal)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.DOCKYARD)
+
+    #Then the deletion should not happen, and the amount of factories should stay the same
+    assert brandenburg_state.get_civs() == 4
+    assert brandenburg_state.get_mils() == 5
+    assert brandenburg_state.get_dockyards() == 0
+
+    assert germany.get_total_civs() == 35
+    assert germany.get_total_mils() == 28
+    assert germany.get_total_dockyards() == 10
+
+def test_can_construct_a_civ_and_remove_it_afterward(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    #and it finishes building
+    for i in range(180):
+        new_game.pass_day()
+
+    #Then there should be 5 civs in Brandenburg
+    assert brandenburg_state.get_civs() == 5
+
+    #When a civ is then deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+
+    #Then the amount of civs in Brandenburg should be 4
+    assert brandenburg_state.get_civs() == 4
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2003,3 +2188,6 @@ def set_construction_left(construction_line, amount):
 
 def add_total_construction_slots(state, amount): 
     state.total_construction_slots += amount
+
+def delete_factory(country, state, construction_type): 
+    country.get_construction().delete_factory(construction_type, state)
