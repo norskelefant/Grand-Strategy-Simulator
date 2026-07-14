@@ -21,6 +21,8 @@ class Game:
                     construction_line.day_has_passed(country.get_ic())
                 for construction_line_two in country.get_construction().get_construction_line_list().copy(): 
                     construction_line_two.check_for_finished_buildings()
+                    construction_line_two.amount_of_time_left(country.get_ic())
+
 
         self.get_date().next_month()
 

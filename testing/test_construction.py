@@ -1652,9 +1652,89 @@ def test_consumer_goods_affect_the_amount_of_free_factories(germany, new_game):
     #Then the amount of free civs should be 23, because 20 is the default and 3 of them become free, while 1 gets used on consumer goods
 
     assert germany.get_free_civs() == 23
-    germany.get_civs_used_on_consumer_goods() == 16
+    assert germany.get_civs_used_on_consumer_goods() == 16
 
-    return None
+
+def test_constructed_mils_should_affect_the_amount_of_free_civs_and_civs_used_on_consumer_goods(germany, new_game): 
+    #Given default Germany start
+
+    moselland_state = germany.states["moselland"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.MIL, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, moselland_state, germany)
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 63
+
+    #When the 4 mils are done
+    for i in range(480): 
+        new_game.pass_day()
+
+    #Then the amount of free civs should be 19, because 20 is the default and with 4 extra factories, consumer goods require an extra one
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 67
+
+    assert germany.get_free_civs() == 19
+    assert germany.get_civs_used_on_consumer_goods() == 16
+
+def test_constructed_mils_should_not_affect_the_amount_of_free_civs_and_civs_used_on_consumer_goods_if_amount_dont_add_up_to_new_consumer_goods_factories_amount(germany, new_game): 
+    #Given default Germany start
+
+    moselland_state = germany.states["moselland"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.MIL, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, moselland_state, germany)
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 63
+
+    #When the 3 mils are done
+    for i in range(360): 
+        new_game.pass_day()
+
+    #Then the amount of free civs should be 20, because 20 is the default and with 3 extra factories, consumer goods require 15 still
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 66
+
+    assert germany.get_free_civs() == 20
+    assert germany.get_civs_used_on_consumer_goods() == 15
+
+def test_constructed_dockyards_should_not_affect_the_amount_of_free_civs_and_civs_used_on_consumer_goods(germany, new_game): 
+    #Given default Germany start
+
+    konigsberg_state = germany.states["konigsberg"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, konigsberg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, konigsberg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, konigsberg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, konigsberg_state, germany)
+
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 63
+
+    #When the 4 dockyards are done
+    for i in range(427): 
+        new_game.pass_day()
+
+    #Then the amount of free civs should be 20, because 20 is the default and dockyards don't affect free civs or consumer goods factories
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 63
+
+    assert germany.get_total_dockyards() == 14
+
+    assert germany.get_free_civs() == 20
+    assert germany.get_civs_used_on_consumer_goods() == 15
+
 
 
 
