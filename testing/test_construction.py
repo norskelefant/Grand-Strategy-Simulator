@@ -1717,7 +1717,6 @@ def test_constructed_dockyards_should_not_affect_the_amount_of_free_civs_and_civ
     germany.construction.start_construction(construction_types.Constructions.DOCKYARD, konigsberg_state, germany)
     germany.construction.start_construction(construction_types.Constructions.DOCKYARD, konigsberg_state, germany)
 
-
     total_factories = germany.get_total_civs() + germany.get_total_mils() 
     assert total_factories == 63
 
@@ -1735,8 +1734,98 @@ def test_constructed_dockyards_should_not_affect_the_amount_of_free_civs_and_civ
     assert germany.get_free_civs() == 20
     assert germany.get_civs_used_on_consumer_goods() == 15
 
+def test_construction_time_for_pass_month(germany, new_game): 
+    #Given default Germany start
 
+    brandenburg_state = germany.states["brandenburg"]
 
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+
+    #and a month passes
+    new_game.pass_month()
+
+    #Then there should be 149 days left on the construction
+    assert construction_line_brandenburg_civ.get_time_left() == 149
+
+    #When another month passes
+    new_game.pass_month()
+
+    #Then there should be 121 days left
+    assert construction_line_brandenburg_civ.get_time_left() == 121
+
+def test_constructing_factories_affected_by_finished_factories_and_free_civs_and_consumer_goods_factories(germany, new_game): 
+    #Given default Germany start
+
+    moselland_state = germany.states["moselland"]
+    baden_state = germany.states["baden"]
+    holstein_state = germany.states["holstein"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+
+    construction_line_moselland_civ = find_construction_line(construction_types.Constructions.CIV, moselland_state, germany)
+
+    #and the first 3 civs are done
+    for i in range(540): 
+        new_game.pass_day()
+    
+    #Then the amount of free civs is 8
+
+    assert germany.get_free_civs() == 8
+    assert germany.get_civs_used_on_consumer_goods() == 15
+
+    #When new constructions start
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+    construction_line_holstein_dockyard = find_construction_line(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+
+    assert construction_line_baden_mil.get_assigned_civs() == 8
+    assert germany.get_free_civs() == 0
+    assert germany.get_civs_used_on_consumer_goods() == 15
+
+    #and the last civ is constructed
+    for i in range(180): 
+        new_game.pass_day()
+
+    #Then the amount of assigned civs to the dockyard line should be 8, and civs used on consumer goods should be 16
+    assert construction_line_baden_mil.get_assigned_civs() == 15
+    assert construction_line_holstein_dockyard.get_assigned_civs() == 8
+    assert germany.get_free_civs() == 0
+    assert germany.get_civs_used_on_consumer_goods() == 16
+
+    #When everything finishes: 
+    for i in range(1000): 
+        new_game.pass_day()
+
+    #Then the free civs and civs on consumer goods should be correct
+
+    total_factories = germany.get_total_civs() + germany.get_total_mils() 
+    assert total_factories == 71
+    assert germany.get_total_civs() == 39
+    assert germany.get_total_dockyards() == 11
+
+    assert germany.get_free_civs() == 22
+    assert germany.get_civs_used_on_consumer_goods() == 17
+
+def test_free_civs_and_consumer_goods_factories_work_in_scenario_one(germany, new_game): 
+    return None
+
+def test_free_civs_and_consumer_goods_factories_work_in_scenario_two(germany, new_game): 
+    return None
 
 
 
