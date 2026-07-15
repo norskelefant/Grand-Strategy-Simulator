@@ -2488,6 +2488,169 @@ def test_deleting_two_dockyards_should_not_affect_consumer_goods_factories_or_fr
     assert germany.get_free_civs() == 20
     assert germany.get_civs_used_on_consumer_goods() == 15
 
+def test_deleting_two_civs_and_switching_priority_levels_assigns_civs_correctly(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)    
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #and when two civs are deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+
+    #Then the amount of assigned civs should be the following
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_brandenburg_civ.get_priority() == 0
+    assert construction_line_baden_mil.get_assigned_civs() == 4
+    assert construction_line_baden_mil.get_priority() == 1
+
+    #When priority levels are switched
+    move_priority_level(construction_line_brandenburg_civ, 1, germany)
+
+    #Then the assigned civs should be the following
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 4
+    assert construction_line_brandenburg_civ.get_priority() == 1
+    assert construction_line_baden_mil.get_assigned_civs() == 15
+    assert construction_line_baden_mil.get_priority() == 0
+
+    #When two new civs are constructed
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)    
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)    
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)    
+
+    construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+
+    move_priority_level(construction_line_baden_civ, 0, germany)
+
+    #Then after 360 days, the assigned civs should be correct
+    for i in range(360): 
+        new_game.pass_day()
+
+    assert germany.get_construction().get_construction_line_size() == 3
+
+    assert construction_line_brandenburg_civ.get_priority() == 2
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 0
+
+    assert construction_line_baden_mil.get_priority() == 1
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+
+    assert construction_line_baden_civ.get_priority() == 0
+    assert construction_line_baden_civ.get_assigned_civs() == 15
+
+def test_deleting_construction_line_affects_priority_levels(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    holstein_state = germany.states["holstein"]
+
+    #When constructions start in state
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)    
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)    
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)    
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, holstein_state, germany)    
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+    construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+    construction_line_holstein_dockyard = find_construction_line(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+
+    #Then the priority levels should be the following
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_brandenburg_civ.get_priority() == 0
+
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+    assert construction_line_baden_mil.get_priority() == 1
+
+    assert construction_line_baden_civ.get_assigned_civs() == 0
+    assert construction_line_baden_civ.get_priority() == 2
+
+    assert construction_line_holstein_dockyard.get_assigned_civs() == 0
+    assert construction_line_holstein_dockyard.get_priority() == 3
+
+    #When a construction line is removed   
+    remove_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    #Then the priority levels should be the following
+    assert construction_line_baden_mil.get_assigned_civs() == 15
+    assert construction_line_baden_mil.get_priority() == 0
+
+    assert construction_line_baden_civ.get_assigned_civs() == 5
+    assert construction_line_baden_civ.get_priority() == 1
+
+    assert construction_line_holstein_dockyard.get_assigned_civs() == 0
+    assert construction_line_holstein_dockyard.get_priority() == 2
+
+def test_finishing_construction_line_affects_priority_levels(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    holstein_state = germany.states["holstein"]
+
+    #When constructions start in state
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)    
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)    
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)    
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, holstein_state, germany)    
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+    construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+    construction_line_holstein_dockyard = find_construction_line(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+
+    #Then the priority levels should be the following
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_brandenburg_civ.get_priority() == 0
+
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+    assert construction_line_baden_mil.get_priority() == 1
+
+    assert construction_line_baden_civ.get_assigned_civs() == 0
+    assert construction_line_baden_civ.get_priority() == 2
+
+    assert construction_line_holstein_dockyard.get_assigned_civs() == 0
+    assert construction_line_holstein_dockyard.get_priority() == 3
+
+    #When the Brandenburg civ finishes
+    for i in range(180): 
+        new_game.pass_day()
+
+    #Then the priority levels should be the following
+    assert construction_line_baden_mil.get_assigned_civs() == 15
+    assert construction_line_baden_mil.get_priority() == 0
+
+    assert construction_line_baden_civ.get_assigned_civs() == 6
+    assert construction_line_baden_civ.get_priority() == 1
+
+    assert construction_line_holstein_dockyard.get_assigned_civs() == 0
+    assert construction_line_holstein_dockyard.get_priority() == 2
+
+    #When priority levels are now switched
+    move_priority_level(construction_line_holstein_dockyard, 0, germany)
+
+    #Then the priority levels should be the following
+    assert construction_line_baden_mil.get_assigned_civs() == 6
+    assert construction_line_baden_mil.get_priority() == 1
+
+    assert construction_line_baden_civ.get_assigned_civs() == 0
+    assert construction_line_baden_civ.get_priority() == 2
+
+    assert construction_line_holstein_dockyard.get_assigned_civs() == 15
+    assert construction_line_holstein_dockyard.get_priority() == 0
+     
+
+
+
 
 def create_germany(): 
     return setup_countries.create_germany()
@@ -2504,8 +2667,8 @@ def get_construction_line(country, number):
 def find_construction_line(construction_type, state, country): 
     return country.construction.find_construction_line(construction_type, state)
 
-def move_priority_level(construction_type, new_priority_level, country): 
-    country.construction.move_priority_level(construction_type, new_priority_level, country)
+def move_priority_level(construction_line, new_priority_level, country): 
+    country.construction.move_priority_level(construction_line, new_priority_level, country)
 
 def remove_building_from_construction_line(construction_type, state, country): 
     country.construction.remove_building_from_construction_line(find_construction_line(construction_type, state, country))
