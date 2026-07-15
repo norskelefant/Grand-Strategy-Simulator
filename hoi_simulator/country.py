@@ -142,6 +142,7 @@ class Country:
         if construction_type == construction_types.Constructions.MIL: 
             if self.find_amount_of_factories_needed_to_use_for_consumer_goods() < self.get_civs_used_on_consumer_goods(): 
                 self.civs_used_on_consumer_goods -= 1
+                self.free_civs += 1
                 #self.add_constructing_factory()
             self.free_mils -= 1
         if construction_type == construction_types.Constructions.DOCKYARD: 

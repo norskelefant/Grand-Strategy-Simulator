@@ -2336,16 +2336,157 @@ def test_deleting_civs_until_a_construction_line_has_no_assigned_civs_means_the_
     assert construction_line_baden_mil.get_time_left() == math.inf
     assert construction_line_holstein_dockyard.get_time_left() == math.inf
 
+def test_deleting_two_civs_should_affect_construction(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #and 30 days pass
+    for i in range(30): 
+        new_game.pass_day()
+
+    #Then the construction costs should be the following
+    #10800-(60*30)=9000
+    assert construction_line_brandenburg_civ.get_construction_cost() == 9000
+    #7200-(20*30)=6600
+    assert construction_line_baden_mil.get_construction_cost() == 6600
+
+    #When 2 civs are deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+
+    assert germany.get_civs_used_on_consumer_goods() == 14
+    #and 30 days pass
+    for i in range(30): 
+        new_game.pass_day()
+
+    #Then the construction costs should be the following
+    #9000-(60*30)=7200
+    assert construction_line_brandenburg_civ.get_construction_cost() == 7200
+    #6600-(16*30)=6120
+    assert construction_line_baden_mil.get_construction_cost() == 6120
+
+def test_deleting_one_civ_should_not_affect_construction(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #and 30 days pass
+    for i in range(30): 
+        new_game.pass_day()
+
+    #Then the construction costs should be the following
+    #10800-(60*30)=9000
+    assert construction_line_brandenburg_civ.get_construction_cost() == 9000
+    #7200-(20*30)=6600
+    assert construction_line_baden_mil.get_construction_cost() == 6600
+
+    #When 1 civ is deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+
+    assert germany.get_civs_used_on_consumer_goods() == 14
+
+    #and 30 days pass
+    for i in range(30): 
+        new_game.pass_day()
+
+    #Then the construction costs should be the following(no factories are removed from construction, only factory used on consumer goods)
+    #9000-(60*30)=7200
+    assert construction_line_brandenburg_civ.get_construction_cost() == 7200
+    #6600-(20*30)=6000
+    assert construction_line_baden_mil.get_construction_cost() == 6000
+
+def test_deleting_one_civ_should_affect_consumer_goods_factories(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When one civ is deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+
+    #Then the amount of consumer goods factories should be one less, since 62*0.24=14.88
+    assert germany.get_total_civs() == 34
+    assert germany.get_free_civs() == 20
+    assert germany.get_civs_used_on_consumer_goods() == 14
+
+def test_deleting_two_civs_should_affect_consumer_goods_factories_and_free_civs(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When two civs are deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+
+    #Then the amount of consumer goods factories should be one less, since 62*0.24=14.88
+    assert germany.get_total_civs() == 33
+    assert germany.get_free_civs() == 19
+    assert germany.get_civs_used_on_consumer_goods() == 14
+
+def test_deleting_one_mil_should_affect_consumer_goods_factories_and_free_civs(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When one mil is deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.MIL)
+
+    #Then the amount of consumer goods factories and free civs should be the following
+    assert germany.get_free_civs() == 21
+    assert germany.get_civs_used_on_consumer_goods() == 14
 
 
+def test_deleting_two_mils_should_affect_consumer_goods_factories_and_free_civs(germany, new_game): 
+    #Given default Germany start
 
+    brandenburg_state = germany.states["brandenburg"]
 
+    #When one mil is deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.MIL)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.MIL)
 
+    #Then the amount of consumer goods factories and free civs should be the following
+    assert germany.get_free_civs() == 21
+    assert germany.get_civs_used_on_consumer_goods() == 14
 
+def test_deleting_one_dockyard_should_not_affect_consumer_goods_factories_or_free_civs(germany, new_game): 
+    #Given default Germany start
 
+    holstein_state = germany.states["holstein"]
 
+    #When one dockyard is deleted
+    delete_factory(germany, holstein_state, construction_types.Constructions.DOCKYARD)
 
+    #Then the amount of consumer goods factories and free civs should be the same
+    assert germany.get_free_civs() == 20
+    assert germany.get_civs_used_on_consumer_goods() == 15
 
+def test_deleting_two_dockyards_should_not_affect_consumer_goods_factories_or_free_civs(germany, new_game): 
+    #Given default Germany start
+
+    holstein_state = germany.states["holstein"]
+
+    #When two dockyards are deleted
+    delete_factory(germany, holstein_state, construction_types.Constructions.DOCKYARD)
+    delete_factory(germany, holstein_state, construction_types.Constructions.DOCKYARD)
+
+    #Then the amount of consumer goods factories and free civs should be the same
+    assert germany.get_free_civs() == 20
+    assert germany.get_civs_used_on_consumer_goods() == 15
 
 
 def create_germany(): 
