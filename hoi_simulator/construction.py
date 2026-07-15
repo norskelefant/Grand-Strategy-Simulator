@@ -82,10 +82,16 @@ class Construction:
     def remove_building_from_construction_line(self, construction_line): 
         construction_line.decrement_amount_of_constructions()
 
-    def delete_factory(self, building_type, state_name): 
-        check = self.has_factory_type_in_state(building_type, state_name)
+    def delete_factory(self, construction_type, state_name):
+        country = state_name.get_country() 
+        check = self.has_factory_type_in_state(construction_type, state_name)
         if check == True: 
-            state_name.decrement_building_type(building_type)
+            state_name.decrement_building_type(construction_type)
+            country.update_free_factories_after_deletion(construction_type)
+            self.calculate_moved_assigned_civs(country)
+        #self.calculate_moved_assigned_civs(country)
+
+        #country.update_free_factories(construction_type)
 
 
 

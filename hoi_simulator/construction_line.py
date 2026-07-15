@@ -55,6 +55,9 @@ class Construction_line:
     def decrement_assigned_civs(self): 
         self.assigned_civs -= 1
 
+    def increment_assigned_civs(self):
+        self.assigned_civs += 1
+
     def decrement_amount_of_constructions(self): 
         self.amount_of_constructions -= 1
 

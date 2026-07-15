@@ -1322,9 +1322,9 @@ def test_construction_time_changes_when_priority_levels_change(germany, new_game
         new_game.pass_day()
 
     #Then the construction times should be the following
-    construction_line_brandenburg_civ.get_time_left() == 57
-    construction_line_baden_mil.get_time_left() == 337
-    construction_line_holstein_dockyard.get_time_left() == math.inf
+    assert construction_line_brandenburg_civ.get_time_left() == 57
+    assert construction_line_baden_mil.get_time_left() == 237
+    assert construction_line_holstein_dockyard.get_time_left() == math.inf
     
     #When the priority level is moved
     move_priority_level(find_construction_line(construction_types.Constructions.DOCKYARD, holstein_state, germany), 0, germany)
@@ -1373,9 +1373,9 @@ def test_construction_time_changes_when_construction_line_is_deleted(germany, ne
         new_game.pass_day()
 
     #Then the construction times should be the following
-    construction_line_brandenburg_civ.get_time_left() == 1
-    construction_line_baden_mil.get_time_left() == 181
-    construction_line_holstein_dockyard.get_time_left() == math.inf
+    assert construction_line_brandenburg_civ.get_time_left() == 1
+    assert construction_line_baden_mil.get_time_left() == 181
+    assert construction_line_holstein_dockyard.get_time_left() == math.inf
 
     #When one more day passes
     new_game.pass_day()
@@ -1719,6 +1719,8 @@ def test_constructed_dockyards_should_not_affect_the_amount_of_free_civs_and_civ
 
     total_factories = germany.get_total_civs() + germany.get_total_mils() 
     assert total_factories == 63
+
+    assert germany.get_civs_used_on_consumer_goods() == 15
 
     #When the 4 dockyards are done
     for i in range(427): 
@@ -2138,8 +2140,201 @@ def test_can_construct_a_civ_and_remove_it_afterward(germany, new_game):
     #Then the amount of civs in Brandenburg should be 4
     assert brandenburg_state.get_civs() == 4
 
+def test_deleted_factories_should_affect_free_construction_slots_in_state(germany, new_game): 
+    #Given default Germany start
 
+    brandenburg_state = germany.states["brandenburg"]
 
+    #When a civ and mil is deleted from Brandenburg 
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.MIL)
+
+    #Then the amount of free construction slots should be 5 in Brandenburg
+    assert brandenburg_state.get_free_construction_slots() == 5
+
+def test_deleted_and_built_factories_should_affect_free_construction_slots_in_state(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+
+    #When a civ and mil is deleted from Brandenburg 
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.MIL)
+
+    #Then the amount of free construction slots should be 5 in Brandenburg
+    assert brandenburg_state.get_free_construction_slots() == 5
+
+    #When new factories are built in Brandenburg
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+
+    #Then the amount of free construction slots should be 2
+    assert brandenburg_state.get_free_construction_slots() == 2
+
+    #When the factories finish
+    for i in range(500): 
+        new_game.pass_day()
+    
+    #Then the amount of free construction slots should be 2 still
+    assert brandenburg_state.get_free_construction_slots() == 2
+
+def test_construction_slots_being_filled_with_deleted_and_constructed_factories_means_more_factories_cannot_be_built(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    #baden_state = germany.states["baden"]
+
+    #When a civ and mil is deleted from Brandenburg 
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.MIL)
+
+    #Then the amount of free construction slots should be 5 in Brandenburg
+    assert brandenburg_state.get_free_construction_slots() == 5
+
+    #When new civs are built in Brandenburg which fills up all free construction slots
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+
+    #Then the amount of free construction slots should be 0
+    assert brandenburg_state.get_free_construction_slots() == 0
+    construction_line_baden_civ.get_amount_of_constructions() == 5
+
+    #and no new ones can be constructed
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    
+    construction_line_baden_civ.get_amount_of_constructions() == 5
+    germany.get_construction().get_construction_line_size() == 1
+
+    #When the factories finish
+    for i in range(1000): 
+        new_game.pass_day()
+    
+    #Then the amount of free construction slots should be 0 still
+    assert brandenburg_state.get_free_construction_slots() == 0
+
+def test_deleted_civ_should_affect_time_left(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    holstein_state = germany.states["holstein"]
+    assert germany.get_free_civs() == 20
+  
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+    
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+    construction_line_holstein_dockyard = find_construction_line(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+    
+    #Then the time left should be the following
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_baden_mil.get_time_left() == 360
+    assert construction_line_holstein_dockyard.get_time_left() == math.inf
+
+    #When two civs are deleted(since 1 civ will just reduce the amount of consumer goods used)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+
+    assert germany.get_civs_used_on_consumer_goods() == 14
+    assert germany.get_free_civs() == 0
+
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_baden_mil.get_assigned_civs() == 4
+
+    #Then the construction times should be the following
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_baden_mil.get_time_left() == 450
+    assert construction_line_holstein_dockyard.get_time_left() == math.inf
+
+def test_deleting_one_civ_has_no_effect_on_time_left(germany, new_game):  
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    holstein_state = germany.states["holstein"]
+    assert germany.get_free_civs() == 20
+  
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+    
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+    construction_line_holstein_dockyard = find_construction_line(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+    
+    #Then the time left should be the following
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_baden_mil.get_time_left() == 360
+    assert construction_line_holstein_dockyard.get_time_left() == math.inf
+
+    #When one civs are deleted, then it will take away one civ on consumer goods, since 62*0.24=14.88, rounded down to 14 civs used on consumer goods, while 20 are used on constructions
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+
+    assert germany.get_civs_used_on_consumer_goods() == 14
+    assert germany.get_free_civs() == 0
+
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+
+    #Then the construction times should be the following
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_baden_mil.get_time_left() == 360
+    assert construction_line_holstein_dockyard.get_time_left() == math.inf
+
+def test_deleting_civs_until_a_construction_line_has_no_assigned_civs_means_the_time_left_becomes_infinite(germany, new_game):
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    holstein_state = germany.states["holstein"]
+    sachsen_state = germany.states["sachsen"]
+    assert germany.get_free_civs() == 20
+  
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+    
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+    construction_line_holstein_dockyard = find_construction_line(construction_types.Constructions.DOCKYARD, holstein_state, germany)
+    
+    #Then the time left should be the following
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_baden_mil.get_time_left() == 360
+    assert construction_line_holstein_dockyard.get_time_left() == math.inf
+
+    #When 7 civs are deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+    delete_factory(germany, sachsen_state, construction_types.Constructions.CIV)
+    delete_factory(germany, sachsen_state, construction_types.Constructions.CIV)
+    delete_factory(germany, sachsen_state, construction_types.Constructions.CIV)
+    delete_factory(germany, sachsen_state, construction_types.Constructions.CIV)
+
+    assert germany.get_total_civs() == 28
+    assert germany.get_free_civs() == 0
+    assert germany.get_civs_used_on_consumer_goods() == 13
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_baden_mil.get_assigned_civs() == 0
+    assert construction_line_holstein_dockyard.get_assigned_civs() == 0
+
+    #Then the time left on the Baden mil should be infinite
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_baden_mil.get_time_left() == math.inf
+    assert construction_line_holstein_dockyard.get_time_left() == math.inf
 
 
 

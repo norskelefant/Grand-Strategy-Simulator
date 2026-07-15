@@ -90,7 +90,6 @@ class Country:
 
     def update_free_factories(self, construction_type):
         if construction_type == construction_types.Constructions.CIV: 
-            print(self.get_total_civs() + self.get_total_mils())
             if self.find_amount_of_factories_needed_to_use_for_consumer_goods() > self.get_civs_used_on_consumer_goods(): 
                 self.civs_used_on_consumer_goods += 1
             else: 
@@ -121,4 +120,30 @@ class Country:
                 if construction_line.get_assigned_civs() > 0: 
                     construction_line.decrement_assigned_civs()
                     return
+                
+    def add_constructing_factory(self): 
+        self.free_civs += 1
+        for construction_line in reversed(self.get_construction().get_construction_line_list()): 
+            if construction_line.get_assigned_civs() > 15: 
+                construction_line.increment_assigned_civs()
+                return
+        
+    def update_free_factories_after_deletion(self, construction_type): 
+        if construction_type == construction_types.Constructions.CIV: 
+            if self.find_amount_of_factories_needed_to_use_for_consumer_goods() < self.get_civs_used_on_consumer_goods(): 
+                self.civs_used_on_consumer_goods -= 1
+            else: 
+                if self.get_free_civs() > 0: 
+                    self.free_civs -= 1
+                else: 
+                    self.remove_constructing_factory()
+                    self.get_construction().calculate_moved_assigned_civs(self)
+        #Since production has not been implemented yet, mil and dockyards counts are just removed from free factories directly
+        if construction_type == construction_types.Constructions.MIL: 
+            if self.find_amount_of_factories_needed_to_use_for_consumer_goods() < self.get_civs_used_on_consumer_goods(): 
+                self.civs_used_on_consumer_goods -= 1
+                #self.add_constructing_factory()
+            self.free_mils -= 1
+        if construction_type == construction_types.Constructions.DOCKYARD: 
+            self.free_dockyards -= 1
 
