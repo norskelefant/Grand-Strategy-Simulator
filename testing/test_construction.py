@@ -3052,7 +3052,161 @@ def test_deleting_all_civs_means_nothing_can_be_constructed(germany, new_game):
     assert construction_line_baden_mil.get_assigned_civs() == 4
 
 def test_deleting_all_mils_should_affect_free_civs_and_consumer_goods_factories(germany, new_game): 
-    assert True == False
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    moselland_state = germany.states["moselland"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)
+
+    construction_line_brandenburg_mil = find_construction_line(construction_types.Constructions.MIL, brandenburg_state, germany)
+    construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+
+    assert germany.get_total_civs() == 35
+
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 15
+    assert construction_line_brandenburg_mil.get_time_left() == 120
+    assert construction_line_brandenburg_mil.get_construction_cost() == 7200
+
+    assert construction_line_baden_civ.get_assigned_civs() == 5
+    assert construction_line_baden_civ.get_time_left() == 540
+    assert construction_line_baden_civ.get_construction_cost() == 10800
+
+    #and all mils are deleted in Germany
+    delete_all_factories_of_type(germany, construction_types.Constructions.MIL)
+
+    assert germany.get_total_mils() == 0
+    assert germany.get_civs_used_on_consumer_goods() == 8
+
+    #Then the time left and construction costs should be the following
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 15
+    assert construction_line_brandenburg_mil.get_time_left() == 120
+    assert construction_line_brandenburg_mil.get_construction_cost() == 7200
+
+    assert construction_line_baden_civ.get_assigned_civs() == 12
+    assert construction_line_baden_civ.get_time_left() == 225
+    assert construction_line_baden_civ.get_construction_cost() == 10800
+
+    assert brandenburg_state.get_free_construction_slots() == 7
+
+    #When some new constructions happen
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, moselland_state, germany)
+
+    construction_line_moselland_mil = find_construction_line(construction_types.Constructions.MIL, moselland_state, germany)
+
+    move_priority_level(construction_line_moselland_mil, 1, germany)
+
+    assert construction_line_brandenburg_mil.get_amount_of_constructions() == 8
+
+    #Then the amount of civs used on consumer goods should be the following when the constructions finish
+    germany.get_construction().finish_construction(construction_line_brandenburg_mil)
+    #36*0.24=8.64 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 8
+    assert germany.get_free_civs() == 0
+    assert construction_line_brandenburg_mil.get_amount_of_constructions() == 7
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 15
+    assert construction_line_moselland_mil.get_assigned_civs() == 12
+
+    germany.get_construction().finish_construction(construction_line_brandenburg_mil)
+    #37*0.24=8.88 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 8
+    assert germany.get_free_civs() == 0
+    assert construction_line_brandenburg_mil.get_amount_of_constructions() == 6
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 15
+    assert construction_line_moselland_mil.get_assigned_civs() == 12
+
+    germany.get_construction().finish_construction(construction_line_brandenburg_mil)
+    #38*0.24=9.12 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 9
+    assert germany.get_free_civs() == 0
+    assert construction_line_brandenburg_mil.get_amount_of_constructions() == 5
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 15
+    assert construction_line_moselland_mil.get_assigned_civs() == 11
+
+    germany.get_construction().finish_construction(construction_line_brandenburg_mil)
+    #39*0.24=9.36 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 9
+    assert germany.get_free_civs() == 0
+    assert construction_line_brandenburg_mil.get_amount_of_constructions() == 4
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 15
+    assert construction_line_moselland_mil.get_assigned_civs() == 11
+
+    germany.get_construction().finish_construction(construction_line_brandenburg_mil)
+    #40*0.24=9.6 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 9
+    assert germany.get_free_civs() == 0
+    assert construction_line_brandenburg_mil.get_amount_of_constructions() == 3
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 15
+    assert construction_line_moselland_mil.get_assigned_civs() == 11
+
+    germany.get_construction().finish_construction(construction_line_brandenburg_mil)
+    #41*0.24=9.84 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 9
+    assert germany.get_free_civs() == 0
+    assert construction_line_brandenburg_mil.get_amount_of_constructions() == 2
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 15
+    assert construction_line_moselland_mil.get_assigned_civs() == 11
+
+    germany.get_construction().finish_construction(construction_line_brandenburg_mil)
+    #42*0.24=10.08 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 10
+    assert germany.get_free_civs() == 0
+    assert construction_line_brandenburg_mil.get_amount_of_constructions() == 1
+    assert construction_line_brandenburg_mil.get_assigned_civs() == 15
+    assert construction_line_moselland_mil.get_assigned_civs() == 10
+
+    germany.get_construction().finish_construction(construction_line_brandenburg_mil)
+    #43*0.24=10.32 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 10
+    assert germany.get_free_civs() == 0
+    assert construction_line_moselland_mil.get_assigned_civs() == 15
+    assert construction_line_baden_civ.get_assigned_civs() == 10
+
+    assert germany.get_construction().get_construction_line_size() == 2
+
+    construction_line_moselland_mil.get_amount_of_constructions() == 6
+
+    germany.get_construction().finish_construction(construction_line_moselland_mil)
+    #44*0.24=10.56 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 10
+    assert germany.get_free_civs() == 0
+    assert construction_line_moselland_mil.get_amount_of_constructions() == 5
+    assert construction_line_moselland_mil.get_assigned_civs() == 15
+    assert construction_line_baden_civ.get_assigned_civs() == 10
+
+    germany.get_construction().finish_construction(construction_line_moselland_mil)
+    #45*0.24=10.8 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 10
+    assert germany.get_free_civs() == 0
+    assert construction_line_moselland_mil.get_amount_of_constructions() == 4
+    assert construction_line_moselland_mil.get_assigned_civs() == 15
+    assert construction_line_baden_civ.get_assigned_civs() == 10
+
+    germany.get_construction().finish_construction(construction_line_moselland_mil)
+    #46*0.24=10.8 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 11
+    assert germany.get_free_civs() == 0
+    assert construction_line_moselland_mil.get_amount_of_constructions() == 3
+    assert construction_line_moselland_mil.get_assigned_civs() == 15
+    assert construction_line_baden_civ.get_assigned_civs() == 9
+
+    assert germany.get_total_civs() == 35
+    assert germany.get_total_mils() == 11
 
 
 
