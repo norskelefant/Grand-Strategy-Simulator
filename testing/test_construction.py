@@ -2648,6 +2648,411 @@ def test_finishing_construction_line_affects_priority_levels(germany, new_game):
     assert construction_line_holstein_dockyard.get_assigned_civs() == 15
     assert construction_line_holstein_dockyard.get_priority() == 0
      
+def test_switching_priority_levels_and_deleting_two_civs_assigns_civs_correctly(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)    
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #and when priority levels are switched
+    move_priority_level(construction_line_baden_mil, 0, germany)
+
+    #Then the assigned civs should be the following
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 5
+    assert construction_line_brandenburg_civ.get_priority() == 1
+    assert construction_line_baden_mil.get_assigned_civs() == 15
+    assert construction_line_baden_mil.get_priority() == 0
+
+    #and when two civs are deleted
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+    delete_factory(germany, brandenburg_state, construction_types.Constructions.CIV)
+
+    #Then the amount of assigned civs should be the following
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 4
+    assert construction_line_brandenburg_civ.get_priority() == 1
+    assert construction_line_baden_mil.get_assigned_civs() == 15
+    assert construction_line_baden_mil.get_priority() == 0
+
+    #When two new civs are constructed
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)    
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)    
+    germany.construction.start_construction(construction_types.Constructions.CIV, baden_state, germany)    
+
+    construction_line_baden_civ = find_construction_line(construction_types.Constructions.CIV, baden_state, germany)
+
+    move_priority_level(construction_line_baden_civ, 0, germany)
+
+    #Then after 360 days, the assigned civs should be correct
+    for i in range(360): 
+        new_game.pass_day()
+
+    assert germany.get_construction().get_construction_line_size() == 3
+
+    assert construction_line_brandenburg_civ.get_priority() == 2
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 0
+
+    assert construction_line_baden_mil.get_priority() == 1
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+
+    assert construction_line_baden_civ.get_priority() == 0
+    assert construction_line_baden_civ.get_assigned_civs() == 15
+
+def test_deleting_a_civ_from_two_states_without_a_civ_should_leave_time_left_unaffected(germany, new_game): 
+    #Given default Germany start
+
+    schleswig_state = germany.states["schleswig"]
+    vorpommern_state = germany.states["vorpommern"]
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)    
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #Then the amount of time left is the following
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+
+    assert construction_line_baden_mil.get_time_left() == 360
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+
+    #When civs are deleted from states which don't have any civs
+    delete_factory(germany, schleswig_state, construction_types.Constructions.CIV)
+    delete_factory(germany, vorpommern_state, construction_types.Constructions.CIV)
+
+    #Then the time left should be the same(since no civs are deleted)
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+
+    assert construction_line_baden_mil.get_time_left() == 360
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+
+def test_deleting_a_civ_from_two_states_without_a_civ_should_leave_time_left_unaffected(germany, new_game): 
+    #Given default Germany start
+
+    schleswig_state = germany.states["schleswig"]
+    vorpommern_state = germany.states["vorpommern"]
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)    
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #Then the amount of time left is the following
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+
+    assert construction_line_baden_mil.get_time_left() == 360
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+
+    #When civs are deleted from states which don't have any civs
+    delete_factory(germany, schleswig_state, construction_types.Constructions.CIV)
+    delete_factory(germany, vorpommern_state, construction_types.Constructions.CIV)
+
+    #Then the time left should be the same(since no civs are deleted)
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+
+    assert construction_line_baden_mil.get_time_left() == 360
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+
+    assert germany.get_civs_used_on_consumer_goods() == 15
+
+def test_deleting_a_mil_from_two_states_without_a_mil_it_should_leave_time_left_unaffected(germany, new_game): 
+    #Given default Germany start
+
+    thuringen_state = germany.states["thuringen"]
+    vorpommern_state = germany.states["vorpommern"]
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)    
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #Then the amount of time left is the following
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+
+    assert construction_line_baden_mil.get_time_left() == 360
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+
+    #When civs are deleted from states which don't have any civs
+    delete_factory(germany, thuringen_state, construction_types.Constructions.MIL)
+    delete_factory(germany, vorpommern_state, construction_types.Constructions.MIL)
+
+    #Then the time left should be the same(since no civs are deleted)
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+
+    assert construction_line_baden_mil.get_time_left() == 360
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+
+    assert germany.get_civs_used_on_consumer_goods() == 15
+
+def test_deleting_a_civ_from_two_states_without_a_civ_should_leave_construction_cost_unaffected(germany, new_game): 
+    #Given default Germany start
+
+    schleswig_state = germany.states["schleswig"]
+    vorpommern_state = germany.states["vorpommern"]
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)    
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #Then the construction cost is the following
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10800
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+
+    assert construction_line_baden_mil.get_construction_cost() == 7200
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+
+    #When civs are deleted from states which don't have any civs
+    delete_factory(germany, schleswig_state, construction_types.Constructions.CIV)
+    delete_factory(germany, vorpommern_state, construction_types.Constructions.CIV)
+
+    #and 60 days pass
+    for i in range(60): 
+        new_game.pass_day()
+
+    #Then the construction cost should be the same(since no civs are deleted)
+    assert construction_line_brandenburg_civ.get_construction_cost() == 7200
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+
+    assert construction_line_baden_mil.get_construction_cost() == 6000
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+
+    assert germany.get_civs_used_on_consumer_goods() == 15
+
+def test_deleting_a_civ_from_two_states_without_a_civ_should_leave_construction_cost_unaffected(germany, new_game): 
+    #Given default Germany start
+
+    thuringen_state = germany.states["thuringen"]
+    vorpommern_state = germany.states["vorpommern"]
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)    
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    #Then the construction cost is the following
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10800
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+
+    assert construction_line_baden_mil.get_construction_cost() == 7200
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+
+    #When civs are deleted from states which don't have any civs
+    delete_factory(germany, thuringen_state, construction_types.Constructions.MIL)
+    delete_factory(germany, vorpommern_state, construction_types.Constructions.MIL)
+
+    #and 60 days pass
+    for i in range(60): 
+        new_game.pass_day()
+
+    #Then the construction cost should be the same(since no civs are deleted)
+    assert construction_line_brandenburg_civ.get_construction_cost() == 7200
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+
+    assert construction_line_baden_mil.get_construction_cost() == 6000
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+
+    assert germany.get_civs_used_on_consumer_goods() == 15
+
+def test_deleting_all_civs_means_nothing_can_be_constructed(germany, new_game): 
+    #Given default Germany start
+
+    brandenburg_state = germany.states["brandenburg"]
+    baden_state = germany.states["baden"]
+    moselland_state = germany.states["moselland"]
+
+    #When constructions start in states
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.MIL, baden_state, germany)    
+
+    construction_line_brandenburg_civ = find_construction_line(construction_types.Constructions.CIV, brandenburg_state, germany)
+    construction_line_baden_mil = find_construction_line(construction_types.Constructions.MIL, baden_state, germany)
+
+    assert germany.get_total_civs() == 35
+
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 15
+    assert construction_line_brandenburg_civ.get_time_left() == 180
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10800
+
+    assert construction_line_baden_mil.get_assigned_civs() == 5
+    assert construction_line_baden_mil.get_time_left() == 360
+    assert construction_line_baden_mil.get_construction_cost() == 7200
+
+    #and all civs are deleted in Germany
+    delete_all_factories_of_type(germany, construction_types.Constructions.CIV)
+
+    assert germany.get_total_civs() == 0
+    assert germany.get_civs_used_on_consumer_goods() == 0
+
+    #Then the time left and construction costs should be the following
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 0
+    assert construction_line_brandenburg_civ.get_time_left() == math.inf
+    assert construction_line_brandenburg_civ.get_construction_cost() == 10800
+
+    assert construction_line_baden_mil.get_assigned_civs() == 0
+    assert construction_line_baden_mil.get_time_left() == math.inf
+    assert construction_line_baden_mil.get_construction_cost() == 7200
+
+    assert brandenburg_state.get_free_construction_slots() == 6
+
+    #When some new constructions happen
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, brandenburg_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+    germany.construction.start_construction(construction_types.Constructions.CIV, moselland_state, germany)
+
+    construction_line_moselland_civ = find_construction_line(construction_types.Constructions.CIV, moselland_state, germany)
+
+    move_priority_level(construction_line_moselland_civ, 1, germany)
+
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 7
+
+    #Then the amount of civs used on consumer goods should be the following when the constructions finish
+    germany.get_construction().finish_construction(construction_line_brandenburg_civ)
+    #29*0.24=6.96 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 1
+    assert germany.get_free_civs() == 0
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 6
+    assert brandenburg_state.get_free_construction_slots() == 0
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 0
+
+    germany.get_construction().finish_construction(construction_line_brandenburg_civ)
+    #30*0.24=7.20 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 2
+    assert germany.get_free_civs() == 0
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 5
+    assert brandenburg_state.get_free_construction_slots() == 0
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 0
+
+    germany.get_construction().finish_construction(construction_line_brandenburg_civ)
+    #31*0.24=7.44 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 3
+    assert germany.get_free_civs() == 0
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 4
+    assert brandenburg_state.get_free_construction_slots() == 0
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 0
+
+    germany.get_construction().finish_construction(construction_line_brandenburg_civ)
+    #32*0.24=7.68 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 4
+    assert germany.get_free_civs() == 0
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 3
+    assert brandenburg_state.get_free_construction_slots() == 0
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 0
+
+    germany.get_construction().finish_construction(construction_line_brandenburg_civ)
+    #33*0.24=7.92 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 5
+    assert germany.get_free_civs() == 0
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 2
+    assert brandenburg_state.get_free_construction_slots() == 0
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 0
+
+    germany.get_construction().finish_construction(construction_line_brandenburg_civ)
+    #34*0.24=8.16 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 6
+    assert germany.get_free_civs() == 0
+    assert construction_line_brandenburg_civ.get_amount_of_constructions() == 1
+    assert brandenburg_state.get_free_construction_slots() == 0
+    assert construction_line_brandenburg_civ.get_assigned_civs() == 0
+
+    germany.get_construction().finish_construction(construction_line_brandenburg_civ)
+    #35*0.24=8.4 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 7
+    assert germany.get_free_civs() == 0
+
+    assert germany.get_construction().get_construction_line_size() == 2
+
+    germany.get_construction().finish_construction(construction_line_moselland_civ)
+    #36*0.24=8.64 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 8
+    assert germany.get_free_civs() == 0
+    assert construction_line_moselland_civ.get_amount_of_constructions() == 6
+    assert construction_line_moselland_civ.get_assigned_civs() == 0
+
+    germany.get_construction().finish_construction(construction_line_moselland_civ)
+    #37*0.24=8.88 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 8
+    assert germany.get_free_civs() == 0
+    assert construction_line_moselland_civ.get_amount_of_constructions() == 5
+    assert construction_line_moselland_civ.get_assigned_civs() == 1
+
+    germany.get_construction().finish_construction(construction_line_moselland_civ)
+    #38*0.24=9.12 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 9
+    assert germany.get_free_civs() == 0
+    assert construction_line_moselland_civ.get_amount_of_constructions() == 4
+    assert construction_line_moselland_civ.get_assigned_civs() == 1
+
+    germany.get_construction().finish_construction(construction_line_moselland_civ)
+    #39*0.24=9.36 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 9
+    assert germany.get_free_civs() == 0
+    assert construction_line_moselland_civ.get_amount_of_constructions() == 3
+    assert construction_line_moselland_civ.get_assigned_civs() == 2
+
+    germany.get_construction().finish_construction(construction_line_moselland_civ)
+    #40*0.24=9.6 civs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 9
+    assert germany.get_free_civs() == 0
+    assert construction_line_moselland_civ.get_amount_of_constructions() == 2
+    assert construction_line_moselland_civ.get_assigned_civs() == 3
+
+    germany.get_construction().finish_construction(construction_line_moselland_civ)
+    #41*0.24=9.84 vs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 9
+    assert germany.get_free_civs() == 0
+    assert construction_line_moselland_civ.get_amount_of_constructions() == 1
+    assert construction_line_moselland_civ.get_assigned_civs() == 4
+
+    germany.get_construction().finish_construction(construction_line_moselland_civ)
+    #42*0.24=10.08 vs need to be used on consumer goods
+    assert germany.get_civs_used_on_consumer_goods() == 10
+    assert germany.get_free_civs() == 0
+    assert construction_line_baden_mil.get_assigned_civs() == 4
+
+def test_deleting_all_mils_should_affect_free_civs_and_consumer_goods_factories(germany, new_game): 
+    assert True == False
 
 
 
@@ -2690,3 +3095,11 @@ def add_total_construction_slots(state, amount):
 
 def delete_factory(country, state, construction_type): 
     country.get_construction().delete_factory(construction_type, state)
+
+def delete_all_factories_of_type(country, construction_type): 
+    construction = country.get_construction()
+    for state_name in country.get_states(): 
+        state = country.states[state_name]
+        while state.get_amount_of_building_type(construction_type) > 0: 
+            construction.delete_factory(construction_type, state)
+

@@ -130,7 +130,7 @@ class Country:
         
     def update_free_factories_after_deletion(self, construction_type): 
         if construction_type == construction_types.Constructions.CIV: 
-            if self.find_amount_of_factories_needed_to_use_for_consumer_goods() < self.get_civs_used_on_consumer_goods(): 
+            if self.find_amount_of_factories_needed_to_use_for_consumer_goods() < self.get_civs_used_on_consumer_goods() or self.find_amount_of_factories_needed_to_use_for_consumer_goods() > self.get_total_civs(): 
                 self.civs_used_on_consumer_goods -= 1
             else: 
                 if self.get_free_civs() > 0: 
