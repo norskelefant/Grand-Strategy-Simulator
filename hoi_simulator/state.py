@@ -67,4 +67,17 @@ class State:
         if building_type == construction_types.Constructions.DOCKYARD: 
             return self.get_dockyards()
 
+    def get_infrastructure_level_modifier(self): 
+        if self.get_infrastructure_level() == 0: 
+            return 1.00
+        if self.get_infrastructure_level() == 1: 
+            return 1.20
+        if self.get_infrastructure_level() == 2: 
+            return 1.40
+        if self.get_infrastructure_level() == 3: 
+            return 1.60
+        if self.get_infrastructure_level() == 4: 
+            return 1.80
+        if self.get_infrastructure_level() == 5: 
+            return 2.00
     

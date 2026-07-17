@@ -1,9 +1,9 @@
-from hoi_simulator import construction_types
+from hoi_simulator import construction_types, modifier_types
 
 import math
 
 class Country: 
-    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, ic, consumer_goods): 
+    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_consumer_goods, modifiers): 
         self.name = name
         self.states = states
         self.tiles = tiles
@@ -13,8 +13,23 @@ class Country:
         self.free_mils = free_mils
         self.free_dockyards = free_dockyards
         self.construction = construction
-        self.ic = ic
-        self.consumer_goods = consumer_goods
+        self.base_ic = base_ic
+        self.base_consumer_goods = base_consumer_goods
+        self.modifiers = modifiers
+
+
+        #self.stability = stability
+        #self.war_support = war_support
+        #self.political_power = political_power
+        #self.manpower = manpower
+        #self.fuel = fuel
+        #self.command_power = command_power
+        #self.convoys = convoys
+        #self.army_exp = army_exp
+        #self.navy_exp = navy_exp
+        #self.air_exp = air_exp
+        
+  
 
     def get_state_name(self):
         return self.name
@@ -58,11 +73,42 @@ class Country:
     def get_free_dockyards(self): 
         return self.free_dockyards
 
-    def get_ic(self): 
-        return self.ic
+    def get_base_ic(self): 
+        return self.base_ic
+
+    #Construction speed is calculated as follows
+    #construction_per_civ_with_respect_to_coal * (1 + sum(modifiers)) * infrastructure_construction
+    #Also note that coal at maximum can reduce ic to 4 for any factory, but it also gives a construction speed debuff in general
+    #This function does not implement coal yet
+    def get_construction_speed_bonuses(self): 
+        bonus = 1
+        for modifier in self.get_modifiers():
+            if self.is_of_modifier_type(modifier_types.Modifier_types.CONSTRUCTION_SPEED) == True: 
+                bonus += modifier.get_modifier_bonus()
+        return bonus
     
+    def is_of_modifier_type(self, modifier_type): 
+        if modifier_type == modifier_types.Modifier_types.CONSTRUCTION_SPEED: 
+            return True
+        return False
+        
+    def get_base_consumer_goods(self): 
+        return self.base_consumer_goods
+    
+    def get_floor_consumer_goods(self): 
+        bonus = 1
+        for modifier in self.get_modifiers(): 
+            if self.is_of_modifier_type(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == True: 
+                bonus *= 1 - modifier.get_modifier_bonus()
+        return bonus
+    
+    #25% * floor((1-(-10%))*(1-12.4%) * 100) / 100 = 0.24
+
     def get_consumer_goods(self): 
-        return self.consumer_goods
+        return self.get_base_consumer_goods() * math.floor(self.get_floor_consumer_goods() * 100) / 100
+    
+    def get_modifiers(self): 
+        return self.modifiers
     
     #Construction object, which has list of constructions for the country
     def get_construction(self): 
@@ -147,4 +193,6 @@ class Country:
             self.free_mils -= 1
         if construction_type == construction_types.Constructions.DOCKYARD: 
             self.free_dockyards -= 1
+
+
 

@@ -130,7 +130,7 @@ class Construction:
             construction_line.set_assigned_civs(picked_amount)
             country.use_free_civs(picked_amount)
             amount -= picked_amount
-            construction_line.amount_of_time_left(country.get_ic())
+            construction_line.amount_of_time_left()
 
     def increment_amount_of_constructions(self, building_type, state_name): 
         construction_line = self.find_construction_line(building_type, state_name)
@@ -140,14 +140,11 @@ class Construction:
         return self.get_construction_line_size()
 
     def default_time_left(self, construction_type, assigned_civs, state, country): 
-        ic = country.get_ic()
         cost = construction_type.value
-        ic_production_each_day = ic * assigned_civs
-        if ic_production_each_day == 0: 
+        if assigned_civs == 0: 
             return math.inf
-        construction_speed = 1
-        #Use state for construction speed later, as well as country
-        time_left = math.ceil(cost / (ic_production_each_day * construction_speed))
+        ic_production_each_day = (country.get_base_ic() * assigned_civs) * (country.get_construction_speed_bonuses()) * state.get_infrastructure_level_modifier()
+        time_left = math.ceil(cost / (ic_production_each_day))
         return time_left
 
     def get_construction_line_list(self): 

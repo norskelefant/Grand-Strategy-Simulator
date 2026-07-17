@@ -3212,7 +3212,7 @@ def test_deleting_all_mils_should_affect_free_civs_and_consumer_goods_factories(
 
 
 def create_germany(): 
-    return setup_countries.create_germany()
+    return setup_countries.create_simple_germany()
 
 def create_game(germany): 
     return game.Game(date.Date(1, 1, 1936), [germany])

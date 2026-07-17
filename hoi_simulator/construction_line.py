@@ -61,29 +61,34 @@ class Construction_line:
     def decrement_amount_of_constructions(self): 
         self.amount_of_constructions -= 1
 
-    def calculate_construction_cost(self, ic): 
+    def get_construction_line_ic(self): 
+        country = self.get_country_name()
+        state = self.get_state_name()
+        return (country.get_base_ic() * self.get_assigned_civs()) * (country.get_construction_speed_bonuses()) * state.get_infrastructure_level_modifier()
+
+    def calculate_construction_cost(self): 
         if self.construction_cost == 0: 
             self.construction_cost = 0 
         if self.get_assigned_civs() == 0: 
             self.construction_cost = self.construction_cost
         else: 
-            self.construction_cost -= self.get_assigned_civs() * ic
+            self.construction_cost -= self.get_construction_line_ic()
 
     def reset_construction_cost(self, construction_type): 
         self.construction_cost = construction_type.value
 
-    def amount_of_time_left(self, ic): 
+    def amount_of_time_left(self): 
         if self.get_assigned_civs() == 0: 
             self.time_left = math.inf
             return
-        self.time_left = math.ceil(self.get_construction_cost() / (self.get_assigned_civs() * ic))
+        self.time_left = math.ceil(self.get_construction_cost() / (self.get_construction_line_ic()))
 
     def set_amount_of_time_left(self, time): 
         self.time_left = math.ceil(time)
 
-    def day_has_passed(self, ic): 
-        self.calculate_construction_cost(ic)
-        self.amount_of_time_left(ic)
+    def day_has_passed(self): 
+        self.calculate_construction_cost()
+        self.amount_of_time_left()
 
     def check_for_finished_buildings(self): 
         if self.get_construction_cost() <= 0: 
@@ -91,9 +96,9 @@ class Construction_line:
             self.get_country_name().get_construction().finish_construction(self)
             self.reduce_construction_cost(construction_cost_left)
 
-    def pass_to_next_month(self, ic, days_to_pass): 
+    def pass_to_next_month(self, days_to_pass): 
         for i in range(days_to_pass): 
-            self.day_has_passed(ic)
+            self.day_has_passed()
             self.check_for_finished_buildings()
 
     def reduce_construction_cost(self, cost): 
