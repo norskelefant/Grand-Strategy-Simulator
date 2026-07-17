@@ -8,3 +8,5 @@ from . import date
 from . import game
 from . import modifier
 from . import modifier_types
+from . import modifier_classes
+from . import economy_laws

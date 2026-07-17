@@ -1,9 +1,9 @@
-from hoi_simulator import construction_types, modifier_types
+from hoi_simulator import construction_types, modifier_types, modifier_classes, economy_laws, modifier
 
 import math
 
 class Country: 
-    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_consumer_goods, modifiers): 
+    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, modifiers, base_stability, economy_law): 
         self.name = name
         self.states = states
         self.tiles = tiles
@@ -14,11 +14,10 @@ class Country:
         self.free_dockyards = free_dockyards
         self.construction = construction
         self.base_ic = base_ic
-        self.base_consumer_goods = base_consumer_goods
         self.modifiers = modifiers
 
-
-        #self.stability = stability
+        self.base_stability = base_stability
+        self.economy_law = economy_law
         #self.war_support = war_support
         #self.political_power = political_power
         #self.manpower = manpower
@@ -83,8 +82,8 @@ class Country:
     def get_construction_speed_bonuses(self): 
         bonus = 1
         for modifier in self.get_modifiers():
-            if self.is_of_modifier_type(modifier_types.Modifier_types.CONSTRUCTION_SPEED) == True: 
-                bonus += modifier.get_modifier_bonus()
+            if modifier_types.Modifier_types.CONSTRUCTION_SPEED in modifier.get_modifier_bonuses(): 
+                bonus += modifier.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSTRUCTION_SPEED, 0)
         return bonus
     
     def is_of_modifier_type(self, modifier_type): 
@@ -93,13 +92,17 @@ class Country:
         return False
         
     def get_base_consumer_goods(self): 
-        return self.base_consumer_goods
+        return self.get_consumer_goods_from_economy_law()
+    
+    def get_consumer_goods_from_economy_law(self): 
+        if modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR in self.economy_law.get_modifier_bonuses(): 
+            return self.economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR, 0)
     
     def get_floor_consumer_goods(self): 
         bonus = 1
         for modifier in self.get_modifiers(): 
-            if self.is_of_modifier_type(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == True: 
-                bonus *= 1 - modifier.get_modifier_bonus()
+            if modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR in modifier.get_modifier_bonuses(): 
+                bonus *= 1 - modifier.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR, 0)
         return bonus
     
     #25% * floor((1-(-10%))*(1-12.4%) * 100) / 100 = 0.24
@@ -194,5 +197,31 @@ class Country:
         if construction_type == construction_types.Constructions.DOCKYARD: 
             self.free_dockyards -= 1
 
+    def get_full_stability(self): 
+        bonus = self.get_base_stability()
+        for modifier in self.get_modifiers():
+            if modifier_types.Modifier_types.STABILITY in modifier.get_modifier_bonuses(): 
+                bonus += modifier.get_modifier_bonuses().modifier_types.Modifier_types.STABILITY
+        return bonus
+    
+    def get_base_stability(self): 
+        return self.base_stability
+    
+    def get_economy_law(self): 
+        return self.economy_law
 
+    def switch_economy_law(self, new_law): 
+        self.economy_law = None
+        if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY: 
+            self.economy_law = modifier.Modifier("Civilian_economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.35, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.30, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.30})
+        if new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION: 
+            self.economy_law = modifier.Modifier("Early_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.30, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.10})
+        if new_law == economy_laws.Economy_laws.PARTIAL_MOBILIZATION: 
+            self.economy_law = modifier.Modifier("Partial_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10})
+        if new_law == economy_laws.Economy_laws.WAR_ECONOMY: 
+            self.economy_law = modifier.Modifier("War_economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.20, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.20})
+        if new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION: 
+            self.economy_law = modifier.Modifier("Total_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.15, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30})
+
+            
 

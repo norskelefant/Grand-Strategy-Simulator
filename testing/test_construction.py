@@ -798,6 +798,10 @@ def test_civ_count_updates_if_mil_finishes_building(germany, new_game):
     assert construction_line_brandenburg_civ.get_amount_of_constructions() == 1
     assert construction_line_baden_mil.get_amount_of_constructions() == 1
 
+    print(germany.get_base_consumer_goods())
+    print(germany.get_consumer_goods_from_economy_law())
+    print(germany.get_consumer_goods())
+
     assert construction_line_brandenburg_civ.get_assigned_civs() == 6
     assert construction_line_baden_mil.get_assigned_civs() == 15
     

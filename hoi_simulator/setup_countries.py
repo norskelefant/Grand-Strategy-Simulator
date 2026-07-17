@@ -1,4 +1,4 @@
-from hoi_simulator import country, state, construction
+from hoi_simulator import country, state, construction, modifier, modifier_types, modifier_classes, economy_laws
 
 def create_advanced_germany(): 
     baden = state.State("Baden", 8, 0, 2, 0, 3, False, None)
@@ -28,7 +28,7 @@ def create_advanced_germany():
 
     germany = country.Country("Germany", 
                        {"baden": baden, "brandenburg": brandenburg, "ermland_masuren": ermland_masuren, "franken": franken, "hannover": hannover, "hessen": hessen, "hinterpommern": hinterpommern, "holstein": holstein, "konigsberg": konigsberg, "mecklenburg": mecklenburg, "moselland": moselland, "niederbayern": niederbayern, "niederschlesien": niederschlesien, "oberbayern": oberbayern, "oberschlesien": oberschlesien, "ostmark": ostmark, "rhineland": rhineland, "sachsen": sachsen, "schleswig": schleswig, "thuringen": thuringen, "vorpommern": vorpommern, "weser_ems": weser_ems, "westfalen": westfalen, "wurttemberg": wurttemberg},
-                       None, None, 0, 0, 0, 0, construction.Construction(), 4, 0.24, [])
+                       None, None, 0, 0, 0, 0, construction.Construction(), 4, [], 0.7)
 
     for each_state in germany.get_states(): 
         germany.states[each_state].set_country(germany)
@@ -42,6 +42,41 @@ def create_advanced_germany():
     germany.free_civs = total_civs - germany.civs_used_on_consumer_goods
     germany.free_mils = total_mils
     germany.free_dockyards = total_dockyards
+
+    reichstag = modifier.Modifier("Reichstag", 
+                                  modifier_classes.Modifier_classes.BASE, 
+                                  None, 
+                                  {modifier_types.Modifier_types.STABILITY: 0.05})
+    ruling_party_popularity = modifier.Modifier("Ruling_party_popularity", 
+                                                modifier_classes.Modifier_classes.BASE, 
+                                                None, 
+                                                {modifier_types.Modifier_types.STABILITY: 0.06})
+    
+    mefo_bills = modifier.Modifier("MEFO_bills", 
+                                   modifier_classes.Modifier_classes.BASE, 
+                                   None, 
+                                   {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10, modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED: 0.10})
+    #germany.modifiers.append(stability_modifier)
+    partial_mob = modifier.Modifier("Partial_mob", 
+                                    modifier_classes.Modifier_classes.BASE, 
+                                    None, 
+                                    {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10, modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED: 0.10})
+
+
+                                            #{"political_power_gain": 0.06, 
+                                            #"consumer_goods": 0.124, 
+                                            #"factory_output": 0.124, 
+                                            #"dockyard_output": 0.124, 
+                                            #"resistance_target_in_occupied_territories": 0.03}
+
+    germany.modifiers.append(reichstag)
+    germany.modifiers.append(ruling_party_popularity)
+    germany.modifiers.append(mefo_bills)
+
+    germany.switch_economy_law(economy_laws.Economy_laws.PARTIAL_MOBILIZATION)
+
+
+    #25% * floor((1-(-10%))*(1-12.4%) * 100) / 100 = 0.24
 
 
 
@@ -74,9 +109,11 @@ def create_simple_germany():
     westfalen = state.State("Westfalen", 9, 1, 3, 0, 0, False, None)
     wurttemberg = state.State("Württemberg", 8, 1, 3, 0, 0, False, None)
 
+    custom_economy_law = modifier.Modifier("Custom", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.24})
+
     germany = country.Country("Germany", 
                        {"baden": baden, "brandenburg": brandenburg, "ermland_masuren": ermland_masuren, "franken": franken, "hannover": hannover, "hessen": hessen, "hinterpommern": hinterpommern, "holstein": holstein, "konigsberg": konigsberg, "mecklenburg": mecklenburg, "moselland": moselland, "niederbayern": niederbayern, "niederschlesien": niederschlesien, "oberbayern": oberbayern, "oberschlesien": oberschlesien, "ostmark": ostmark, "rhineland": rhineland, "sachsen": sachsen, "schleswig": schleswig, "thuringen": thuringen, "vorpommern": vorpommern, "weser_ems": weser_ems, "westfalen": westfalen, "wurttemberg": wurttemberg},
-                       None, None, 0, 0, 0, 0, construction.Construction(), 4, 0.24, [])
+                       None, None, 0, 0, 0, 0, construction.Construction(), 4, [], 0.7, custom_economy_law)
 
     for each_state in germany.get_states(): 
         germany.states[each_state].set_country(germany)
@@ -90,6 +127,7 @@ def create_simple_germany():
     germany.free_civs = total_civs - germany.civs_used_on_consumer_goods
     germany.free_mils = total_mils
     germany.free_dockyards = total_dockyards
+
 
 
 
