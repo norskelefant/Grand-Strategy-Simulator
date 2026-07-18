@@ -233,7 +233,8 @@ class Country:
         return self.economy_law
 
     def switch_economy_law(self, new_law): 
-        self.economy_law = None
+        if new_law == self.get_economy_law(): 
+            return
         if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY: 
             self.economy_law = modifier.Modifier("Civilian_economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.35, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.30, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.30})
         elif new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION: 
