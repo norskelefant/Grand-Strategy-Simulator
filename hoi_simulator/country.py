@@ -3,7 +3,7 @@ from hoi_simulator import construction_types, modifier_types, modifier_classes, 
 import math
 
 class Country: 
-    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, modifiers, base_stability, economy_law): 
+    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, modifiers, base_stability, economy_law, war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, trade_law, conscription_law, advisors, industrial_concern, theorist, chief_of_army, chief_of_navy, chief_of_air_force, high_commanders): 
         self.name = name
         self.states = states
         self.tiles = tiles
@@ -15,18 +15,40 @@ class Country:
         self.construction = construction
         self.base_ic = base_ic
         self.modifiers = modifiers
-
         self.base_stability = base_stability
         self.economy_law = economy_law
-        #self.war_support = war_support
-        #self.political_power = political_power
-        #self.manpower = manpower
-        #self.fuel = fuel
-        #self.command_power = command_power
-        #self.convoys = convoys
-        #self.army_exp = army_exp
-        #self.navy_exp = navy_exp
-        #self.air_exp = air_exp
+        self.war_support = war_support
+        self.political_power = political_power
+        #manpower to be calculated later on using population and modifiers
+        self.population = population
+        self.fuel = fuel
+        self.command_power = command_power
+        self.convoys = convoys
+        self.army_exp = army_exp
+        self.navy_exp = navy_exp
+        self.air_exp = air_exp
+        self.ideology = ideology
+        self.democratic_support = democratic_support
+        self.non_aligned_support = non_aligned_support
+        self.communist_support = communist_support
+        self.fascist_support = fascist_support
+        self.at_war = at_war
+        self.countries_at_war_with = countries_at_war_with
+        self.research_slots = research_slots
+        self.has_researched = has_researched
+        self.trade_law = trade_law
+        self.conscription_law = conscription_law
+        self.advisors = advisors
+        self.industrial_concern = industrial_concern
+        self.theorist = theorist
+        self.chief_of_army = chief_of_army
+        self.chief_of_navy = chief_of_navy
+        self.chief_of_air_force = chief_of_air_force
+        self.high_commanders = high_commanders
+
+
+
+        
         
   
 
@@ -214,13 +236,13 @@ class Country:
         self.economy_law = None
         if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY: 
             self.economy_law = modifier.Modifier("Civilian_economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.35, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.30, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.30})
-        if new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION: 
+        elif new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION: 
             self.economy_law = modifier.Modifier("Early_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.30, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.10})
-        if new_law == economy_laws.Economy_laws.PARTIAL_MOBILIZATION: 
+        elif new_law == economy_laws.Economy_laws.PARTIAL_MOBILIZATION: 
             self.economy_law = modifier.Modifier("Partial_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10})
-        if new_law == economy_laws.Economy_laws.WAR_ECONOMY: 
+        elif new_law == economy_laws.Economy_laws.WAR_ECONOMY: 
             self.economy_law = modifier.Modifier("War_economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.20, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.20})
-        if new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION: 
+        elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION: 
             self.economy_law = modifier.Modifier("Total_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.15, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30})
 
             
