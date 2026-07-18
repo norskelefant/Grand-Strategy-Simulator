@@ -28,7 +28,7 @@ def test_partial_mobilization_is_default_economy_law_for_germany(germany, new_ga
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.25
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.10
 
-def test_can_switch_economy_law_to_civilian_economy(germany, new_game): 
+def test_can_switch_economy_law_to_civilian_economy_if_prerequisites_are_fulfilled(germany, new_game): 
     #Given Germany start
 
     #When switching the economy law to civilian economy

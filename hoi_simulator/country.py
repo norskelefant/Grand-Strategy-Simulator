@@ -1,9 +1,9 @@
-from hoi_simulator import construction_types, modifier_types, modifier_classes, economy_laws, modifier
+from hoi_simulator import construction_types, modifier_types, modifier_classes, economy_laws, modifier, ideologies
 
 import math
 
 class Country: 
-    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, modifiers, base_stability, economy_law, war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, trade_law, conscription_law, advisors, industrial_concern, theorist, chief_of_army, chief_of_navy, chief_of_air_force, high_commanders): 
+    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, modifiers, base_stability, economy_law, base_war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, trade_law, conscription_law, advisors, industrial_concern, theorist, chief_of_army, chief_of_navy, chief_of_air_force, high_commanders): 
         self.name = name
         self.states = states
         self.tiles = tiles
@@ -17,7 +17,7 @@ class Country:
         self.modifiers = modifiers
         self.base_stability = base_stability
         self.economy_law = economy_law
-        self.war_support = war_support
+        self.base_war_support = base_war_support
         self.political_power = political_power
         #manpower to be calculated later on using population and modifiers
         self.population = population
@@ -46,12 +46,7 @@ class Country:
         self.chief_of_air_force = chief_of_air_force
         self.high_commanders = high_commanders
 
-
-
-        
-        
-  
-
+    #Getter methods
     def get_state_name(self):
         return self.name
     
@@ -64,43 +59,137 @@ class Country:
     def get_resources(self): 
         return self.resources
     
-    def get_total_civs(self): 
-        amount = 0
-        for state in self.states: 
-            amount += self.states[state].get_civs()
-        return amount
-    
     def get_free_civs(self): 
         return self.free_civs
-    
-    def get_total_mils(self): 
-        amount = 0
-        for state in self.states: 
-            amount += self.states[state].get_mils()
-        return amount
     
     def get_civs_used_on_consumer_goods(self): 
         return self.civs_used_on_consumer_goods
 
     def get_free_mils(self): 
         return self.free_mils
+
+    def get_free_dockyards(self): 
+        return self.free_dockyards
+
+    #Construction object, which has list of constructions for the country
+    def get_construction(self): 
+        return self.construction
+
+    def get_base_ic(self): 
+        return self.base_ic
     
+    def get_modifiers(self): 
+        return self.modifiers
+    
+    def get_base_stability(self): 
+        return self.base_stability
+    
+    def get_economy_law(self): 
+        return self.economy_law
+
+    def get_war_support(self): 
+        return self.war_support
+
+    def get_political_power(self): 
+        return self.political_power
+    
+    def get_population(self): 
+        return self.population
+    
+    def get_fuel(self): 
+        return self.fuel
+    
+    def get_command_power(self): 
+        return self.command_power
+    
+    def get_convoys(self): 
+        return self.convoys
+    
+    def get_army_exp(self): 
+        return self.army_exp
+    
+    def get_navy_exp(self): 
+        return self.navy_exp
+    
+    def get_air_exp(self): 
+        return self.air_exp
+    
+    def get_ideology(self): 
+        return self.ideology
+    
+    def get_democratic_support(self): 
+        return self.democratic_support
+    
+    def get_non_aligned_support(self): 
+        return self.non_aligned_support
+    
+    def get_communist_support(self): 
+        return self.communist_support
+    
+    def get_fascist_support(self): 
+        return self.fascist_support
+    
+    def get_is_at_war(self): 
+        return self.at_war
+
+    def get_countries_at_war_with(self): 
+        return self.countries_at_war_with
+    
+    def get_research_slots(self): 
+        return self.research_slots
+    
+    def get_has_researched(self): 
+        return self.has_researched
+    
+    def get_trade_law(self): 
+        return self.trade_law
+    
+    def get_concription_law(self): 
+        return self.conscription_law
+    
+    def get_advisors(self): 
+        return self.advisors
+    
+    def get_industrial_concern(self): 
+        return self.industrial_concern
+    
+    def get_theorist(self): 
+        return self.theorist
+    
+    def get_chief_of_army(self): 
+        return self.chief_of_army
+    
+    def get_chief_of_navy(self): 
+        return self.chief_of_navy
+    
+    def get_chief_of_air_force(self): 
+        return self.chief_of_air_force
+    
+    def get_high_commanders(self): 
+        return self.high_commanders
+
+    #Construction speed is calculated as follows
+    #construction_per_civ_with_respect_to_coal * (1 + sum(modifiers)) * infrastructure_construction
+    #Also note that coal at maximum can reduce ic to 4 for any factory, but it also gives a construction speed debuff in general
+    #This function does not implement coal yet
+    def get_total_civs(self): 
+        amount = 0
+        for state in self.states: 
+            amount += self.states[state].get_civs()
+        return amount
+
+    def get_total_mils(self): 
+        amount = 0
+        for state in self.states: 
+            amount += self.states[state].get_mils()
+        return amount
+        
     def get_total_dockyards(self): 
         amount = 0
         for state in self.states: 
             amount += self.states[state].get_dockyards()
         return amount
     
-    def get_free_dockyards(self): 
-        return self.free_dockyards
-
-    def get_base_ic(self): 
-        return self.base_ic
-
-    #Construction speed is calculated as follows
-    #construction_per_civ_with_respect_to_coal * (1 + sum(modifiers)) * infrastructure_construction
-    #Also note that coal at maximum can reduce ic to 4 for any factory, but it also gives a construction speed debuff in general
-    #This function does not implement coal yet
     def get_construction_speed_bonuses(self): 
         bonus = 1
         for modifier in self.get_modifiers():
@@ -132,13 +221,6 @@ class Country:
     def get_consumer_goods(self): 
         return self.get_base_consumer_goods() * math.floor(self.get_floor_consumer_goods() * 100) / 100
     
-    def get_modifiers(self): 
-        return self.modifiers
-    
-    #Construction object, which has list of constructions for the country
-    def get_construction(self): 
-        return self.construction
-
     def get_constructions_being_done_in_state(self, state_name): 
         amount = 0
         for single_construction in self.get_construction().get_construction_line_list(): 
@@ -226,18 +308,58 @@ class Country:
                 bonus += modifier.get_modifier_bonuses().modifier_types.Modifier_types.STABILITY
         return bonus
     
-    def get_base_stability(self): 
-        return self.base_stability
-    
-    def get_economy_law(self): 
-        return self.economy_law
-
     def switch_economy_law(self, new_law): 
         if new_law == self.get_economy_law(): 
             return
-        if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY: 
+        if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY and self.can_switch_to_civilian_economy() == True:
             self.economy_law = modifier.Modifier("Civilian_economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.35, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.30, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.30})
-        elif new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION: 
+        elif new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION and self.can_switch_to_early_mobilization() == True:
+            self.economy_law = modifier.Modifier("Early_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.30, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.10})
+        elif new_law == economy_laws.Economy_laws.PARTIAL_MOBILIZATION and self.can_switch_to_partial_mobilization() == True: 
+            self.economy_law = modifier.Modifier("Partial_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10})
+        elif new_law == economy_laws.Economy_laws.WAR_ECONOMY and self.can_switch_to_war_economy() == True: 
+            self.economy_law = modifier.Modifier("War_economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.20, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.20})
+        elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION and self.can_switch_to_total_mobilization() == True: 
+            self.economy_law = modifier.Modifier("Total_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.15, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30})
+
+    def can_switch_to_civilian_economy(self): 
+        return True
+
+    def can_switch_to_early_mobilization(self): 
+        return self.get_war_support() > 15
+    
+    def can_switch_to_partial_mobilization(self): 
+        return self.get_war_support() > 25
+    
+    def can_switch_to_war_economy(self): 
+        if self.get_war_support() <= 50: 
+            return False
+        if self.is_fascist_or_communist() == True: 
+            return True
+        elif self.get_is_at_war() == True and self.get_number_of_factories_enemy_country_with_most_factories_has() > (0.40 * self.get_total_factories()): 
+            return True
+        return False
+    
+    def can_switch_to_total_mobilization(self): 
+        return self.get_is_at_war() and self.get_war_support() > 80 and self.get_number_of_factories_enemy_country_with_most_factories_has() > (0.50 * self.get_total_factories())
+    
+    def is_ideology_fascist_or_communist(self): 
+        return self.get_ideology() == ideologies.Ideologies.FASCIST or self.get_ideology() == ideologies.Ideologies.COMMUNIST
+    
+    def get_number_of_factories_enemy_country_with_most_factories_has(self): 
+        number_of_factories_list = []
+        for country in self.get_countries_at_war_with(): 
+            number_of_factories_list.append(country.get_total_factories())
+        return max(number_of_factories_list)
+    
+    def get_total_factories(self): 
+        return self.get_total_civs() + self.get_total_mils() + self.get_total_dockyards()
+    
+    #Only used when creating country
+    def set_economy_law(self, new_law): 
+        if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY:
+            self.economy_law = modifier.Modifier("Civilian_economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.35, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.30, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.30})
+        elif new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION:
             self.economy_law = modifier.Modifier("Early_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.30, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.10})
         elif new_law == economy_laws.Economy_laws.PARTIAL_MOBILIZATION: 
             self.economy_law = modifier.Modifier("Partial_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10})
@@ -245,6 +367,4 @@ class Country:
             self.economy_law = modifier.Modifier("War_economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.20, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.20})
         elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION: 
             self.economy_law = modifier.Modifier("Total_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.15, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30})
-
-            
 

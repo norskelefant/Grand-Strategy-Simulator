@@ -38,8 +38,8 @@ def create_advanced_germany():
                        base_ic=4, 
                        modifiers=[], 
                        base_stability=70, 
-                       economy_law=None, 
-                       war_support=0, 
+                       economy_law=modifier.Modifier("Partial_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}), 
+                       base_war_support=30, 
                        political_power=0, 
                        population=0, 
                        fuel=0, 
@@ -85,11 +85,11 @@ def create_advanced_germany():
     reichstag = modifier.Modifier("Reichstag", 
                                   modifier_classes.Modifier_classes.BASE, 
                                   None, 
-                                  {modifier_types.Modifier_types.STABILITY: 0.05})
+                                  {modifier_types.Modifier_types.STABILITY: 5})
     ruling_party_popularity = modifier.Modifier("Ruling_party_popularity", 
                                                 modifier_classes.Modifier_classes.BASE, 
                                                 None, 
-                                                {modifier_types.Modifier_types.STABILITY: 0.06})
+                                                {modifier_types.Modifier_types.STABILITY: 6})
     
     mefo_bills = modifier.Modifier("MEFO_bills", 
                                    modifier_classes.Modifier_classes.BASE, 
@@ -107,6 +107,11 @@ def create_advanced_germany():
                                             #"factory_output": 0.124, 
                                             #"dockyard_output": 0.124, 
                                             #"resistance_target_in_occupied_territories": 0.03}
+
+    pride_of_the_fleet = modifier.Modifier("Pride_of_the_fleet", 
+                                           modifier_classes.Modifier_classes.BASE, 
+                                           None, 
+                                           {modifier_types.Modifier_types.WAR_SUPPORT: 5})
 
     germany.modifiers.append(reichstag)
     germany.modifiers.append(ruling_party_popularity)
