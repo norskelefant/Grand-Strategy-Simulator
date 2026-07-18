@@ -4,7 +4,7 @@ import pytest
 
 import math
 
-from hoi_simulator import country, state, setup_countries, construction, construction_types, construction_line, date, game, modifier, modifier_classes, modifier_types, economy_laws
+from hoi_simulator import country, state, setup_countries, construction, construction_types, construction_line, date, game, modifier, modifier_classes, modifier_types, economy_laws, ideologies
 
 @pytest.fixture
 def germany(): 
@@ -31,60 +31,128 @@ def test_partial_mobilization_is_default_economy_law_for_germany(germany, new_ga
 def test_can_switch_economy_law_to_civilian_economy_if_prerequisites_are_fulfilled(germany, new_game): 
     #Given Germany start
 
-    #When switching the economy law to civilian economy
+    #When switching the economy law to civilian economy when fulfilling prerequisites
+    germany.add_political_power(150)
+
+    assert germany.get_political_power() == 150
+     
     germany.switch_economy_law(economy_laws.Economy_laws.CIVILIAN_ECONOMY)
 
     economy_law = germany.get_economy_law()
 
-    #Then the economy law should be Civilian economy
+    #Then the economy law should be civilian economy
     assert economy_law.get_name() == "Civilian_economy"
     assert economy_law.get_end_date() == None
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.35
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED) == -0.30
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == -0.30
 
+    assert germany.get_political_power() == 0
+
 def test_can_switch_economy_law_to_early_mobilization(germany, new_game): 
     #Given Germany start
 
-    #When switching the economy law to civilian economy
+    #When switching the economy law to early mobilization when fulfilling prerequisites
+    germany.add_political_power(150)
+    assert germany.get_base_war_support() == 30
+    assert germany.get_full_war_support() == 35
+
     germany.switch_economy_law(economy_laws.Economy_laws.EARLY_MOBILIZATION)
 
     economy_law = germany.get_economy_law()
 
-    #Then the economy law should be Civilian economy
+
+    #Then the economy law should be early mobilization
     assert economy_law.get_name() == "Early_mobilization"
     assert economy_law.get_end_date() == None
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.30
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED) == -0.10
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == -0.10
 
-def test_can_switch_economy_law_to_war_economy(germany, new_game): 
+    assert germany.get_political_power() == 0
+
+def test_can_switch_economy_law_to_war_economy_one(germany, new_game): 
     #Given Germany start
 
-    #When switching the economy law to civilian economy
+    #When switching the economy law to war economy when fulfilling ideology and war support
+    germany.add_base_war_support(16)
+    germany.add_political_power(150)
+
     germany.switch_economy_law(economy_laws.Economy_laws.WAR_ECONOMY)
 
     economy_law = germany.get_economy_law()
 
-    #Then the economy law should be Civilian economy
+    assert germany.get_full_war_support() == 51
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+
+    #Then the economy law should be war economy
     assert economy_law.get_name() == "War_economy"
     assert economy_law.get_end_date() == None
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.20
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.20
 
+    assert germany.get_political_power() == 0
+
+
+def test_can_switch_economy_law_to_war_economy_two(germany, new_game): 
+    #Given Germany start
+
+    #When switching the economy law to war economy when fulfilling being at war, largest country having at least 40% of Germany's factories, and war support being >50%
+    germany.add_political_power(150)
+
+    germany.add_base_war_support(16)
+
+    germany.change_ideology(ideologies.Ideologies.DEMOCRATIC)
+
+    testing_country = create_custom_country()
+
+    germany.declare_war(testing_country)
+
+    assert germany.get_is_at_war() == True
+    assert germany.get_total_factories() * 0.40 < testing_country.get_total_factories()
+    assert germany.is_fascist_or_communist() == False
+
+    germany.switch_economy_law(economy_laws.Economy_laws.WAR_ECONOMY)
+
+    economy_law = germany.get_economy_law()
+
+    #Then the economy law should be war economy
+    assert economy_law.get_name() == "War_economy"
+    assert economy_law.get_end_date() == None
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.20
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.20
+
+    assert germany.get_political_power() == 0
+
 def test_can_switch_economy_law_to_total_mobilization(germany, new_game): 
     #Given Germany start
 
-    #When switching the economy law to civilian economy
+    #When switching the economy law to total mobilization when fulfiling being at war, largest country having at least 50% of Germany's factories, and war support being >80%
+    germany.add_political_power(150)
+
+    germany.add_base_war_support(46)
+
+    germany.change_ideology(ideologies.Ideologies.DEMOCRATIC)
+
+    testing_country = create_custom_country()
+
+    germany.declare_war(testing_country)
+
+    assert germany.get_is_at_war() == True
+    assert germany.get_total_factories() * 0.40 < testing_country.get_total_factories()
+    assert germany.is_fascist_or_communist() == False
+
     germany.switch_economy_law(economy_laws.Economy_laws.TOTAL_MOBILIZATION)
 
     economy_law = germany.get_economy_law()
 
-    #Then the economy law should be Civilian economy
+    #Then the economy law should be total mobilization
     assert economy_law.get_name() == "Total_mobilization"
     assert economy_law.get_end_date() == None
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.15
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.30
+
+    assert germany.get_political_power() == 0
 
 
 
@@ -99,4 +167,51 @@ def created_advanced_germany():
 def create_game(germany): 
     return game.Game(date.Date(1, 1, 1936), [germany])
 
+def create_custom_country(): 
 
+    custom_state = state.State("Custom_state", 50, 15, 15, 10, 3, True, None)
+
+    custom_country = country.Country(name="Custom_country", 
+                       states={"Custom_state": custom_state},
+                       tiles=None, 
+                       resources=None, 
+                       free_civs=15, 
+                       civs_used_on_consumer_goods=0, 
+                       free_mils=15, 
+                       free_dockyards=10, 
+                       construction=construction.Construction(), 
+                       base_ic=4, 
+                       modifiers=[], 
+                       base_stability=70, 
+                       economy_law=modifier.Modifier("Partial_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}), 
+                       base_war_support=30, 
+                       political_power=0, 
+                       population=0, 
+                       fuel=0, 
+                       command_power=0, 
+                       convoys=0, 
+                       army_exp=0, 
+                       navy_exp=0, 
+                       air_exp=0, 
+                       ideology=ideologies.Ideologies.FASCIST, 
+                       democratic_support=35, 
+                       non_aligned_support=15, 
+                       communist_support=10, 
+                       fascist_support=40, 
+                       at_war=False, 
+                       countries_at_war_with=[], 
+                       research_slots=4, 
+                       has_researched=[], 
+                       trade_law=None, 
+                       conscription_law=None, 
+                       advisors=[], 
+                       industrial_concern=None, 
+                       theorist=None, 
+                       chief_of_army=None, 
+                       chief_of_navy=None, 
+                       chief_of_air_force=None, 
+                       high_commanders=[])
+    
+    custom_country.states["Custom_state"].set_country(custom_country)
+
+    return custom_country

@@ -87,8 +87,8 @@ class Country:
     def get_economy_law(self): 
         return self.economy_law
 
-    def get_war_support(self): 
-        return self.war_support
+    def get_base_war_support(self): 
+        return self.base_war_support
 
     def get_political_power(self): 
         return self.political_power
@@ -304,12 +304,15 @@ class Country:
     def get_full_stability(self): 
         bonus = self.get_base_stability()
         for modifier in self.get_modifiers():
-            if modifier_types.Modifier_types.STABILITY in modifier.get_modifier_bonuses(): 
-                bonus += modifier.get_modifier_bonuses().modifier_types.Modifier_types.STABILITY
+            #The get method here is for dictionaries. Note that the second argument of 0 is for if nothing something is not a stability modifier
+            bonus += modifier.get_modifier_bonuses().get(modifier_types.Modifier_types.STABILITY, 0)
         return bonus
     
     def switch_economy_law(self, new_law): 
         if new_law == self.get_economy_law(): 
+            return
+        #Re
+        if self.get_political_power() < 150: 
             return
         if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY and self.can_switch_to_civilian_economy() == True:
             self.economy_law = modifier.Modifier("Civilian_economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.35, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.30, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.30})
@@ -321,18 +324,19 @@ class Country:
             self.economy_law = modifier.Modifier("War_economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.20, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.20})
         elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION and self.can_switch_to_total_mobilization() == True: 
             self.economy_law = modifier.Modifier("Total_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.15, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30})
+        self.remove_political_power(150)
 
     def can_switch_to_civilian_economy(self): 
         return True
 
     def can_switch_to_early_mobilization(self): 
-        return self.get_war_support() > 15
+        return self.get_full_war_support() > 15
     
     def can_switch_to_partial_mobilization(self): 
-        return self.get_war_support() > 25
+        return self.get_full_war_support() > 25
     
     def can_switch_to_war_economy(self): 
-        if self.get_war_support() <= 50: 
+        if self.get_full_war_support() <= 50: 
             return False
         if self.is_fascist_or_communist() == True: 
             return True
@@ -340,8 +344,13 @@ class Country:
             return True
         return False
     
+    def is_fascist_or_communist(self): 
+        if self.get_ideology() == ideologies.Ideologies.FASCIST or self.get_ideology() == ideologies.Ideologies.FASCIST: 
+            return True
+        return False
+    
     def can_switch_to_total_mobilization(self): 
-        return self.get_is_at_war() and self.get_war_support() > 80 and self.get_number_of_factories_enemy_country_with_most_factories_has() > (0.50 * self.get_total_factories())
+        return self.get_is_at_war() and self.get_full_war_support() > 80 and self.get_number_of_factories_enemy_country_with_most_factories_has() > (0.50 * self.get_total_factories())
     
     def is_ideology_fascist_or_communist(self): 
         return self.get_ideology() == ideologies.Ideologies.FASCIST or self.get_ideology() == ideologies.Ideologies.COMMUNIST
@@ -368,3 +377,33 @@ class Country:
         elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION: 
             self.economy_law = modifier.Modifier("Total_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.15, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30})
 
+    def add_political_power(self, amount): 
+        self.political_power += amount
+
+    def remove_political_power(self, amount): 
+        self.political_power -= amount
+
+    def get_full_war_support(self): 
+        full_war_support = self.get_base_war_support()
+        for modifier in self.get_modifiers(): 
+            full_war_support += modifier.get_modifier_bonuses().get(modifier_types.Modifier_types.WAR_SUPPORT, 0)
+        return full_war_support
+
+    def add_base_war_support(self, amount): 
+        self.base_war_support += amount
+        if self.get_base_war_support() > 100: 
+            self.base_war_support = 100
+        
+    def change_ideology(self, new_ideology): 
+        self.ideology = new_ideology
+
+    def declare_war(self, country): 
+        if self.get_is_at_war() == False: 
+            self.set_at_war(True)
+        self.add_country_to_countries_at_war(country)
+
+    def set_at_war(self, arg): 
+        self.at_war = arg
+
+    def add_country_to_countries_at_war(self, country): 
+        self.countries_at_war_with.append(country)

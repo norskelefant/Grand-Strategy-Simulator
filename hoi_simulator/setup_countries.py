@@ -116,6 +116,7 @@ def create_advanced_germany():
     germany.modifiers.append(reichstag)
     germany.modifiers.append(ruling_party_popularity)
     germany.modifiers.append(mefo_bills)
+    germany.modifiers.append(pride_of_the_fleet)
 
 
 
