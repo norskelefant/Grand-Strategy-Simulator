@@ -309,22 +309,28 @@ class Country:
         return bonus
     
     def switch_economy_law(self, new_law): 
-        if new_law == self.get_economy_law(): 
+        has_switched = False
+        if new_law.value == self.get_economy_law().name: 
             return
-        #Re
         if self.get_political_power() < 150: 
             return
         if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY and self.can_switch_to_civilian_economy() == True:
             self.economy_law = modifier.Modifier("Civilian_economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.35, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.30, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.30})
+            has_switched = True
         elif new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION and self.can_switch_to_early_mobilization() == True:
             self.economy_law = modifier.Modifier("Early_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.30, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.10})
+            has_switched = True
         elif new_law == economy_laws.Economy_laws.PARTIAL_MOBILIZATION and self.can_switch_to_partial_mobilization() == True: 
             self.economy_law = modifier.Modifier("Partial_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10})
+            has_switched = True
         elif new_law == economy_laws.Economy_laws.WAR_ECONOMY and self.can_switch_to_war_economy() == True: 
             self.economy_law = modifier.Modifier("War_economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.20, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.20})
+            has_switched = True
         elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION and self.can_switch_to_total_mobilization() == True: 
             self.economy_law = modifier.Modifier("Total_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.15, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30})
-        self.remove_political_power(150)
+            has_switched = True
+        if has_switched == True: 
+            self.remove_political_power(150)
 
     def can_switch_to_civilian_economy(self): 
         return True
@@ -359,7 +365,10 @@ class Country:
         number_of_factories_list = []
         for country in self.get_countries_at_war_with(): 
             number_of_factories_list.append(country.get_total_factories())
-        return max(number_of_factories_list)
+        if len(number_of_factories_list) == 0: 
+            return 0
+        else: 
+            return max(number_of_factories_list)
     
     def get_total_factories(self): 
         return self.get_total_civs() + self.get_total_mils() + self.get_total_dockyards()
