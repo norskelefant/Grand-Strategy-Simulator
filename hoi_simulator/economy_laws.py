@@ -13,3 +13,9 @@ class Economy_laws(Enum):
     #Special economy laws
     UNDISTURBED_ISOLATION = "Undisturbed_isolation"
     ISOLATION = "Isolation"
+    COLLECTIVIZED_SOCIETY = "Collectivized_society"
+    NEW_ECONOMIC_POLICY = "New_economic_policy"
+    TOTALER_KRIEG = "Totaler_krieg"
+    CAPITAL_INVESTMENT_MODEL = "Capital_investment_model"
+    NATIONAL_DEFENSE_STATE = "National_defense_state"
+    WAR_COMMUNISM = "War_communism"

@@ -7,4 +7,6 @@ class Modifier_classes(Enum):
     DECISION = "decision"
     ECONOMY_LAW = "economy_law"
     ADVISOR = "advisor"
+    TRADE_LAW = "trade_law"
+    CONSCRIPTION_LAW = "conscription_law"
     #Add more later

@@ -67,7 +67,9 @@ class Modifier_types(Enum):
     OPERATIVE_SLOTS = "operative_slots"
     AGENCY_UPGRADE_TIME = "agency_upgrade_time"
     CIVILIAN_INTELLIGENCE_TO_OTHERS = "civilian_intelligence_to_others"
-    ARMY_INTELLIGENCE_TO_OTHERS = "army_intelligence_to_others"
+    ARMY_INTELLIGENCE_TO_OTHERS = "army_intelligence_to_others"    
+    NAVY_INTELLIGENCE_TO_OTHERS = "navy_intelligence_to_others"
+
 
     #Foreign meddling
     FOREIGN_SUBVERSIVE_ACTIVITIES_EFFICIENCY = "foreign_subversive_activities_efficiency"
@@ -93,5 +95,8 @@ class Modifier_types(Enum):
     #Lend lease
     LEND_LEASE_TENSION_LIMIT = "lend_lease_tension_limit"
 
+    #International market
+    MARKET_CONSTRUCTION_BOOST_MULTIPLIER = "market_construction_boost_multiplier"
+    CAN_ACCESS_INTERNATIONAL_MARKET = "can_access_international_market"
 
     #Add many more later....
