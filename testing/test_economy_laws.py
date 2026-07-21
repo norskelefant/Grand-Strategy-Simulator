@@ -61,7 +61,6 @@ def test_can_switch_economy_law_to_early_mobilization(germany, new_game):
 
     economy_law = germany.get_economy_law()
 
-
     #Then the economy law should be early mobilization
     assert economy_law.get_name() == "Early_mobilization"
     assert economy_law.get_end_date() == None
