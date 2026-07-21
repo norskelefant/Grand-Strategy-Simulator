@@ -57,7 +57,8 @@ def create_advanced_germany():
                        countries_at_war_with=[], 
                        research_slots=4, 
                        has_researched=[], 
-                       trade_law=None, 
+                       trade_law=modifier.Modifier("Limited_exports", modifier_classes. Modifier_classes.TRADE_LAW, None, {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.05, modifier_types.Modifier_types.RESEARCH_SPEED: 0.01, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.05, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.05, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.25, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.20,
+                       modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.10, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.05, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.05}),
                        conscription_law=None, 
                        advisors=[], 
                        industrial_concern=None, 
@@ -65,7 +66,8 @@ def create_advanced_germany():
                        chief_of_army=None, 
                        chief_of_navy=None, 
                        chief_of_air_force=None, 
-                       high_commanders=[])
+                       high_commanders=[]
+                       )
 
     germany.switch_economy_law(economy_laws.Economy_laws.PARTIAL_MOBILIZATION)
 

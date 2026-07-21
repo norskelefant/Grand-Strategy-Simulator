@@ -14,7 +14,7 @@ POSSIBLE_TRADE_LAWS = {"Free_trade": modifier.Modifier("Free_trade", modifier_cl
                          "Export_focus": modifier.Modifier("Export_focus", modifier_classes. Modifier_classes.TRADE_LAW, None, {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.10, modifier_types.Modifier_types.RESEARCH_SPEED: 0.05, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.10, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.10, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.50, modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.20, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.10, modifier_types.Modifier_types.MARKET_CONSTRUCTION_BOOST_MULTIPLIER: 0.10}), 
                          "Limited_exports": modifier.Modifier("Limited_exports", modifier_classes. Modifier_classes.TRADE_LAW, None, {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.05, modifier_types.Modifier_types.RESEARCH_SPEED: 0.01, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.05, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.05, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.25, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.20,
                          modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.10, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.05, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.05}),
-                         "Closed_economy": modifier.Modifier("Closed_economy", modifier_classes. Modifier_classes.TRADE_LAW, None, {modifier_types. modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.00, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.40, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.10, modifier_types.Modifier_types.CAN_ACCESS_INTERNATIONAL_MARKET: False})
+                         "Closed_economy": modifier.Modifier("Closed_economy", modifier_classes. Modifier_classes.TRADE_LAW, None, {modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.00, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.40, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.10, modifier_types.Modifier_types.CAN_ACCESS_INTERNATIONAL_MARKET: False})
                          }
 
 POSSIBLE_CONSCRIPTION_LAWS = None
@@ -467,13 +467,15 @@ class Country:
                 return True
             return False
         else: 
-            if self.get_economy_law() == economy_laws.Economy_laws.PARTIAL_MOBILIZATION or self.get_economy_law() == economy_laws.Economy_laws.WAR_ECONOMY or self.get_economy_law() == economy_laws.Economy_laws.TOTAL_MOBILIZATION: 
+            print("Gets in here")
+            if self.get_economy_law().name == "Partial_mobilization" or self.get_economy_law().name == "War_economy" or self.get_economy_law().name == "Total_mobilization": 
+                print("Gets in here 2")
                 return True
             return False
 
     def can_switch_to_closed_economy(self): 
         if self.get_is_at_war() == True and (self.get_ideology() == ideologies.Ideologies.FASCIST or self.get_ideology() == ideologies.Ideologies.COMMUNIST): 
-            if self.get_economy_law() == economy_laws.Economy_laws.WAR_ECONOMY or self.get_economy_law() == economy_laws.Economy_laws.TOTAL_MOBILIZATION: 
+            if self.get_economy_law().name == "War_economy" or self.get_economy_law().name == "Total_mobilization": 
                 return True
         return False
 
