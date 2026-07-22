@@ -23,7 +23,7 @@ def test_germany_has_limited_exports_by_default(germany, new_game):
     trade_law = germany.get_trade_law()
 
     #Then the trade law should be limited export
-    assert trade_law.get_name() == "Limited_exports"
+    assert trade_law.get_id() == "Limited_exports"
     assert trade_law.get_end_date() == None
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RESOURCES_TO_MARKET) == 0.25
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == 0.05
@@ -47,7 +47,7 @@ def test_can_switch_to_free_trade(germany, new_game):
     trade_law = germany.get_trade_law()
 
     #Then the trade law should be free trade
-    assert trade_law.get_name() == "Free_trade"
+    assert trade_law.get_id() == "Free_trade"
     assert trade_law.get_end_date() == None
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RESOURCES_TO_MARKET) == 0.80
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == 0.15
@@ -74,7 +74,7 @@ def test_can_switch_to_export_focus(germany, new_game):
     trade_law = germany.get_trade_law()
 
     #Then the trade law should be export focus
-    assert trade_law.get_name() == "Export_focus"
+    assert trade_law.get_id() == "Export_focus"
     assert trade_law.get_end_date() == None
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RESOURCES_TO_MARKET) == 0.50
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == 0.10
@@ -102,7 +102,7 @@ def test_can_switch_to_limited_exports_if_requirements_are_fulfilled(germany, ne
     trade_law = germany.get_trade_law()
 
     #Then the trade law should be limited exports
-    assert trade_law.get_name() == "Limited_exports"
+    assert trade_law.get_id() == "Limited_exports"
     assert trade_law.get_end_date() == None
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RESOURCES_TO_MARKET) == 0.25
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == 0.05
@@ -138,7 +138,7 @@ def test_can_switch_to_closed_economy_if_requirements_are_fulfilled(germany, new
     trade_law = germany.get_trade_law()
 
     #Then the trade law should be limited exports
-    assert trade_law.get_name() == "Closed_economy"
+    assert trade_law.get_id() == "Closed_economy"
     assert trade_law.get_end_date() == None
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RESOURCES_TO_MARKET) == 0.0
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST) == -0.10
@@ -162,7 +162,7 @@ def test_can_switch_to_limited_exports_if_requirements_are_fulfilled_two(germany
 
     trade_law = germany.get_trade_law()
 
-    assert trade_law.get_name() == "Free_trade"
+    assert trade_law.get_id() == "Free_trade"
     assert germany.get_political_power() == 150
 
      
@@ -181,7 +181,7 @@ def test_can_switch_to_limited_exports_if_requirements_are_fulfilled_two(germany
     trade_law = germany.get_trade_law()
 
     #Then the trade law should be limited exports
-    assert trade_law.get_name() == "Limited_exports"
+    assert trade_law.get_id() == "Limited_exports"
     assert trade_law.get_end_date() == None
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RESOURCES_TO_MARKET) == 0.25
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == 0.05
@@ -204,7 +204,7 @@ def test_cannot_switch_trade_law_if_not_enough_political_power(germany, new_game
     trade_law = germany.get_trade_law()
 
     #Then the trade law should remain limited exports
-    assert trade_law.get_name() == "Limited_exports"
+    assert trade_law.get_id() == "Limited_exports"
     assert trade_law.get_end_date() == None
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RESOURCES_TO_MARKET) == 0.25
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == 0.05
@@ -236,7 +236,7 @@ def test_cannot_switch_to_limited_exports_if_requirements_are_not_fulfilled(germ
     trade_law = germany.get_trade_law()
 
     #Then the trade law should remain free trade
-    assert trade_law.get_name() == "Free_trade"
+    assert trade_law.get_id() == "Free_trade"
     assert trade_law.get_end_date() == None
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RESOURCES_TO_MARKET) == 0.80
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == 0.15
@@ -262,7 +262,7 @@ def test_cannot_switch_to_closed_economy_if_requirements_are_not_fulfilled(germa
     trade_law = germany.get_trade_law()
 
     #Then the trade law should remain limited exports
-    assert trade_law.get_name() == "Limited_exports"
+    assert trade_law.get_id() == "Limited_exports"
     assert trade_law.get_end_date() == None
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RESOURCES_TO_MARKET) == 0.25
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == 0.05
@@ -289,7 +289,7 @@ def test_germany_will_keep_limited_exports_even_if_criteria_is_no_longer_fulfill
     trade_law = germany.get_trade_law()
 
     #Then the trade law should remain limited exports
-    assert trade_law.get_name() == "Limited_exports"
+    assert trade_law.get_id() == "Limited_exports"
     assert trade_law.get_end_date() == None
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RESOURCES_TO_MARKET) == 0.25
     assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == 0.05
@@ -345,9 +345,8 @@ def create_custom_country():
                        free_dockyards=10, 
                        construction=construction.Construction(), 
                        base_ic=4, 
-                       modifiers=[], 
                        base_stability=70, 
-                       economy_law=modifier.Modifier("Partial_mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}), 
+                       economy_law=modifier.Modifier("Partial_mobilization", "Partial Mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}), 
                        base_war_support=30, 
                        political_power=0, 
                        population=0, 
@@ -366,6 +365,7 @@ def create_custom_country():
                        countries_at_war_with=[], 
                        research_slots=4, 
                        has_researched=[], 
+                       can_research=[],
                        trade_law=None, 
                        conscription_law=None, 
                        advisors=[], 
@@ -374,7 +374,12 @@ def create_custom_country():
                        chief_of_army=None, 
                        chief_of_navy=None, 
                        chief_of_air_force=None, 
-                       high_commanders=[])
+                       high_commanders=[], 
+                       focus_tree=[], 
+                       focuses_done=[], 
+                       focuses_that_can_be_done=[], 
+                       national_spirits=[], 
+                       modifiers=[])
     
     custom_country.states["Custom_state"].set_country(custom_country)
 

@@ -9,4 +9,8 @@ class Modifier_classes(Enum):
     ADVISOR = "advisor"
     TRADE_LAW = "trade_law"
     CONSCRIPTION_LAW = "conscription_law"
+    NATIONAL_SPIRIT = "national_spirit"
+
+    INDUSTRIAL_CONCERN = "industrial_concern"
+    
     #Add more later

@@ -6,6 +6,9 @@ class Modifier:
         self.end_date = end_date
         self.modifier_bonuses = modifier_bonuses
 
+    def get_id(self): 
+        return self.id
+
     def get_name(self): 
         return self.name
 
