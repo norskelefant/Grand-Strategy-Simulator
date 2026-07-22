@@ -359,7 +359,10 @@ class Country:
 
     def can_switch_to_early_mobilization(self): 
         if self.get_name() == "Hungary": 
-            return self.get_full_war_support() and self.has_national_spirit("hun_treaty_of_trianon")
+            return self.get_full_war_support() > 15 and self.has_national_spirit("hun_treaty_of_trianon")
+        #Turkey(more research needed to understand)
+
+
         return self.get_full_war_support() > 15
     
     def can_switch_to_partial_mobilization(self): 
