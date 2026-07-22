@@ -1,5 +1,6 @@
 class Modifier: 
-    def __init__(self, name, modifier_type, end_date, modifier_bonuses): 
+    def __init__(self, id, name, modifier_type, end_date, modifier_bonuses): 
+        self.id = id
         self.name = name
         self.modifier_type = modifier_type
         self.end_date = end_date

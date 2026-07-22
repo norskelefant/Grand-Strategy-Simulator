@@ -20,7 +20,7 @@ POSSIBLE_TRADE_LAWS = {"Free_trade": modifier.Modifier("Free_trade", modifier_cl
 POSSIBLE_CONSCRIPTION_LAWS = None
 
 class Country: 
-    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, modifiers, base_stability, economy_law, base_war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, trade_law, conscription_law, advisors, industrial_concern, theorist, chief_of_army, chief_of_navy, chief_of_air_force, high_commanders): 
+    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, economy_law, base_war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, industrial_concern, theorist, chief_of_army, chief_of_navy, chief_of_air_force, high_commanders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits): 
         self.name = name
         self.states = states
         self.tiles = tiles
@@ -31,7 +31,6 @@ class Country:
         self.free_dockyards = free_dockyards
         self.construction = construction
         self.base_ic = base_ic
-        self.modifiers = modifiers
         self.base_stability = base_stability
         self.economy_law = economy_law
         self.base_war_support = base_war_support
@@ -53,6 +52,7 @@ class Country:
         self.countries_at_war_with = countries_at_war_with
         self.research_slots = research_slots
         self.has_researched = has_researched
+        self.can_research = can_research
         self.trade_law = trade_law
         self.conscription_law = conscription_law
         self.advisors = advisors
@@ -62,9 +62,13 @@ class Country:
         self.chief_of_navy = chief_of_navy
         self.chief_of_air_force = chief_of_air_force
         self.high_commanders = high_commanders
+        self.focus_tree = focus_tree
+        self.focuses_done = focuses_done
+        self.focuses_that_can_be_done = focuses_that_can_be_done
+        self.national_spirits = national_spirits
 
     #Getter methods
-    def get_state_name(self):
+    def get_name(self):
         return self.name
     
     def get_states(self): 
@@ -353,6 +357,8 @@ class Country:
         return True
 
     def can_switch_to_early_mobilization(self): 
+        if self.get_name() == "Hungary": 
+            return self.get_full_war_support() and self.has_national_spirit("hun_treaty_of_trianon")
         return self.get_full_war_support() > 15
     
     def can_switch_to_partial_mobilization(self): 
@@ -368,15 +374,12 @@ class Country:
         return False
     
     def is_fascist_or_communist(self): 
-        if self.get_ideology() == ideologies.Ideologies.FASCIST or self.get_ideology() == ideologies.Ideologies.FASCIST: 
+        if self.get_ideology() == ideologies.Ideologies.FASCIST or self.get_ideology() == ideologies.Ideologies.COMMUNIST: 
             return True
         return False
     
     def can_switch_to_total_mobilization(self): 
         return self.get_is_at_war() and self.get_full_war_support() > 80 and self.get_number_of_factories_enemy_country_with_most_factories_has() > (0.50 * self.get_total_factories())
-    
-    def is_ideology_fascist_or_communist(self): 
-        return self.get_ideology() == ideologies.Ideologies.FASCIST or self.get_ideology() == ideologies.Ideologies.COMMUNIST
     
     def get_number_of_factories_enemy_country_with_most_factories_has(self): 
         number_of_factories_list = []
@@ -513,7 +516,7 @@ class Country:
             has_switched = True
         elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION and self.can_switch_to_total_mobilization() == True: 
             self.economy_law = POSSIBLE_ECONOMY_LAWS["Total_mobilization"]
-            has_switched = True
+            has_switched = True        
         if has_switched == True: 
             self.remove_political_power(150)
 
@@ -529,3 +532,9 @@ class Country:
             self.economy_law = POSSIBLE_ECONOMY_LAWS["War_economy"]
         elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION: 
             self.economy_law = POSSIBLE_ECONOMY_LAWS["Total_mobilization"]
+
+    def has_national_spirit(self): 
+        return True
+    
+    def has_completed_focus(self): 
+        return True
