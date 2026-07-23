@@ -12,5 +12,9 @@ class Modifier_classes(Enum):
     NATIONAL_SPIRIT = "national_spirit"
 
     INDUSTRIAL_CONCERN = "industrial_concern"
+    THEORIST = "theorist"
+    CHIEF_OF_ARMY = "chief_of_army"
+    CHIEF_OF_NAVY = "chief_of_navy"
+    CHIEF_OF_AIR_FORCE = "chief_of_air_force"
     
     #Add more later

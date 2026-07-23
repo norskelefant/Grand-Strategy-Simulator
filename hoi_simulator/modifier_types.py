@@ -91,6 +91,10 @@ class Modifier_types(Enum):
 
     #Political power
     POLITICAL_POWER_GAIN = "political_power_gain"
+    CONSCRIPTION_LAW_COST = "conscription_law_cost"
+    TRADE_LAW_COST = "trade_law_cost"
+    ECONOMY_LAW_COST = "economy_law_cost"
+    POLITICAL_ADVISOR_COST = "political_advisor_cost"
 
     #Lend lease
     LEND_LEASE_TENSION_LIMIT = "lend_lease_tension_limit"

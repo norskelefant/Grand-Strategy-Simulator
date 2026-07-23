@@ -56,17 +56,26 @@ class Country:
         self.trade_law = trade_law
         self.conscription_law = conscription_law
         self.advisors = advisors
+        self.possible_advisors = possible_advisors
         self.industrial_concern = industrial_concern
+        self.possible_industrial_concerns = possible_industrial_concerns
         self.theorist = theorist
+        self.possible_theorists = possible_theorists
         self.chief_of_army = chief_of_army
+        self.possible_chiefs_of_army = possible_chiefs_of_army
         self.chief_of_navy = chief_of_navy
+        self.possible_chiefs_of_navy = possible_chiefs_of_navy
         self.chief_of_air_force = chief_of_air_force
+        self.possible_chiefs_of_air_force = possible_chiefs_of_air_force
         self.high_commanders = high_commanders
+        self.possible_high_commanders = possible_high_commanders
         self.focus_tree = focus_tree
         self.focuses_done = focuses_done
         self.focuses_that_can_be_done = focuses_that_can_be_done
         self.national_spirits = national_spirits
         self.modifiers = modifiers
+        #Variable that has a simple count of all added bonuses. This is calculated by going through all modifiers and adding together
+        self.full_added_bonuses = full_added_bonuses
 
     #Getter methods
     def get_name(self):
@@ -361,8 +370,6 @@ class Country:
         if self.get_name() == "Hungary": 
             return self.get_full_war_support() > 15 and self.has_national_spirit("hun_treaty_of_trianon")
         #Turkey(more research needed to understand)
-
-
         return self.get_full_war_support() > 15
     
     def can_switch_to_partial_mobilization(self): 
@@ -542,3 +549,6 @@ class Country:
     
     def has_completed_focus(self): 
         return True
+
+    def get_modifiers(self): 
+        return 
