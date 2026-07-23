@@ -1,4 +1,4 @@
-from hoi_simulator import construction_types, modifier_types, modifier_classes, economy_laws, modifier, ideologies, trade_laws
+from hoi_simulator import construction_types, modifier_types, modifier_classes, economy_laws, modifier, ideologies, trade_laws, requirements
 
 import math
 
@@ -20,7 +20,7 @@ POSSIBLE_TRADE_LAWS = {"Free_trade": modifier.Modifier("Free_trade", "Free Trade
 POSSIBLE_CONSCRIPTION_LAWS = None
 
 class Country: 
-    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, economy_law, base_war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, industrial_concern, theorist, chief_of_army, chief_of_navy, chief_of_air_force, high_commanders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits, modifiers): 
+    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, economy_law, base_war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, possible_advisors, industrial_concern, possible_industrial_concerns, theorist, possible_theorists, chief_of_army, possible_chiefs_of_army, chief_of_navy, possible_chiefs_of_navy, chief_of_air_force, possible_chiefs_of_air_force, high_commanders, possible_high_commanders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits, modifiers, full_added_bonuses): 
         self.name = name
         self.states = states
         self.tiles = tiles
@@ -551,4 +551,89 @@ class Country:
         return True
 
     def get_modifiers(self): 
-        return 
+        return self.get_modifiers
+
+    def add_to_full_added_bonuses(self, modifier): 
+        #Goes through both keys and values in get_modifier_bonuses() dictionary
+        for modifier_type, modifier_value in modifier.get_modifier_bonuses().items(): 
+            if modifier_type in self.get_full_added_bonuses(): 
+                self.full_added_bonuses[modifier_type] += modifier_value
+
+    def create_default_bonuses_map(self): 
+        defaults = {
+            modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.0,
+            modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: 0.0,
+            modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.0,
+            modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED: 0.0,
+            modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.0,
+            modifier_types.Modifier_types.SUPPLY_HUB_CONSTRUCTION_SPEED: 0.0,
+
+            modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: 0.0,
+            modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: 0.0,
+
+            modifier_types.Modifier_types.FACTORY_OUTPUT: 0.0,
+            modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_GROWTH: 0.0,
+            modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_BASE: 0.0,
+            modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.0,
+
+            modifier_types.Modifier_types.RECRUITABLE_POPULATION: 0.0,
+            modifier_types.Modifier_types.RESEARCH_SPEED: 0.0,
+            modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.0,
+            modifier_types.Modifier_types.LACK_OF_RESOURCES_PENALTY: 0.0,
+            modifier_types.Modifier_types.FREE_REPAIR: 0.0,
+            modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: 0.0,
+            modifier_types.Modifier_types.FUEL_CAPACITY: 0.0,
+            modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.0,
+
+            modifier_types.Modifier_types.STABILITY: 0.0,
+            modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER: 0.0,
+            modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER: 0.0,
+            modifier_types.Modifier_types.WEEKLY_STABILITY: 0.0,
+            modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER: 0.0,
+
+            modifier_types.Modifier_types.WAR_SUPPORT: 0.0,
+            modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT: 0.0,
+            modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_ENEMY_BOMBING: 0.0,
+
+            modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT: 0.0,
+            modifier_types.Modifier_types.DAILY_NON_ALIGNED_SUPPORT: 0.0,
+            modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT: 0.0,
+            modifier_types.Modifier_types.DAILY_FASCISM_SUPPORT: 0.0,
+            modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENCE: 0.0,
+
+            modifier_types.Modifier_types.OPERATIVE_SLOTS: 0,
+
+            modifier_types.Modifier_types.AGENCY_UPGRADE_TIME: 0.0,
+            modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.0,
+            modifier_types.Modifier_types.ARMY_INTELLIGENCE_TO_OTHERS: 0.0,
+            modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.0,
+
+            modifier_types.Modifier_types.FOREIGN_SUBVERSIVE_ACTIVITIES_EFFICIENCY: 0.0,
+            modifier_types.Modifier_types.SUBVERSIVE_ACTIVITIES_COST: 0.0,
+            modifier_types.Modifier_types.IMPROVE_RELATIONS_MAINTAIN_COST: 0.0,
+            modifier_types.Modifier_types.TRADE_DEAL_OPINION_FACTOR: 0.0,
+            modifier_types.Modifier_types.FACTION_TRADE_DEAL_OPINION_FACTOR: 0.0,
+            modifier_types.Modifier_types.SAME_IDEOLOGY_MONTHLY_OPINION: 0.0,
+
+            modifier_types.Modifier_types.SUBJECT_AUTONOMY_GAIN: 0.0,
+            modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED: 0.0,
+            modifier_types.Modifier_types.RESITANCE_GROWTH_SPEED: 0.0,
+            modifier_types.Modifier_types.JUSTIFY_WAR_GOAL_TIME: 0.0,
+
+            modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.0,
+            modifier_types.Modifier_types.CONSCRIPTION_LAW_COST: 0.0,
+            modifier_types.Modifier_types.TRADE_LAW_COST: 0.0,
+            modifier_types.Modifier_types.ECONOMY_LAW_COST: 0.0,
+            modifier_types.Modifier_types.POLITICAL_ADVISOR_COST: 0.0,
+
+            modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.0,
+            modifier_types.Modifier_types.MARKET_CONSTRUCTION_BOOST_MULTIPLIER: 0.0,
+
+            modifier_types.Modifier_types.CAN_ACCESS_INTERNATIONAL_MARKET: False,
+
+            modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: 0.0,
+        }
+
+        return defaults
+
+    

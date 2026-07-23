@@ -11,3 +11,4 @@ from . import modifier_types
 from . import modifier_classes
 from . import economy_laws
 from . import ideologies
+from . import requirements

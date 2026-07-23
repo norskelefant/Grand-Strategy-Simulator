@@ -26,6 +26,11 @@ def create_advanced_germany():
     westfalen = state.State("Westfalen", 9, 1, 3, 0, 3, False, None)
     wurttemberg = state.State("Württemberg", 8, 1, 3, 0, 4, False, None)
 
+    partial_mobilization = modifier.Modifier("Partial_mobilization", "Partial Mobilization", 0, modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}, [])
+
+    limited_exports = modifier.Modifier("Limited_exports", "Limited Exports", 0, modifier_classes. Modifier_classes.TRADE_LAW, None, {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.05, modifier_types.Modifier_types.RESEARCH_SPEED: 0.01, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.05, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.05, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.25, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.20,
+                       modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.10, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.05, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.05}, [])
+
     germany = country.Country(name="Germany", 
                        states={"baden": baden, "brandenburg": brandenburg, "ermland_masuren": ermland_masuren, "franken": franken, "hannover": hannover, "hessen": hessen, "hinterpommern": hinterpommern, "holstein": holstein, "konigsberg": konigsberg, "mecklenburg": mecklenburg, "moselland": moselland, "niederbayern": niederbayern, "niederschlesien": niederschlesien, "oberbayern": oberbayern, "oberschlesien": oberschlesien, "ostmark": ostmark, "rhineland": rhineland, "sachsen": sachsen, "schleswig": schleswig, "thuringen": thuringen, "vorpommern": vorpommern, "weser_ems": weser_ems, "westfalen": westfalen, "wurttemberg": wurttemberg},
                        tiles=None, 
@@ -37,7 +42,7 @@ def create_advanced_germany():
                        construction=construction.Construction(), 
                        base_ic=4, 
                        base_stability=70, 
-                       economy_law=modifier.Modifier("Partial_mobilization", "Partial Mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}), 
+                       economy_law=partial_mobilization, 
                        base_war_support=30, 
                        political_power=0, 
                        population=0, 
@@ -57,24 +62,34 @@ def create_advanced_germany():
                        research_slots=4, 
                        has_researched=[], 
                        can_research=[],
-                       trade_law=modifier.Modifier("Limited_exports", "Limited Exports", modifier_classes. Modifier_classes.TRADE_LAW, None, {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.05, modifier_types.Modifier_types.RESEARCH_SPEED: 0.01, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.05, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.05, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.25, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.20,
-                       modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.10, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.05, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.05}),
+                       trade_law=limited_exports,
                        conscription_law=None, 
                        advisors=[], 
+                       possible_advisors=[],
                        industrial_concern=None, 
+                       possible_industrial_concerns=[],
                        theorist=None, 
+                       possible_theorists=[],
                        chief_of_army=None, 
+                       possible_chiefs_of_army=[],
                        chief_of_navy=None, 
+                       possible_chiefs_of_navy=[],
                        chief_of_air_force=None, 
+                       possible_chiefs_of_air_force=[],
                        high_commanders=[], 
+                       possible_high_commanders=[],
                        focus_tree=[], 
                        focuses_done=[], 
                        focuses_that_can_be_done=[], 
                        national_spirits=[], 
-                       modifiers=[]
+                       modifiers=[], 
+                       full_added_bonuses={}
                        )
 
-    germany.switch_economy_law(economy_laws.Economy_laws.PARTIAL_MOBILIZATION)
+    germany.add_to_full_added_bonuses(partial_mobilization)
+    germany.add_to_full_added_bonuses(limited_exports)
+
+    germany.full_added_bonuses = germany.create_default_bonuses_map()
 
     for each_state in germany.get_states(): 
         germany.states[each_state].set_country(germany)
@@ -113,9 +128,17 @@ def create_advanced_germany():
                                            {modifier_types.Modifier_types.WAR_SUPPORT: 5})
 
     germany.modifiers.append(reichstag)
+    germany.add_to_full_added_bonuses(reichstag)
+
     germany.modifiers.append(ruling_party_popularity)
+    germany.add_to_full_added_bonuses(ruling_party_popularity)
+
     germany.national_spirits.append(mefo_bills)
+    germany.add_to_full_added_bonuses(mefo_bills)
+
     germany.modifiers.append(pride_of_the_fleet)
+    germany.add_to_full_added_bonuses(pride_of_the_fleet)
+
 
 
 
@@ -152,7 +175,7 @@ def create_simple_germany():
     westfalen = state.State("Westfalen", 9, 1, 3, 0, 0, False, None)
     wurttemberg = state.State("Württemberg", 8, 1, 3, 0, 0, False, None)
 
-    custom_economy_law = modifier.Modifier("Custom", "Costum", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.24})
+    custom_economy_law = modifier.Modifier("Custom", "Costum", 0, modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.24}, [])
 
     germany = country.Country(name="Germany", 
                        states={"baden": baden, "brandenburg": brandenburg, "ermland_masuren": ermland_masuren, "franken": franken, "hannover": hannover, "hessen": hessen, "hinterpommern": hinterpommern, "holstein": holstein, "konigsberg": konigsberg, "mecklenburg": mecklenburg, "moselland": moselland, "niederbayern": niederbayern, "niederschlesien": niederschlesien, "oberbayern": oberbayern, "oberschlesien": oberschlesien, "ostmark": ostmark, "rhineland": rhineland, "sachsen": sachsen, "schleswig": schleswig, "thuringen": thuringen, "vorpommern": vorpommern, "weser_ems": weser_ems, "westfalen": westfalen, "wurttemberg": wurttemberg},
@@ -189,16 +212,23 @@ def create_simple_germany():
                        conscription_law=None, 
                        advisors=[], 
                        industrial_concern=None, 
+                       possible_industrial_concerns=[],
                        theorist=None, 
+                       possible_theorists=[],
                        chief_of_army=None, 
+                       possible_chiefs_of_army=[],
                        chief_of_navy=None,
+                       possible_chiefs_of_navy=[],
                        chief_of_air_force=None, 
+                       possible_chiefs_of_air_force=[],
                        high_commanders=[], 
+                       possible_high_commanders=[],
                        focus_tree=[], 
                        focuses_done=[], 
                        focuses_that_can_be_done=[], 
                        national_spirits=[], 
-                       modifiers=[]
+                       modifiers=[], 
+                       full_added_bonuses={}
                        )
 
     for each_state in germany.get_states(): 

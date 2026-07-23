@@ -1,4 +1,4 @@
-from hoi_simulator import construction_types, modifier_types, modifier_classes, economy_laws, modifier, ideologies, trade_laws
+from hoi_simulator import construction_types, modifier_types, modifier_classes, economy_laws, modifier, ideologies, trade_laws, requirements
 
 class Modifier: 
     def __init__(self, id, name, base_cost, modifier_type, end_date, modifier_bonuses, requirements): 
@@ -40,3 +40,10 @@ class Modifier:
             return country.totals["economy_law_cost"] * self.get_base_cost()
         if self.get_modifier_type() == modifier_classes.Modifier_classes.ADVISOR: 
             return country.totals["advisor_cost"] * self.get_base_cost()
+
+    def requirements_met(self, country): 
+        for requirement in self.get_requirements(): 
+            if requirement == False: 
+                return False
+        return True
+
