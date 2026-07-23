@@ -33,17 +33,14 @@ class Modifier:
 
     def get_full_cost(self, country): 
         if self.get_modifier_type() == modifier_classes.Modifier_classes.CONSCRIPTION_LAW: 
-            return country.totals["conscription_law_cost"] * self.get_base_cost()
+            return country.get_full_added_bonuses()[modifier_types.Modifier_types.CONSCRIPTION_LAW_COST] * self.get_base_cost()
         if self.get_modifier_type() == modifier_classes.Modifier_classes.TRADE_LAW: 
-            return country.totals["trade_law_cost"] * self.get_base_cost()
+            return country.get_full_added_bonuses()[modifier_types.Modifier_types.TRADE_LAW_COST] * self.get_base_cost()
         if self.get_modifier_type() == modifier_classes.Modifier_classes.ECONOMY_LAW: 
-            return country.totals["economy_law_cost"] * self.get_base_cost()
+            return country.get_full_added_bonuses()[modifier_types.Modifier_types.ECONOMY_LAW_COST] * self.get_base_cost()
         if self.get_modifier_type() == modifier_classes.Modifier_classes.ADVISOR: 
-            return country.totals["advisor_cost"] * self.get_base_cost()
+            return country.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_ADVISOR_COST] * self.get_base_cost()
 
     def requirements_met(self, country): 
-        for requirement in self.get_requirements(): 
-            if requirement == False: 
-                return False
-        return True
+        return self.requirements(country)
 

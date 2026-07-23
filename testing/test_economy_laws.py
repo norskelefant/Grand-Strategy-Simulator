@@ -370,7 +370,7 @@ def create_custom_country():
                        construction=construction.Construction(), 
                        base_ic=4, 
                        base_stability=70, 
-                       economy_law=modifier.Modifier("Partial_mobilization", "Partial Mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}), 
+                       economy_law=modifier.Modifier("Partial_mobilization", "Partial Mobilization", 0, modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}, True), 
                        base_war_support=30, 
                        political_power=0, 
                        population=0, 
@@ -393,17 +393,25 @@ def create_custom_country():
                        trade_law=None, 
                        conscription_law=None, 
                        advisors=[], 
+                       possible_advisors=[],
                        industrial_concern=None, 
+                       possible_industrial_concerns=[],
                        theorist=None, 
+                       possible_theorists=[],
                        chief_of_army=None, 
+                       possible_chiefs_of_army=[],
                        chief_of_navy=None, 
+                       possible_chiefs_of_navy=[],
                        chief_of_air_force=None, 
+                       possible_chiefs_of_air_force=[],
                        high_commanders=[], 
+                       possible_high_commanders=[],
                        focus_tree=[], 
                        focuses_done=[], 
                        focuses_that_can_be_done=[], 
                        national_spirits=[], 
-                       modifiers=[])
+                       modifiers=[], 
+                       full_added_bonuses={})
     
     custom_country.states["Custom_state"].set_country(custom_country)
 

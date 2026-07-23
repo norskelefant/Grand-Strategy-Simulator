@@ -5,3 +5,4 @@ def has_required_ideology(self, ideologies, country):
     for ideology in ideologies: 
         if country.get_ideology() == ideology: 
             return True
+

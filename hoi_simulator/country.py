@@ -3,18 +3,72 @@ from hoi_simulator import construction_types, modifier_types, modifier_classes, 
 import math
 
 #For this dictionary, the idea is later to add special economy laws to them, which includes country specific ones. Of course special requirements still need to be done
-POSSIBLE_ECONOMY_LAWS = {"Civilian_economy": modifier.Modifier("Civilian_economy", "Civilian Economy", modifier_classes. Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.35, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: 0.30, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: 0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: -0.30, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.40, modifier_types.Modifier_types.FUEL_CAPACITY: -0.25, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.30, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.30}), 
-                         "Early_mobilization": modifier.Modifier("Early_mobilization", "Early Mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: -0.15, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.25, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.10}), 
-                         "Partial_mobilization": modifier.Modifier("Partial_mobilization", "Partial Mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.10, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.10, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}), 
-                         "War_economy": modifier.Modifier("War_economy", "War Economy", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.20, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.20, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.20, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.20}), 
-                         "Total_mobilization": modifier.Modifier("Total_mobilization", "Total Mobilization", modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.RECRUITABLE_POPULATION: -3, modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.15, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.30, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.50, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30})
+POSSIBLE_ECONOMY_LAWS = {"Civilian_economy": modifier.Modifier("Civilian_economy", 
+                            "Civilian Economy", 
+                            150,
+                            modifier_classes. Modifier_classes.ECONOMY_LAW, 
+                            None, 
+                            {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.35, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: 0.30, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: 0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: -0.30, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.40, modifier_types.Modifier_types.FUEL_CAPACITY: -0.25, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.30, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.30}, 
+                            lambda country: country.can_switch_to_civilian_economy()), 
+                         "Early_mobilization": modifier.Modifier("Early_mobilization", 
+                            "Early Mobilization",
+                            150,
+                            modifier_classes.Modifier_classes.ECONOMY_LAW, 
+                            None, 
+                            {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: -0.15, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.25, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.10},
+                            lambda country: country.can_switch_to_early_mobilization()), 
+                         "Partial_mobilization": modifier.Modifier("Partial_mobilization",
+                            "Partial Mobilization", 
+                            150,
+                            modifier_classes.Modifier_classes.ECONOMY_LAW, 
+                            None, 
+                            {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.10, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.10, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}, 
+                            lambda country: country.can_switch_to_partial_mobilization()), 
+                         "War_economy": modifier.Modifier("War_economy", 
+                            "War Economy", 
+                            150,
+                            modifier_classes.Modifier_classes.ECONOMY_LAW, 
+                            None, 
+                            {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.20, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.20, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.20, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.20}, 
+                            lambda country: country.can_switch_to_war_economy()), 
+                         "Total_mobilization": modifier.Modifier("Total_mobilization", 
+                            "Total Mobilization",
+                            150,
+                            modifier_classes.Modifier_classes.ECONOMY_LAW, 
+                            None, 
+                            {modifier_types.Modifier_types.RECRUITABLE_POPULATION: -3, modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.15, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.30, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.50, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30},
+                            lambda country: country.can_switch_to_total_mobilization())
                          }
 
-POSSIBLE_TRADE_LAWS = {"Free_trade": modifier.Modifier("Free_trade", "Free Trade",modifier_classes. Modifier_classes.TRADE_LAW, None, {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.15, modifier_types.Modifier_types.RESEARCH_SPEED: 0.10, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.15, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.15, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.80, modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.40, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.20, modifier_types.Modifier_types.MARKET_CONSTRUCTION_BOOST_MULTIPLIER: 0.05}), 
-                         "Export_focus": modifier.Modifier("Export_focus", "Export Focus", modifier_classes. Modifier_classes.TRADE_LAW, None, {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.10, modifier_types.Modifier_types.RESEARCH_SPEED: 0.05, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.10, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.10, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.50, modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.20, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.10, modifier_types.Modifier_types.MARKET_CONSTRUCTION_BOOST_MULTIPLIER: 0.10}), 
-                         "Limited_exports": modifier.Modifier("Limited_exports", "Limited Exports", modifier_classes. Modifier_classes.TRADE_LAW, None, {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.05, modifier_types.Modifier_types.RESEARCH_SPEED: 0.01, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.05, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.05, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.25, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.20,
-                         modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.10, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.05, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.05}),
-                         "Closed_economy": modifier.Modifier("Closed_economy", "Closed Economy", modifier_classes. Modifier_classes.TRADE_LAW, None, {modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.00, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.40, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.10, modifier_types.Modifier_types.CAN_ACCESS_INTERNATIONAL_MARKET: False})
+POSSIBLE_TRADE_LAWS = {"Free_trade": modifier.Modifier("Free_trade", 
+                            "Free Trade",
+                            150,
+                            modifier_classes.Modifier_classes.TRADE_LAW, 
+                            None, 
+                            {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.15, modifier_types.Modifier_types.RESEARCH_SPEED: 0.10, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.15, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.15, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.80, modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.40, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.20, modifier_types.Modifier_types.MARKET_CONSTRUCTION_BOOST_MULTIPLIER: 0.05}, 
+                            lambda country: country.can_switch_to_free_trade()), 
+                         "Export_focus": modifier.Modifier("Export_focus", 
+                            "Export Focus", 
+                            150,
+                            modifier_classes.Modifier_classes.TRADE_LAW, 
+                            None, 
+                            {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.10, modifier_types.Modifier_types.RESEARCH_SPEED: 0.05, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.10, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.10, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.50, modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.20, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.10, modifier_types.Modifier_types.MARKET_CONSTRUCTION_BOOST_MULTIPLIER: 0.10}, 
+                            lambda country: country.can_switch_to_export_focus()), 
+                         "Limited_exports": modifier.Modifier("Limited_exports", 
+                            "Limited Exports", 
+                            150,
+                            modifier_classes.Modifier_classes.TRADE_LAW, 
+                            None, 
+                            {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.05, modifier_types.Modifier_types.RESEARCH_SPEED: 0.01, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.05, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.05, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.25, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.20,
+                            modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.10, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.05, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.05}, 
+                            lambda country: country.can_switch_to_limited_exports()),
+                         "Closed_economy": modifier.Modifier("Closed_economy", 
+                            "Closed Economy",
+                            150,
+                            modifier_classes.Modifier_classes.TRADE_LAW, 
+                            None, 
+                            {modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.00, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.40, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.10, modifier_types.Modifier_types.CAN_ACCESS_INTERNATIONAL_MARKET: False}, 
+                            lambda country: country.can_switch_to_closed_economy())
                          }
 
 POSSIBLE_CONSCRIPTION_LAWS = None
@@ -199,6 +253,9 @@ class Country:
     def get_high_commanders(self): 
         return self.high_commanders
 
+    def get_full_added_bonuses(self): 
+        return self.full_added_bonuses
+
     #Construction speed is calculated as follows
     #construction_per_civ_with_respect_to_coal * (1 + sum(modifiers)) * infrastructure_construction
     #Also note that coal at maximum can reduce ic to 4 for any factory, but it also gives a construction speed debuff in general
@@ -341,27 +398,29 @@ class Country:
     
     def switch_economy_law(self, new_law): 
         has_switched = False
+        cost = POSSIBLE_ECONOMY_LAWS[new_law.value].get_full_cost(self)
+        print("The cost is " + str(cost))
         if new_law.value == self.get_economy_law().id: 
             return
-        if self.get_political_power() < 150: 
+        if self.get_political_power() < cost: 
             return
-        if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY and self.can_switch_to_civilian_economy() == True:
+        if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY and POSSIBLE_ECONOMY_LAWS["Civilian_economy"].requirements_met(self) == True: 
             self.economy_law = POSSIBLE_ECONOMY_LAWS["Civilian_economy"]
             has_switched = True
-        elif new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION and self.can_switch_to_early_mobilization() == True:
+        elif new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION and POSSIBLE_ECONOMY_LAWS["Early_mobilization"].requirements_met(self) == True:
             self.economy_law = POSSIBLE_ECONOMY_LAWS["Early_mobilization"]
             has_switched = True
-        elif new_law == economy_laws.Economy_laws.PARTIAL_MOBILIZATION and self.can_switch_to_partial_mobilization() == True: 
+        elif new_law == economy_laws.Economy_laws.PARTIAL_MOBILIZATION and POSSIBLE_ECONOMY_LAWS["Partial_mobilization"].requirements_met(self) == True: 
             self.economy_law = POSSIBLE_ECONOMY_LAWS["Partial_mobilization"]
             has_switched = True
-        elif new_law == economy_laws.Economy_laws.WAR_ECONOMY and self.can_switch_to_war_economy() == True: 
+        elif new_law == economy_laws.Economy_laws.WAR_ECONOMY and POSSIBLE_ECONOMY_LAWS["War_economy"].requirements_met(self) == True: 
             self.economy_law = POSSIBLE_ECONOMY_LAWS["War_economy"]
             has_switched = True
-        elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION and self.can_switch_to_total_mobilization() == True: 
+        elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION and POSSIBLE_ECONOMY_LAWS["Total_mobilization"].requirements_met(self) == True: 
             self.economy_law = POSSIBLE_ECONOMY_LAWS["Total_mobilization"]
             has_switched = True
         if has_switched == True: 
-            self.remove_political_power(150)
+            self.remove_political_power(cost)
 
     def can_switch_to_civilian_economy(self): 
         return True
@@ -450,24 +509,25 @@ class Country:
 
     def switch_trade_law(self, new_law): 
         has_switched = False
+        cost = POSSIBLE_TRADE_LAWS["Free_trade"].get_full_cost(self)
         if new_law.value == self.get_trade_law().name: 
             return
-        if self.get_political_power() < 150: 
+        if self.get_political_power() < cost: 
             return
-        if new_law == trade_laws.Trade_laws.FREE_TRADE and self.can_switch_to_free_trade() == True:
+        if new_law == trade_laws.Trade_laws.FREE_TRADE and POSSIBLE_TRADE_LAWS["Free_trade"].get_requirements(self) == True:
             self.trade_law = POSSIBLE_TRADE_LAWS["Free_trade"]
             has_switched = True
-        elif new_law == trade_laws.Trade_laws.EXPORT_FOCUS and self.can_switch_to_export_focus() == True:
+        elif new_law == trade_laws.Trade_laws.EXPORT_FOCUS and POSSIBLE_TRADE_LAWS["Export_focus"].get_requirements(self) == True:
             self.trade_law = POSSIBLE_TRADE_LAWS["Export_focus"]
             has_switched = True
-        elif new_law == trade_laws.Trade_laws.LIMITED_EXPORTS and self.can_switch_to_limited_exports() == True: 
+        elif new_law == trade_laws.Trade_laws.LIMITED_EXPORTS and POSSIBLE_TRADE_LAWS["Limited_exports"].get_requirements(self) == True: 
             self.trade_law = POSSIBLE_TRADE_LAWS["Limited_exports"]
             has_switched = True
-        elif new_law == trade_laws.Trade_laws.CLOSED_ECONOMY and self.can_switch_to_closed_economy() == True: 
+        elif new_law == trade_laws.Trade_laws.CLOSED_ECONOMY and POSSIBLE_TRADE_LAWS["Closed_economy"].get_requirements(self) == True: 
             self.trade_law = POSSIBLE_TRADE_LAWS["Closed_economy"]
             has_switched = True
         if has_switched == True: 
-            self.remove_political_power(150)
+            self.remove_political_power(cost)
 
     def can_switch_to_free_trade(self): 
         return True
@@ -503,8 +563,6 @@ class Country:
             self.economy_law = POSSIBLE_TRADE_LAWS["Limited_exports"]
         elif new_law == trade_laws.Trade_laws.CLOSED_ECONOMY: 
             self.economy_law = POSSIBLE_TRADE_LAWS["Closed_economy"]
-
-
 
     #Wait with conscription laws till later
     def switch_conscription_law(self, new_law): 
@@ -551,7 +609,7 @@ class Country:
         return True
 
     def get_modifiers(self): 
-        return self.get_modifiers
+        return self.modifiers
 
     def add_to_full_added_bonuses(self, modifier): 
         #Goes through both keys and values in get_modifier_bonuses() dictionary
