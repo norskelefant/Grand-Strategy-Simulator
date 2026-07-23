@@ -6,7 +6,7 @@ from hoi_simulator import country, state, setup_countries
 
 def test_germany(): 
     #Given Germany
-    germany = setup_countries.create_germany()
+    germany = setup_countries.create_simple_germany()
 
     #When the game starts
 
@@ -26,7 +26,7 @@ def test_germany():
 
 def test_brandenburg(): 
     #Given Germany
-    germany = setup_countries.create_germany()
+    germany = setup_countries.create_simple_germany()
 
     #When brandenburg is selected
     brandenburg = germany.states["brandenburg"]

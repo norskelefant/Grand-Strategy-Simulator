@@ -398,6 +398,7 @@ class Country:
     
     def switch_economy_law(self, new_law): 
         has_switched = False
+        print("The new law is: " + str(new_law.value))
         cost = POSSIBLE_ECONOMY_LAWS[new_law.value].get_full_cost(self)
         print("The cost is " + str(cost))
         if new_law.value == self.get_economy_law().id: 
@@ -514,16 +515,16 @@ class Country:
             return
         if self.get_political_power() < cost: 
             return
-        if new_law == trade_laws.Trade_laws.FREE_TRADE and POSSIBLE_TRADE_LAWS["Free_trade"].get_requirements(self) == True:
+        if new_law == trade_laws.Trade_laws.FREE_TRADE and POSSIBLE_TRADE_LAWS["Free_trade"].requirements_met(self) == True:
             self.trade_law = POSSIBLE_TRADE_LAWS["Free_trade"]
             has_switched = True
-        elif new_law == trade_laws.Trade_laws.EXPORT_FOCUS and POSSIBLE_TRADE_LAWS["Export_focus"].get_requirements(self) == True:
+        elif new_law == trade_laws.Trade_laws.EXPORT_FOCUS and POSSIBLE_TRADE_LAWS["Export_focus"].requirements_met(self) == True:
             self.trade_law = POSSIBLE_TRADE_LAWS["Export_focus"]
             has_switched = True
-        elif new_law == trade_laws.Trade_laws.LIMITED_EXPORTS and POSSIBLE_TRADE_LAWS["Limited_exports"].get_requirements(self) == True: 
+        elif new_law == trade_laws.Trade_laws.LIMITED_EXPORTS and POSSIBLE_TRADE_LAWS["Limited_exports"].requirements_met(self) == True: 
             self.trade_law = POSSIBLE_TRADE_LAWS["Limited_exports"]
             has_switched = True
-        elif new_law == trade_laws.Trade_laws.CLOSED_ECONOMY and POSSIBLE_TRADE_LAWS["Closed_economy"].get_requirements(self) == True: 
+        elif new_law == trade_laws.Trade_laws.CLOSED_ECONOMY and POSSIBLE_TRADE_LAWS["Closed_economy"].requirements_met(self) == True: 
             self.trade_law = POSSIBLE_TRADE_LAWS["Closed_economy"]
             has_switched = True
         if has_switched == True: 
