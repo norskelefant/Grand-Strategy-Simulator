@@ -86,10 +86,10 @@ def create_advanced_germany():
                        full_added_bonuses={}
                        )
 
+    germany.full_added_bonuses = germany.create_default_bonuses_map()
+
     germany.add_to_full_added_bonuses(partial_mobilization)
     germany.add_to_full_added_bonuses(limited_exports)
-
-    germany.full_added_bonuses = germany.create_default_bonuses_map()
 
     for each_state in germany.get_states(): 
         germany.states[each_state].set_country(germany)
@@ -109,14 +109,14 @@ def create_advanced_germany():
                                   0,
                                   modifier_classes.Modifier_classes.BASE, 
                                   None, 
-                                  {modifier_types.Modifier_types.STABILITY: 5}, 
+                                  {modifier_types.Modifier_types.STABILITY: 0.05}, 
                                   True)
     ruling_party_popularity = modifier.Modifier("Ruling_party_popularity", 
                                                 "Ruling Party Popularity",
                                                 0,
                                                 modifier_classes.Modifier_classes.BASE, 
                                                 None, 
-                                                {modifier_types.Modifier_types.STABILITY: 6}, 
+                                                {modifier_types.Modifier_types.STABILITY: 0.06}, 
                                                 True)
     
     mefo_bills = modifier.Modifier("MEFO_bills", 
@@ -124,14 +124,14 @@ def create_advanced_germany():
                                    0,
                                    modifier_classes.Modifier_classes.NATIONAL_SPIRIT, 
                                    None, 
-                                   {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10, modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED: 0.10}, 
+                                   {modifier_types.Modifier_types.WAR_SUPPORT: 0.05}, 
                                    True)
 
     pride_of_the_fleet = modifier.Modifier("Pride_of_the_fleet", 
                                            "Pride of the Fleet",
                                            0,                                           modifier_classes.Modifier_classes.BASE, 
                                            None, 
-                                           {modifier_types.Modifier_types.WAR_SUPPORT: 5}, 
+                                           {modifier_types.Modifier_types.WAR_SUPPORT: 0.05}, 
                                            True)
 
     germany.modifiers.append(reichstag)
@@ -145,6 +145,7 @@ def create_advanced_germany():
 
     germany.modifiers.append(pride_of_the_fleet)
     germany.add_to_full_added_bonuses(pride_of_the_fleet)
+
 
 
 

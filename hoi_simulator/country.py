@@ -615,6 +615,11 @@ class Country:
     def add_to_full_added_bonuses(self, modifier): 
         #Goes through both keys and values in get_modifier_bonuses() dictionary
         for modifier_type, modifier_value in modifier.get_modifier_bonuses().items(): 
+            print(
+            modifier_type,
+            modifier_value,
+            modifier_type in self.full_added_bonuses,
+        )
             if modifier_type in self.get_full_added_bonuses(): 
                 self.full_added_bonuses[modifier_type] += modifier_value
 
@@ -624,7 +629,6 @@ class Country:
             modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: 0.0,
             modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.0,
             modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED: 0.0,
-            modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.0,
             modifier_types.Modifier_types.SUPPLY_HUB_CONSTRUCTION_SPEED: 0.0,
 
             modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: 0.0,
