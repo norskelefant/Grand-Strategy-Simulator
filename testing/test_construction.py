@@ -630,6 +630,7 @@ def test_construction_cost_left_on_civ_and_mil_after_a_day_with_default_construc
     assert construction_line_brandenburg_civ.get_construction_cost() == 10740
     assert construction_line_baden_mil.get_construction_cost() == 7180
 
+
     real_date = new_game.get_date()
     correct_date = date.Date(2, 1, 1936)
     same_dates = check_date(real_date, correct_date)

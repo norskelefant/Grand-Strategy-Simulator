@@ -64,7 +64,10 @@ class Construction_line:
     def get_construction_line_ic(self): 
         country = self.get_country_name()
         state = self.get_state_name()
-        return (country.get_base_ic() * self.get_assigned_civs()) * (country.get_construction_speed_bonuses()) * state.get_infrastructure_level_modifier()
+        print(country.get_base_ic() * self.get_assigned_civs())
+        print(country.get_construction_speed_bonuses(self.get_construction_type()))
+        print(state.get_infrastructure_level_modifier())
+        return (country.get_base_ic() * self.get_assigned_civs()) * (country.get_construction_speed_bonuses(self.get_construction_type())) * state.get_infrastructure_level_modifier()
 
     def calculate_construction_cost(self): 
         if self.construction_cost == 0: 

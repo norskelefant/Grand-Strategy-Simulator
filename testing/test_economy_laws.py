@@ -55,7 +55,7 @@ def test_can_switch_economy_law_to_early_mobilization(germany, new_game):
     #When switching the economy law to early mobilization when fulfilling prerequisites
     germany.add_political_power(150)
     assert germany.get_base_war_support() == 0.3
-    assert germany.get_full_war_support() == 0.35
+    assert germany.get_full_war_support() == 0.40
 
     germany.switch_economy_law(economy_laws.Economy_laws.EARLY_MOBILIZATION)
 
@@ -81,7 +81,7 @@ def test_can_switch_economy_law_to_war_economy_one(germany, new_game):
 
     economy_law = germany.get_economy_law()
 
-    assert germany.get_full_war_support() == 0.51
+    assert germany.get_full_war_support() == pytest.approx(0.56)
     assert germany.get_ideology() == ideologies.Ideologies.FASCIST
 
     #Then the economy law should be war economy
@@ -190,10 +190,11 @@ def test_can_switch_to_early_mobilization_and_it_will_accept_if_switched_to_it_a
 
     assert germany.get_political_power() == 150
 
-    #When war support falls to 15%
-    germany.add_base_war_support(-0.20)
+    #When war support falls to 15%, since the full war support is 0.40 at the beginning, a -25% in base leaves 5% base and 15% as full
+    germany.add_base_war_support(-0.25)
 
     #Then it will not fulfill the criterias for switching, but will still be kept on early mobilization
+    assert germany.get_base_war_support() == pytest.approx(0.05)
     assert germany.get_full_war_support() == pytest.approx(0.15)
 
     germany.switch_economy_law(economy_laws.Economy_laws.EARLY_MOBILIZATION)
@@ -228,11 +229,12 @@ def test_cannot_switch_economy_law_if_one_does_not_have_enough_political_power(g
 def test_cannot_switch_to_early_mobilization_if_criteria_is_not_fulfilled(germany, new_game): 
     #Given Germany start
 
-    #When switching the economy law to early mobilization when the war support criteria is not fulfilled
+    #When switching the economy law to early mobilization when the war support of 15% criteria is not fulfilled
     germany.add_political_power(150)
 
-    germany.add_base_war_support(-0.20)
+    germany.add_base_war_support(-0.25)
 
+    assert germany.get_base_war_support() == pytest.approx(0.05)
     assert germany.get_full_war_support() == pytest.approx(0.15)
 
     germany.switch_economy_law(economy_laws.Economy_laws.EARLY_MOBILIZATION)
@@ -253,8 +255,9 @@ def test_cannot_switch_to_partial_mobilization_if_criteria_is_not_fulfilled(germ
     #When switching the economy law to early mobilization when the war support criteria is fulfilled
     germany.add_political_power(300)
 
-    germany.add_base_war_support(-0.10)
+    germany.add_base_war_support(-0.15)
 
+    assert germany.get_base_war_support() == 0.15
     assert germany.get_full_war_support() == 0.25
 
     germany.switch_economy_law(economy_laws.Economy_laws.EARLY_MOBILIZATION)
@@ -270,7 +273,7 @@ def test_cannot_switch_to_partial_mobilization_if_criteria_is_not_fulfilled(germ
 
     assert germany.get_political_power() == 150
 
-    #When trying to switch back to partial mobilization when not fulfilling the criteria    
+    #When trying to switch back to partial mobilization when not fulfilling the war support requirement of larger than 25%(since it is 25%)   
     germany.switch_economy_law(economy_laws.Economy_laws.PARTIAL_MOBILIZATION)
 
     economy_law = germany.get_economy_law()
@@ -290,7 +293,7 @@ def test_cannot_switch_to_war_economy_if_criteria_is_not_fulfilled(germany, new_
     #When switching the economy law to war economy while factory count of enemy country is not fulfilled
     germany.add_political_power(150)
 
-    germany.add_base_war_support(0.16)
+    germany.add_base_war_support(0.11)
     germany.set_at_war(True)
 
     testing_country = create_custom_country()
@@ -322,12 +325,12 @@ def test_cannot_switch_to_total_mobilization_if_criteria_is_not_fulfilled(german
     #When switching the economy law to total mobilization while factory count of enemy country is not fulfilled
     germany.add_political_power(150)
 
-    germany.add_base_war_support(0.46)
+    germany.add_base_war_support(0.41)
     germany.set_at_war(True)
 
     testing_country = create_custom_country()
 
-    assert germany.get_full_war_support() == 0.81
+    assert germany.get_full_war_support() == pytest.approx(0.81)
     assert germany.get_is_at_war() == True
     assert germany.get_number_of_factories_enemy_country_with_most_factories_has() == 0
     assert len(germany.get_countries_at_war_with()) == 0

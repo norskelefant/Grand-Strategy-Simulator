@@ -89,8 +89,10 @@ class Country:
         self.economy_law = economy_law
         self.base_war_support = base_war_support
         self.political_power = political_power
+
         #manpower to be calculated later on using population and modifiers
         self.population = population
+
         self.fuel = fuel
         self.command_power = command_power
         self.convoys = convoys
@@ -128,6 +130,7 @@ class Country:
         self.focuses_that_can_be_done = focuses_that_can_be_done
         self.national_spirits = national_spirits
         self.modifiers = modifiers
+
         #Variable that has a simple count of all added bonuses. This is calculated by going through all modifiers and adding together
         self.full_added_bonuses = full_added_bonuses
 
@@ -281,11 +284,12 @@ class Country:
             amount += self.states[state].get_dockyards()
         return amount
     
-    def get_construction_speed_bonuses(self): 
-        bonus = 1
-        for modifier in self.get_modifiers():
-            if modifier_types.Modifier_types.CONSTRUCTION_SPEED in modifier.get_modifier_bonuses(): 
-                bonus += modifier.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSTRUCTION_SPEED, 0)
+    def get_construction_speed_bonuses(self, construction_type): 
+        bonus = 1 + self.get_full_added_bonuses().get(
+        modifier_types.Modifier_types.CONSTRUCTION_SPEED,
+        0.0,
+        )
+        bonus += self.get_full_added_bonuses().get(construction_type, 0.0)
         return bonus
     
     def is_of_modifier_type(self, modifier_type): 
@@ -486,15 +490,30 @@ class Country:
         self.political_power -= amount
 
     def get_full_war_support(self): 
-        full_war_support = self.get_base_war_support()
-        for modifier in self.get_modifiers(): 
-            full_war_support += modifier.get_modifier_bonuses().get(modifier_types.Modifier_types.WAR_SUPPORT, 0)
-        return full_war_support
+        base_war_support = self.get_base_war_support()
+        other_war_support = self.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT]
+        if base_war_support + other_war_support + 1e-12 > 1.0: 
+            return 1.0
+        else: 
+            return base_war_support + other_war_support
+        
+    def get_full_stability(self): 
+        base_stability = self.get_base_stability()
+        other_stability = self.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY]
+        if base_stability + other_stability + 1e-12 > 1.0: 
+            return 1.0
+        else: 
+            return base_stability + other_stability
 
     def add_base_war_support(self, amount): 
         self.base_war_support += amount
         if self.get_base_war_support() > 1.0 + 1e-12: 
             self.base_war_support = 1.0
+
+    def add_base_stability(self, amount): 
+        self.base_stability += amount
+        if self.get_base_stability() > 1.0 + 1e-12: 
+            self.stability = 1.0
         
     def change_ideology(self, new_ideology): 
         self.ideology = new_ideology
@@ -616,6 +635,10 @@ class Country:
         #Goes through both keys and values in get_modifier_bonuses() dictionary
         for modifier_type, modifier_value in modifier.get_modifier_bonuses().items(): 
             if modifier_type in self.get_full_added_bonuses(): 
+                if modifier_type == modifier_types.Modifier_types.BASE_STABILITY: 
+                    self.add_base_stability(modifier_value)
+                if modifier_type == modifier_types.Modifier_types.BASE_WAR_SUPPORT: 
+                    self.add_base_war_support(modifier_value)
                 self.full_added_bonuses[modifier_type] += modifier_value
 
     def remove_from_full_added_bonuses(self, modifier): 

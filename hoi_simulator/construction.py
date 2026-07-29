@@ -143,7 +143,7 @@ class Construction:
         cost = construction_type.value
         if assigned_civs == 0: 
             return math.inf
-        ic_production_each_day = (country.get_base_ic() * assigned_civs) * (country.get_construction_speed_bonuses()) * state.get_infrastructure_level_modifier()
+        ic_production_each_day = (country.get_base_ic() * assigned_civs) * (country.get_construction_speed_bonuses(construction_type)) * state.get_infrastructure_level_modifier()
         time_left = math.ceil(cost / (ic_production_each_day))
         return time_left
 

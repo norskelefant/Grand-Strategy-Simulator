@@ -125,13 +125,13 @@ def test_can_switch_to_closed_economy_if_requirements_are_fulfilled(germany, new
 
     germany.declare_war(testing_country)
 
-    germany.add_base_war_support(0.16)
+    germany.add_base_war_support(0.11)
 
     germany.switch_economy_law(economy_laws.Economy_laws.WAR_ECONOMY)
 
     economy_law = germany.get_economy_law()
 
-    assert germany.get_full_war_support() == 0.51
+    assert germany.get_full_war_support() == pytest.approx(0.51)
     assert germany.get_is_at_war() == True
     assert germany.get_ideology() == ideologies.Ideologies.FASCIST
     assert economy_law.get_id() == "War_economy"

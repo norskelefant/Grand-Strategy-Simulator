@@ -44,6 +44,7 @@ class Modifier_types(Enum):
     FACTORY_ENERGY_CONSUMPTION = "factory_energy_consumption"
 
     #Stability
+    BASE_STABILITY = "base_stability"
     STABILITY = "stability"
     OFFENSIVE_WAR_STABILITY_MODIFIER = "offensive_war_stability_modifier"
     DEFENSIVE_WAR_STABILITY_MODIFIER = "defensive_war_stability_modifier"
@@ -51,6 +52,7 @@ class Modifier_types(Enum):
     PARTY_POPULARITY_STABILITY_MODIFIER = "party_popularity_stability_modifier"
 
     #War support
+    BASE_WAR_SUPPORT = "base_war_support"
     WAR_SUPPORT = "war_support"
     WEEKLY_WAR_SUPPORT = "weekly_war_support"
     #Add other weekly war support modifiers later
