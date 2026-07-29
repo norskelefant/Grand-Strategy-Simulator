@@ -256,6 +256,9 @@ class Country:
     def get_full_added_bonuses(self): 
         return self.full_added_bonuses
 
+    def get_national_spirits(self): 
+        return self.national_spirits
+
     #Construction speed is calculated as follows
     #construction_per_civ_with_respect_to_coal * (1 + sum(modifiers)) * infrastructure_construction
     #Also note that coal at maximum can reduce ic to 4 for any factory, but it also gives a construction speed debuff in general
@@ -398,9 +401,7 @@ class Country:
     
     def switch_economy_law(self, new_law): 
         has_switched = False
-        print("The new law is: " + str(new_law.value))
         cost = POSSIBLE_ECONOMY_LAWS[new_law.value].get_full_cost(self)
-        print("The cost is " + str(cost))
         if new_law.value == self.get_economy_law().id: 
             return
         if self.get_political_power() < cost: 
@@ -542,9 +543,7 @@ class Country:
                 return True
             return False
         else: 
-            print("Gets in here")
             if self.get_economy_law().id == "Partial_mobilization" or self.get_economy_law().id == "War_economy" or self.get_economy_law().id == "Total_mobilization": 
-                print("Gets in here 2")
                 return True
             return False
 
@@ -615,13 +614,16 @@ class Country:
     def add_to_full_added_bonuses(self, modifier): 
         #Goes through both keys and values in get_modifier_bonuses() dictionary
         for modifier_type, modifier_value in modifier.get_modifier_bonuses().items(): 
-            print(
-            modifier_type,
-            modifier_value,
-            modifier_type in self.full_added_bonuses,
-        )
             if modifier_type in self.get_full_added_bonuses(): 
                 self.full_added_bonuses[modifier_type] += modifier_value
+
+    def remove_from_full_added_bonuses(self, modifier): 
+        for modifier_type, modifier_value in modifier.get_modifier_bonuses().items(): 
+            if modifier_type in self.get_full_added_bonuses(): 
+                self.full_added_bonuses[modifier_type] -= modifier_value
+                #Converts numbers very close to 0 to 0
+                if math.isclose(self.full_added_bonuses[modifier_type], 0.0, abs_tol=1e-12): 
+                    self.full_added_bonuses[modifier_type] = 0
 
     def create_default_bonuses_map(self): 
         defaults = {
@@ -699,4 +701,27 @@ class Country:
 
         return defaults
 
-    
+    def day_has_passed(self, game): 
+        print(type(game))
+        print(type(game.get_date()))
+        for modifier in self.get_modifiers().copy(): 
+            print(type(modifier.get_end_date()))
+            if modifier.get_end_date() is None: 
+                return
+            if self.is_modifier_end_date_same_as_correct_date(modifier, game) == True: 
+                self.remove_from_full_added_bonuses(modifier)
+                self.get_modifiers().remove(modifier)
+        for national_spirit in self.get_national_spirits().copy(): 
+            if national_spirit.get_end_date() is None: 
+                return
+            if self.is_modifier_end_date_same_as_correct_date(national_spirit, game) == True:
+                self.remove_from_full_added_bonuses(national_spirit) 
+                self.get_national_spirits().remove(national_spirit)
+
+    def is_modifier_end_date_same_as_correct_date(self, modifier, game): 
+        print(type(game))
+        print(type(game.get_date()))
+        print(type(modifier.get_end_date()))
+        if modifier.get_end_date().get_day() == game.get_date().get_day() and modifier.get_end_date().get_month() == game.get_date().get_month() and modifier.get_end_date().get_year() == game.get_date().get_year(): 
+            return True
+        return False

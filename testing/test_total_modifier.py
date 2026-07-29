@@ -17,8 +17,12 @@ def new_game(germany):
     return create_game(germany)
 
 def test_total_modifier_bonus_for_custom_country_and_germany_is_correct(germany, new_game): 
+    #Given a custom country
     testing_country = create_custom_country()
 
+    #When asking for the total modifiers
+
+    #Then they should be the following from the modifiers
     assert len(testing_country.get_modifiers()) == 2
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.35
 
