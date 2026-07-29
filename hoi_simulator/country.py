@@ -513,7 +513,7 @@ class Country:
     def add_base_stability(self, amount): 
         self.base_stability += amount
         if self.get_base_stability() > 1.0 + 1e-12: 
-            self.stability = 1.0
+            self.base_stability = 1.0
         
     def change_ideology(self, new_ideology): 
         self.ideology = new_ideology
