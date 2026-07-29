@@ -125,13 +125,17 @@ def test_can_switch_to_closed_economy_if_requirements_are_fulfilled(germany, new
 
     germany.declare_war(testing_country)
 
-    germany.add_base_war_support(16)
+    germany.add_base_war_support(0.16)
 
     germany.switch_economy_law(economy_laws.Economy_laws.WAR_ECONOMY)
 
-    assert germany.get_political_power() == 150
+    economy_law = germany.get_economy_law()
+
+    assert germany.get_full_war_support() == 0.51
     assert germany.get_is_at_war() == True
-    assert germany.get_full_war_support() == 51
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert economy_law.get_id() == "War_economy"
+    assert germany.get_political_power() == 150
 
     germany.switch_trade_law(trade_laws.Trade_laws.CLOSED_ECONOMY)
      
@@ -164,8 +168,6 @@ def test_can_switch_to_limited_exports_if_requirements_are_fulfilled_two(germany
 
     assert trade_law.get_id() == "Free_trade"
     assert germany.get_political_power() == 150
-
-     
 
     testing_country = create_custom_country()
 
@@ -345,9 +347,9 @@ def create_custom_country():
                        free_dockyards=10, 
                        construction=construction.Construction(), 
                        base_ic=4, 
-                       base_stability=70, 
+                       base_stability=0.7, 
                        economy_law=modifier.Modifier("Partial_mobilization", "Partial Mobilization", 0, modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}, True), 
-                       base_war_support=30, 
+                       base_war_support=0.3, 
                        political_power=0, 
                        population=0, 
                        fuel=0, 

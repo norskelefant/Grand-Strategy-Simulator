@@ -20,6 +20,9 @@ def test_modifier_removed_after_end_date(germany, new_game):
     #Given a testing country
     testing_country = create_custom_country(new_game)
 
+    print(35.0-10.0)
+    print(0.35-0.10)
+
     assert len(testing_country.get_modifiers()) == 2
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.35
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0.10
@@ -74,6 +77,7 @@ def test_modifier_removed_after_end_date(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0.11
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.10
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == 0.10
+
 
 
 

@@ -1,5 +1,11 @@
 from hoi_simulator import country, state, construction, modifier, modifier_types, modifier_classes, economy_laws, ideologies
 
+#Explanation of scaled system: 
+#To avoid floating point errors, the bonus system uses scaled integers. The scaled integers are 1000, so a 25% construction speed bonus is 25 and a 1% construction speed bonus is 1
+
+
+
+
 def create_advanced_germany(): 
     baden = state.State("Baden", 8, 0, 2, 0, 3, False, None)
     brandenburg = state.State("Brandenburg", 12, 4, 5, 0, 4, False, None)
@@ -41,9 +47,9 @@ def create_advanced_germany():
                        free_dockyards=0, 
                        construction=construction.Construction(), 
                        base_ic=4, 
-                       base_stability=70, 
+                       base_stability=0.7, 
                        economy_law=partial_mobilization, 
-                       base_war_support=30, 
+                       base_war_support=0.3, 
                        political_power=0, 
                        population=0, 
                        fuel=0, 
@@ -195,7 +201,7 @@ def create_simple_germany():
                        free_dockyards=0, 
                        construction=construction.Construction(), 
                        base_ic=4, 
-                       base_stability=50, 
+                       base_stability=0.5, 
                        economy_law=custom_economy_law, 
                        base_war_support=0, 
                        political_power=0, 

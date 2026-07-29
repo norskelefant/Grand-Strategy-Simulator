@@ -431,13 +431,14 @@ class Country:
         if self.get_name() == "Hungary": 
             return self.get_full_war_support() > 15 and self.has_national_spirit("hun_treaty_of_trianon")
         #Turkey(more research needed to understand)
-        return self.get_full_war_support() > 15
-    
+        return self.get_full_war_support() > 0.15 + 1e-12
+
+    #From ChatGPT
     def can_switch_to_partial_mobilization(self): 
-        return self.get_full_war_support() > 25
+        return self.get_full_war_support() > 0.25 + 1e-12
     
     def can_switch_to_war_economy(self): 
-        if self.get_full_war_support() <= 50: 
+        if self.get_full_war_support() <= 0.50 + 1e-12: 
             return False
         if self.is_fascist_or_communist() == True: 
             return True
@@ -451,7 +452,7 @@ class Country:
         return False
     
     def can_switch_to_total_mobilization(self): 
-        return self.get_is_at_war() and self.get_full_war_support() > 80 and self.get_number_of_factories_enemy_country_with_most_factories_has() > (0.50 * self.get_total_factories())
+        return self.get_is_at_war() and self.get_full_war_support() > 0.8 + 1e-12 and self.get_number_of_factories_enemy_country_with_most_factories_has() > (0.50 * self.get_total_factories())
     
     def get_number_of_factories_enemy_country_with_most_factories_has(self): 
         number_of_factories_list = []
@@ -492,8 +493,8 @@ class Country:
 
     def add_base_war_support(self, amount): 
         self.base_war_support += amount
-        if self.get_base_war_support() > 100: 
-            self.base_war_support = 100
+        if self.get_base_war_support() > 1.0 + 1e-12: 
+            self.base_war_support = 1.0
         
     def change_ideology(self, new_ideology): 
         self.ideology = new_ideology
@@ -702,10 +703,7 @@ class Country:
         return defaults
 
     def day_has_passed(self, game): 
-        print(type(game))
-        print(type(game.get_date()))
         for modifier in self.get_modifiers().copy(): 
-            print(type(modifier.get_end_date()))
             if modifier.get_end_date() is None: 
                 return
             if self.is_modifier_end_date_same_as_correct_date(modifier, game) == True: 
@@ -719,9 +717,6 @@ class Country:
                 self.get_national_spirits().remove(national_spirit)
 
     def is_modifier_end_date_same_as_correct_date(self, modifier, game): 
-        print(type(game))
-        print(type(game.get_date()))
-        print(type(modifier.get_end_date()))
         if modifier.get_end_date().get_day() == game.get_date().get_day() and modifier.get_end_date().get_month() == game.get_date().get_month() and modifier.get_end_date().get_year() == game.get_date().get_year(): 
             return True
         return False

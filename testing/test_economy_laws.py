@@ -54,8 +54,8 @@ def test_can_switch_economy_law_to_early_mobilization(germany, new_game):
 
     #When switching the economy law to early mobilization when fulfilling prerequisites
     germany.add_political_power(150)
-    assert germany.get_base_war_support() == 30
-    assert germany.get_full_war_support() == 35
+    assert germany.get_base_war_support() == 0.3
+    assert germany.get_full_war_support() == 0.35
 
     germany.switch_economy_law(economy_laws.Economy_laws.EARLY_MOBILIZATION)
 
@@ -74,14 +74,14 @@ def test_can_switch_economy_law_to_war_economy_one(germany, new_game):
     #Given Germany start
 
     #When switching the economy law to war economy when fulfilling ideology and war support
-    germany.add_base_war_support(16)
+    germany.add_base_war_support(0.16)
     germany.add_political_power(150)
 
     germany.switch_economy_law(economy_laws.Economy_laws.WAR_ECONOMY)
 
     economy_law = germany.get_economy_law()
 
-    assert germany.get_full_war_support() == 51
+    assert germany.get_full_war_support() == 0.51
     assert germany.get_ideology() == ideologies.Ideologies.FASCIST
 
     #Then the economy law should be war economy
@@ -99,7 +99,7 @@ def test_can_switch_economy_law_to_war_economy_two(germany, new_game):
     #When switching the economy law to war economy when fulfilling being at war, largest country having at least 40% of Germany's factories, and war support being >50%
     germany.add_political_power(150)
 
-    germany.add_base_war_support(16)
+    germany.add_base_war_support(0.16)
 
     germany.change_ideology(ideologies.Ideologies.DEMOCRATIC)
 
@@ -129,7 +129,7 @@ def test_can_switch_economy_law_to_total_mobilization(germany, new_game):
     #When switching the economy law to total mobilization when fulfiling being at war, largest country having at least 50% of Germany's factories, and war support being >80%
     germany.add_political_power(150)
 
-    germany.add_base_war_support(46)
+    germany.add_base_war_support(0.46)
 
     germany.change_ideology(ideologies.Ideologies.DEMOCRATIC)
 
@@ -191,10 +191,10 @@ def test_can_switch_to_early_mobilization_and_it_will_accept_if_switched_to_it_a
     assert germany.get_political_power() == 150
 
     #When war support falls to 15%
-    germany.add_base_war_support(-20)
+    germany.add_base_war_support(-0.20)
 
     #Then it will not fulfill the criterias for switching, but will still be kept on early mobilization
-    assert germany.get_full_war_support() == 15
+    assert germany.get_full_war_support() == pytest.approx(0.15)
 
     germany.switch_economy_law(economy_laws.Economy_laws.EARLY_MOBILIZATION)
 
@@ -231,9 +231,9 @@ def test_cannot_switch_to_early_mobilization_if_criteria_is_not_fulfilled(german
     #When switching the economy law to early mobilization when the war support criteria is not fulfilled
     germany.add_political_power(150)
 
-    germany.add_base_war_support(-20)
+    germany.add_base_war_support(-0.20)
 
-    assert germany.get_full_war_support() == 15
+    assert germany.get_full_war_support() == pytest.approx(0.15)
 
     germany.switch_economy_law(economy_laws.Economy_laws.EARLY_MOBILIZATION)
 
@@ -253,9 +253,9 @@ def test_cannot_switch_to_partial_mobilization_if_criteria_is_not_fulfilled(germ
     #When switching the economy law to early mobilization when the war support criteria is fulfilled
     germany.add_political_power(300)
 
-    germany.add_base_war_support(-10)
+    germany.add_base_war_support(-0.10)
 
-    assert germany.get_full_war_support() == 25
+    assert germany.get_full_war_support() == 0.25
 
     germany.switch_economy_law(economy_laws.Economy_laws.EARLY_MOBILIZATION)
 
@@ -290,14 +290,14 @@ def test_cannot_switch_to_war_economy_if_criteria_is_not_fulfilled(germany, new_
     #When switching the economy law to war economy while factory count of enemy country is not fulfilled
     germany.add_political_power(150)
 
-    germany.add_base_war_support(16)
+    germany.add_base_war_support(0.16)
     germany.set_at_war(True)
 
     testing_country = create_custom_country()
 
     germany.change_ideology(ideologies.Ideologies.DEMOCRATIC)
 
-    assert germany.get_full_war_support() == 51
+    assert germany.get_full_war_support() == 0.51
     assert germany.get_is_at_war() == True
     assert germany.get_number_of_factories_enemy_country_with_most_factories_has() == 0
     assert len(germany.get_countries_at_war_with()) == 0
@@ -322,12 +322,12 @@ def test_cannot_switch_to_total_mobilization_if_criteria_is_not_fulfilled(german
     #When switching the economy law to total mobilization while factory count of enemy country is not fulfilled
     germany.add_political_power(150)
 
-    germany.add_base_war_support(46)
+    germany.add_base_war_support(0.46)
     germany.set_at_war(True)
 
     testing_country = create_custom_country()
 
-    assert germany.get_full_war_support() == 81
+    assert germany.get_full_war_support() == 0.81
     assert germany.get_is_at_war() == True
     assert germany.get_number_of_factories_enemy_country_with_most_factories_has() == 0
     assert len(germany.get_countries_at_war_with()) == 0
@@ -345,6 +345,7 @@ def test_cannot_switch_to_total_mobilization_if_criteria_is_not_fulfilled(german
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.10
 
     assert germany.get_political_power() == 150
+
 
 
 
@@ -369,9 +370,9 @@ def create_custom_country():
                        free_dockyards=10, 
                        construction=construction.Construction(), 
                        base_ic=4, 
-                       base_stability=70, 
+                       base_stability=0.7, 
                        economy_law=modifier.Modifier("Partial_mobilization", "Partial Mobilization", 0, modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}, True), 
-                       base_war_support=30, 
+                       base_war_support=0.3, 
                        political_power=0, 
                        population=0, 
                        fuel=0, 
@@ -416,3 +417,4 @@ def create_custom_country():
     custom_country.states["Custom_state"].set_country(custom_country)
 
     return custom_country
+
