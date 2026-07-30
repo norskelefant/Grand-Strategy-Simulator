@@ -137,7 +137,7 @@ class Modifier_types(Enum):
     GARRISON_PENETRATION_CHANCE = "garrison_penetration_chance"
 
     #Diplomacy
-    ACCEPTANCE_OF_COMMUNIST_DIPLOMACY = "acceptance_of_fascist_diplomacy"
+    ACCEPTANCE_OF_COMMUNIST_DIPLOMACY = "acceptance_of_cummunist_diplomacy"
     ACCEPTANCE_OF_FASCIST_DIPLOMACY = "acceptance_of_fascist_diplomacy"
 
     #Divisions
@@ -223,5 +223,6 @@ class Modifier_types(Enum):
     NAVAL_DOCTRINE_COST = "naval_doctrine_cost"
     TRADE_INTERDICTION_DOCTRINE_MASTERY_GAIN = "trade_interdiction_doctrine_mastery_gain"
 
+    WAR_PENALTY_STABILITY_MODIFIER = "war_penalty_stability_modifier"
 
     #Add many more later....

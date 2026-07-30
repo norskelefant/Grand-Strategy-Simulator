@@ -63,13 +63,11 @@ def create_german_advisors():
                 modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED: -0.01
             },
             lambda country: ((requirements.is_fascist(country) 
-            #https://www.reddit.com/r/hoi4/comments/10mygfi/what_does_reinstated_nazi_leadership_mean/
             or requirements.event_has_happened(country, "Reinstated_nazi_leadership"))
             and requirements.has_free_advisor_slot(country)
             ),
         ),
 
-        #Have come this far
         "Hanns_kerrl": modifier.Modifier(
             "Hanns_kerrl",
             "Hanns Kerrl",
@@ -574,7 +572,7 @@ def create_german_advisors():
                 requirements.has_completed_focus(country, "Start_the_proletarian_revolution")
                 and requirements.has_free_advisor_slot(country)
             ),
-        ), 
+        )
 
 
 

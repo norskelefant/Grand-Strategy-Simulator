@@ -1,4 +1,12 @@
-from hoi_simulator import country, state, construction, modifier, modifier_types, modifier_classes, economy_laws, ideologies
+from hoi_simulator import country, state, construction, modifier, modifier_types, modifier_classes, economy_laws, ideologies, advisors, chief_of_air_forces, chief_of_navys, chief_of_armys, industrial_concerns, leaders, theorists
+from hoi_simulator.advisors import germany as germany_advisors
+from hoi_simulator.chief_of_air_forces import germany as germany_chiefs_of_air_forces
+from hoi_simulator.chief_of_armys import germany as germany_chiefs_of_armys
+from hoi_simulator.chief_of_navys import germany as germany_chiefs_of_navys
+from hoi_simulator.high_commanders import germany as germany_high_commanders
+from hoi_simulator.industrial_concerns import germany as germany_industrial_concerns
+from hoi_simulator.leaders import germany as germany_leaders
+from hoi_simulator.theorists import germany as germany_theorists
 
 #Explanation of scaled system: 
 #To avoid floating point errors, the bonus system uses scaled integers. The scaled integers are 1000, so a 25% construction speed bonus is 25 and a 1% construction speed bonus is 1
@@ -70,19 +78,21 @@ def create_advanced_germany():
                        trade_law=limited_exports,
                        conscription_law=None, 
                        advisors=[], 
-                       possible_advisors=[],
+                       possible_advisors=germany_advisors.create_german_advisors(),
                        industrial_concern=None, 
-                       possible_industrial_concerns=[],
+                       possible_industrial_concerns=germany_industrial_concerns.create_german_industrial_concerns(),
                        theorist=None, 
-                       possible_theorists=[],
+                       possible_theorists=germany_theorists.create_german_theorists(),
                        chief_of_army=None, 
-                       possible_chiefs_of_army=[],
+                       possible_chiefs_of_army=germany_chiefs_of_armys.create_german_chief_of_armys(),
                        chief_of_navy=None, 
-                       possible_chiefs_of_navy=[],
+                       possible_chiefs_of_navy=germany_chiefs_of_navys.create_chief_of_navys(),
                        chief_of_air_force=None, 
-                       possible_chiefs_of_air_force=[],
+                       possible_chiefs_of_air_force=germany_chiefs_of_air_forces.create_german_chief_of_air_forces(),
                        high_commanders=[], 
-                       possible_high_commanders=[],
+                       possible_high_commanders=germany_high_commanders.create_german_high_commanders(),
+                       leader=None, 
+                       possible_leaders=germany_leaders.create_german_leaders(),
                        focus_tree=[], 
                        focuses_done=[], 
                        focuses_that_can_be_done=[], 
@@ -219,19 +229,21 @@ def create_simple_germany():
                        trade_law=None, 
                        conscription_law=None, 
                        advisors=[], 
-                       possible_advisors=[],
+                       possible_advisors={},
                        industrial_concern=None, 
-                       possible_industrial_concerns=[],
+                       possible_industrial_concerns={},
                        theorist=None, 
-                       possible_theorists=[],
+                       possible_theorists={},
                        chief_of_army=None, 
-                       possible_chiefs_of_army=[],
+                       possible_chiefs_of_army={},
                        chief_of_navy=None,
-                       possible_chiefs_of_navy=[],
+                       possible_chiefs_of_navy={},
                        chief_of_air_force=None, 
-                       possible_chiefs_of_air_force=[],
+                       possible_chiefs_of_air_force={},
                        high_commanders=[], 
-                       possible_high_commanders=[],
+                       possible_high_commanders={},
+                       leader=None, 
+                       possible_leaders={},
                        focus_tree=[], 
                        focuses_done=[], 
                        focuses_that_can_be_done=[], 

@@ -74,7 +74,7 @@ POSSIBLE_TRADE_LAWS = {"Free_trade": modifier.Modifier("Free_trade",
 POSSIBLE_CONSCRIPTION_LAWS = None
 
 class Country: 
-    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, economy_law, base_war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, possible_advisors, industrial_concern, possible_industrial_concerns, theorist, possible_theorists, chief_of_army, possible_chiefs_of_army, chief_of_navy, possible_chiefs_of_navy, chief_of_air_force, possible_chiefs_of_air_force, high_commanders, possible_high_commanders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits, modifiers, full_added_bonuses): 
+    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, economy_law, base_war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, possible_advisors, industrial_concern, possible_industrial_concerns, theorist, possible_theorists, chief_of_army, possible_chiefs_of_army, chief_of_navy, possible_chiefs_of_navy, chief_of_air_force, possible_chiefs_of_air_force, high_commanders, possible_high_commanders, leader, possible_leaders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits, modifiers, full_added_bonuses): 
         self.name = name
         self.states = states
         self.tiles = tiles
@@ -125,6 +125,8 @@ class Country:
         self.possible_chiefs_of_air_force = possible_chiefs_of_air_force
         self.high_commanders = high_commanders
         self.possible_high_commanders = possible_high_commanders
+        self.leader = leader
+        self.possible_leaders = possible_leaders
         self.focus_tree = focus_tree
         self.focuses_done = focuses_done
         self.focuses_that_can_be_done = focuses_that_can_be_done
@@ -649,14 +651,17 @@ class Country:
                 if math.isclose(self.full_added_bonuses[modifier_type], 0.0, abs_tol=1e-12): 
                     self.full_added_bonuses[modifier_type] = 0
 
-    def create_default_bonuses_map(self): 
+    def create_default_bonuses_map(self):
         defaults = {
-            modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.0,
             modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: 0.0,
             modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.0,
             modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED: 0.0,
+            modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.0,
             modifier_types.Modifier_types.SUPPLY_HUB_CONSTRUCTION_SPEED: 0.0,
-
+            modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: 0.0,
+            modifier_types.Modifier_types.INFRASTRUCTURE_CONSTRUCTION_SPEED: 0.0,
+            modifier_types.Modifier_types.RAILWAY_CONSTRUCTION_SPEED: 0.0,
+        
             modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: 0.0,
             modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: 0.0,
 
@@ -664,26 +669,50 @@ class Country:
             modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_GROWTH: 0.0,
             modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_BASE: 0.0,
             modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.0,
-
+            modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_RETENTION: 0.0,
+        
             modifier_types.Modifier_types.RECRUITABLE_POPULATION: 0.0,
+            modifier_types.Modifier_types.RECRUITABLE_POPULATION_FACTOR: 0.0,
+            modifier_types.Modifier_types.NON_CORE_MANPOWER: 0.0,
+            modifier_types.Modifier_types.MONTHLY_POPULATION: 0.0,
+
             modifier_types.Modifier_types.RESEARCH_SPEED: 0.0,
+            modifier_types.Modifier_types.INDUSTRIAL_RESEARCH_SPEED: 0.0,
+            modifier_types.Modifier_types.SYNTHETIC_RESOURCES_RESEARCH_SPEED: 0.0,
+            modifier_types.Modifier_types.ELECTRONICS_RESEARCH_SPEED: 0.0,
+            modifier_types.Modifier_types.EXCAVATION_TECHNOLOGY_RESEARCH_SPEED: 0.0,
+            modifier_types.Modifier_types.TRAINS_AND_RAILWAYS_RESEARCH_SPEED: 0.0,
+            modifier_types.Modifier_types.NUCLEAR_RESEARCH_SPEED: 0.0,
+
+            modifier_types.Modifier_types.AERODYNAMICS_AND_AVIONICS_SPECIAL_PROJECTS_SPEED: 0.0,
+            modifier_types.Modifier_types.LAND_WARFARE_SPECIAL_PROJECTS_SPEED: 0.0,
+
             modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.0,
             modifier_types.Modifier_types.LACK_OF_RESOURCES_PENALTY: 0.0,
+            modifier_types.Modifier_types.RESOURCE_GAIN_EFFICIENCY: 0.0,
+            modifier_types.Modifier_types.COAL: 0.0,
+            modifier_types.Modifier_types.COAL_GAIN_EFFICIENCY: 0.0,
+
             modifier_types.Modifier_types.FREE_REPAIR: 0.0,
+
             modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: 0.0,
             modifier_types.Modifier_types.FUEL_CAPACITY: 0.0,
+
             modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.0,
 
+            modifier_types.Modifier_types.BASE_STABILITY: 0.0,
             modifier_types.Modifier_types.STABILITY: 0.0,
             modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER: 0.0,
             modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER: 0.0,
             modifier_types.Modifier_types.WEEKLY_STABILITY: 0.0,
             modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER: 0.0,
 
+            modifier_types.Modifier_types.BASE_WAR_SUPPORT: 0.0,
             modifier_types.Modifier_types.WAR_SUPPORT: 0.0,
             modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT: 0.0,
             modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_ENEMY_BOMBING: 0.0,
             modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES: 0.0,
+            modifier_types.Modifier_types.NON_COMBAT_OUT_OF_SUPPLY_PENALTIES: 0.0,
 
             modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT: 0.0,
             modifier_types.Modifier_types.DAILY_NON_ALIGNED_SUPPORT: 0.0,
@@ -692,7 +721,6 @@ class Country:
             modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENCE: 0.0,
 
             modifier_types.Modifier_types.OPERATIVE_SLOTS: 0,
-
             modifier_types.Modifier_types.AGENCY_UPGRADE_TIME: 0.0,
             modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.0,
             modifier_types.Modifier_types.ARMY_INTELLIGENCE_TO_OTHERS: 0.0,
@@ -706,8 +734,11 @@ class Country:
             modifier_types.Modifier_types.SAME_IDEOLOGY_MONTHLY_OPINION: 0.0,
 
             modifier_types.Modifier_types.SUBJECT_AUTONOMY_GAIN: 0.0,
+
             modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED: 0.0,
             modifier_types.Modifier_types.RESITANCE_GROWTH_SPEED: 0.0,
+            modifier_types.Modifier_types.DAILY_COMPLIANCE_GAIN: 0.0,
+
             modifier_types.Modifier_types.JUSTIFY_WAR_GOAL_TIME: 0.0,
 
             modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.0,
@@ -717,11 +748,94 @@ class Country:
             modifier_types.Modifier_types.POLITICAL_ADVISOR_COST: 0.0,
 
             modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.0,
-            modifier_types.Modifier_types.MARKET_CONSTRUCTION_BOOST_MULTIPLIER: 0.0,
 
+            modifier_types.Modifier_types.MARKET_CONSTRUCTION_BOOST_MULTIPLIER: 0.0,
             modifier_types.Modifier_types.CAN_ACCESS_INTERNATIONAL_MARKET: False,
 
-            modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: 0.0,
+            modifier_types.Modifier_types.MILITIA_ATTACK: 0.0,
+            modifier_types.Modifier_types.MILITIA_DEFENCE: 0.0,
+            modifier_types.Modifier_types.MILITIA_ORGANIZATION: 0.0,
+
+            modifier_types.Modifier_types.GARRISON_PENETRATION_CHANCE: 0.0,
+
+            modifier_types.Modifier_types.ACCEPTANCE_OF_COMMUNIST_DIPLOMACY: 0.0,
+            modifier_types.Modifier_types.ACCEPTANCE_OF_FASCIST_DIPLOMACY: 0.0,
+
+            modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY: 0.0,
+            modifier_types.Modifier_types.DIVISION_ORGANIZATION: 0.0,
+            modifier_types.Modifier_types.DIVISION_TRAINING_TIME: 0.0,
+            modifier_types.Modifier_types.DIVISION_ATTACK: 0.0,
+            modifier_types.Modifier_types.DIVISION_SPEED: 0.0,
+            modifier_types.Modifier_types.DIVISION_RECOVERY_RATE: 0.0,
+            modifier_types.Modifier_types.DIVISION_ATTRITION: 0.0,
+
+            modifier_types.Modifier_types.EQUIPMENT_CONVERSION_SPEED: 0.0,
+            modifier_types.Modifier_types.EQUIPMENT_CAPTURE_RATIO_FACTOR: 0.0,
+
+            modifier_types.Modifier_types.TRAIN_PRODUCTION_COST: 0.0,
+            modifier_types.Modifier_types.TRAIN_ARMOR: 0.0,
+
+            modifier_types.Modifier_types.INFANTRY_EQUIPMENT_PRODUCTION_COST: 0.0,
+            modifier_types.Modifier_types.INFANTRY_DIVISION_ATTACK: 0.0,
+            modifier_types.Modifier_types.INFANTRY_DIVISION_DEFENSE: 0.0,
+
+            modifier_types.Modifier_types.SUPPORT_ARTILLERY_PRODUCTION_COST: 0.0,
+
+            modifier_types.Modifier_types.ARMOR_TECHNOLOGY_MAX_SPEED: 0.0,
+            modifier_types.Modifier_types.ARMOR_DIVISION_ATTACK: 0.0,
+            modifier_types.Modifier_types.ARMOR_DIVISION_DEFENSE: 0.0,
+
+            modifier_types.Modifier_types.ARITLLERY_ATTACK: 0.0,
+            modifier_types.Modifier_types.ARTILLERY_DEFENSE: 0.0,
+
+            modifier_types.Modifier_types.ORGANIZATION_AFTER_PARADROPPING: 0.0,
+            modifier_types.Modifier_types.PARATROOPER_ANTI_AIR_DEFENSE: 0.0,
+
+            modifier_types.Modifier_types.CLOSE_AIR_SUPPORT_GROUND_ATTACK: 0.0,
+
+            modifier_types.Modifier_types.FIGHTER_PRODUCTION_COST: 0.0,
+
+            modifier_types.Modifier_types.TACTICAL_BOMBER_PRODUCTION_COST: 0.0,
+
+            modifier_types.Modifier_types.STRATEGIC_BOMBER_PRODUCTION_COST: 0.0,
+
+            modifier_types.Modifier_types.AIR_SUPERIORITY: 0.0,
+            modifier_types.Modifier_types.BAD_WEATHER_PENALTY: 0.0,
+            modifier_types.Modifier_types.INTERCEPTION_MISSION_EFFICIENCY: 0.0,
+            modifier_types.Modifier_types.AIR_SUPPORT_MISSION_EFFICIENCY: 0.0,
+            modifier_types.Modifier_types.GROUND_ATTACK_FACTOR: 0.0,
+            modifier_types.Modifier_types.GROUND_SUPPORT: 0.0,
+            modifier_types.Modifier_types.STRATEGIC_BOMBING: 0.0,
+            modifier_types.Modifier_types.BOMBER_DEFENSE: 0.0,
+
+            modifier_types.Modifier_types.CAPITAL_SHIP_ATTACK: 0.0,
+            modifier_types.Modifier_types.CAPITAL_SHIP_ARMOR: 0.0,
+            modifier_types.Modifier_types.SCREEN_ATTACK: 0.0,
+            modifier_types.Modifier_types.SCREEN_DEFENSE: 0.0,
+            modifier_types.Modifier_types.CONVOY_RAIDING_EFFICIENCY: 0.0,
+            modifier_types.Modifier_types.NAVAL_SPEED: 0.0,
+            modifier_types.Modifier_types.NAVAL_MAX_RANGE_FACTOR: 0.0,
+            modifier_types.Modifier_types.NAVAL_AA_ATTACK: 0.0,
+            modifier_types.Modifier_types.SUBMARINE_ATTACK: 0.0,
+            modifier_types.Modifier_types.SUBMARINE_DEFENSE: 0.0,
+
+            modifier_types.Modifier_types.MAX_PLANNING_FACTOR: 0.0,
+
+            modifier_types.Modifier_types.DAILY_ARMY_EXPERIENCE_GAIN: 0.0,
+            modifier_types.Modifier_types.DAILY_NAVAL_EXPERIENCE_GAIN: 0.0,
+            modifier_types.Modifier_types.DAILY_AIR_EXPERIENCE_GAIN: 0.0,
+            modifier_types.Modifier_types.AIR_EXPERIENCE_GAIN: 0.0,
+
+            modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 0.0,
+
+            modifier_types.Modifier_types.GRAND_BATTLE_PLAN_DOCTRINE_MASTERY_GAIN: 0.0,
+            modifier_types.Modifier_types.MOBILE_WARFARE_DOCTRINE_MASTERY_GAIN: 0.0,
+            modifier_types.Modifier_types.BATTLEFIELD_SUPPORT_DOCTRINE_MASTERY_GAIN: 0.0,
+            modifier_types.Modifier_types.AIR_DOCTRINE_COST: 0.0,
+            modifier_types.Modifier_types.NAVAL_DOCTRINE_COST: 0.0,
+            modifier_types.Modifier_types.TRADE_INTERDICTION_DOCTRINE_MASTERY_GAIN: 0.0,
+
+            modifier_types.Modifier_types.WAR_PENALTY_STABILITY_MODIFIER: 0.0
         }
 
         return defaults
