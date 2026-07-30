@@ -3,6 +3,8 @@ from hoi_simulator import country, state, construction, modifier, modifier_types
 #Explanation of scaled system: 
 #To avoid floating point errors, the bonus system uses scaled integers. The scaled integers are 1000, so a 25% construction speed bonus is 25 and a 1% construction speed bonus is 1
 
+
+
 def create_advanced_germany(): 
     baden = state.State("Baden", 8, 0, 2, 0, 3, False, None)
     brandenburg = state.State("Brandenburg", 12, 4, 5, 0, 4, False, None)
@@ -149,13 +151,7 @@ def create_advanced_germany():
     germany.modifiers.append(pride_of_the_fleet)
     germany.add_to_full_added_bonuses(pride_of_the_fleet)
 
-
-
-
-
     #25% * floor((1-(-10%))*(1-12.4%) * 100) / 100 = 0.24
-
-
 
     return germany
 
@@ -261,6 +257,8 @@ def create_simple_germany():
 
 
     return germany
+
+
     
     #Formula for consumer goods: 
     #https://www.reddit.com/r/hoi4/comments/17io39g/can_someone_explain_how_consumer_goods_percantage/
@@ -279,3 +277,4 @@ def create_simple_germany():
 
 
     #nummer 5
+
