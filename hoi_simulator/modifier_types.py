@@ -12,6 +12,7 @@ class Modifier_types(Enum):
     CONSTRUCTION_SPEED = "construction_speed"
     SUPPLY_HUB_CONSTRUCTION_SPEED = "supply_hub_construction_speed"
     BASE_CONSTRUCTION_LINE_SPEED_BOOST = "base_construction_line_speed_boost"
+    INFRASTRUCTURE_CONSTRUCTION_SPEED = "infrastructure_construction_speed"
 
     #Conversion
     MIL_TO_CIV_CONVERSION_COST = "mil_to_civ_conversion_cost"
@@ -22,9 +23,13 @@ class Modifier_types(Enum):
     PRODUCTION_EFFICIENCY_GROWTH = "production_efficiency_growth"
     PRODUCTION_EFFICIENCY_BASE = "production_efficiency_base"
     DOCKYARD_OUTPUT = "dockyard_output"
+    PRODUCTION_EFFICIENCY_RETENTION = "production_efficiency_retention"
 
     #Manpower
     RECRUITABLE_POPULATION = "recruitable_population"
+    RECRUITABLE_POPULATION_FACTOR = "recruitable_population_factor"
+    NON_CORE_MANPOWER = "non_core_manpower"
+    MONTHLY_POPULATION = "monthly_population"
 
     #Research
     RESEARCH_SPEED = "research_speed"
@@ -32,6 +37,7 @@ class Modifier_types(Enum):
     #Resources
     RESOURCES_TO_MARKET = "resources_to_market"
     LACK_OF_RESOURCES_PENALTY = "lack_of_resources_penalty"
+    RESOURCE_GAIN_EFFICIENCY = "resource_gain_efficiency"
 
     #Repair
     FREE_REPAIR = "free_repair"
@@ -57,6 +63,9 @@ class Modifier_types(Enum):
     WEEKLY_WAR_SUPPORT = "weekly_war_support"
     #Add other weekly war support modifiers later
     WEEKLY_WAR_SUPPORT_ENEMY_BOMBING = "weekly_war_support_enemy_bombing"
+    WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES = "weekly_war_support_combat_casualties"
+
+    NON_COMBAT_OUT_OF_SUPPLY_PENALTIES = "non_combat_out_of_supply_penalties"
 
     #Party popularity
     DAILY_DEMOCRACY_SUPPORT = "daily_democracy_support"
@@ -87,6 +96,7 @@ class Modifier_types(Enum):
     #Resistance and compliance
     COMPLIANCE_GROWTH_SPEED = "compliance_growth_speed"
     RESITANCE_GROWTH_SPEED = "resistance_growth_speed"
+    DAILY_COMPLIANCE_GAIN = "daily_compliance_gain"
 
     #War goals
     JUSTIFY_WAR_GOAL_TIME = "justify_war_goal_time"
@@ -104,5 +114,17 @@ class Modifier_types(Enum):
     #International market
     MARKET_CONSTRUCTION_BOOST_MULTIPLIER = "market_construction_boost_multiplier"
     CAN_ACCESS_INTERNATIONAL_MARKET = "can_access_international_market"
+
+    #Militia
+    MILITIA_ATTACK = "militia_attack"
+    MILITIA_DEFENCE = "militia_defence"
+    MILITIA_ORGANIZATION = "militia_organization"
+
+    #Garrison
+    GARRISON_PENETRATION_CHANCE = "garrison_penetration_chance"
+
+    #Diplomacy
+    ACCEPTANCE_OF_COMMUNIST_DIPLOMACY = "acceptance_of_fascist_diplomacy"
+    ACCEPTANCE_OF_FASCIST_DIPLOMACY = "acceptance_of_fascist_diplomacy"
 
     #Add many more later....

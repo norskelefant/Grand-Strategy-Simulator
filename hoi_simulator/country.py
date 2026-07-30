@@ -683,6 +683,7 @@ class Country:
             modifier_types.Modifier_types.WAR_SUPPORT: 0.0,
             modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT: 0.0,
             modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_ENEMY_BOMBING: 0.0,
+            modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES: 0.0,
 
             modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT: 0.0,
             modifier_types.Modifier_types.DAILY_NON_ALIGNED_SUPPORT: 0.0,
