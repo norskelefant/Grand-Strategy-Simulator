@@ -13,6 +13,7 @@ class Modifier_types(Enum):
     SUPPLY_HUB_CONSTRUCTION_SPEED = "supply_hub_construction_speed"
     BASE_CONSTRUCTION_LINE_SPEED_BOOST = "base_construction_line_speed_boost"
     INFRASTRUCTURE_CONSTRUCTION_SPEED = "infrastructure_construction_speed"
+    RAILWAY_CONSTRUCTION_SPEED = "railway_construction_speed"
 
     #Conversion
     MIL_TO_CIV_CONVERSION_COST = "mil_to_civ_conversion_cost"
@@ -33,11 +34,23 @@ class Modifier_types(Enum):
 
     #Research
     RESEARCH_SPEED = "research_speed"
+    INDUSTRIAL_RESEARCH_SPEED = "industrial_research_speed"
+    SYNTHETIC_RESOURCES_RESEARCH_SPEED = "synthetic_resources_research_speed"
+    ELECTRONICS_RESEARCH_SPEED = "electronics_research_speed"
+    EXCAVATION_TECHNOLOGY_RESEARCH_SPEED = "excavation_technology_research_speed"
+    TRAINS_AND_RAILWAYS_RESEARCH_SPEED = "trains_and_railways_research_speed"
+    NUCLEAR_RESEARCH_SPEED = "nuclear_research_speed"
+
+    #Special projects
+    AERODYNAMICS_AND_AVIONICS_SPECIAL_PROJECTS_SPEED = "aerodynamics_and_avionics_special_projects_speed"
+    LAND_WARFARE_SPECIAL_PROJECTS_SPEED = "land_warfare_special_projects_speed"
 
     #Resources
     RESOURCES_TO_MARKET = "resources_to_market"
     LACK_OF_RESOURCES_PENALTY = "lack_of_resources_penalty"
     RESOURCE_GAIN_EFFICIENCY = "resource_gain_efficiency"
+    COAL = "coal"
+    COAL_GAIN_EFFICIENCY = "coal_gain_efficiency"
 
     #Repair
     FREE_REPAIR = "free_repair"
@@ -126,5 +139,89 @@ class Modifier_types(Enum):
     #Diplomacy
     ACCEPTANCE_OF_COMMUNIST_DIPLOMACY = "acceptance_of_fascist_diplomacy"
     ACCEPTANCE_OF_FASCIST_DIPLOMACY = "acceptance_of_fascist_diplomacy"
+
+    #Divisions
+    DIVISION_DEFENCE_ON_CORE_TERRITORY = "division_defence_on_core_territory"
+    DIVISION_ORGANIZATION = "division_organization"
+    DIVISION_TRAINING_TIME = "division_training_time"
+    DIVISION_ATTACK = "division_attack"
+    DIVISION_SPEED = "division_speed"
+    DIVISION_RECOVERY_RATE = "division_recovery_rate"
+    DIVISION_ATTRITION = "division_attrition"
+
+    #Equipment
+    EQUIPMENT_CONVERSION_SPEED = "equipment_conversion_speed"
+    EQUIPMENT_CAPTURE_RATIO_FACTOR = "equipment_capture_ratio_factor"
+    #Trains
+    TRAIN_PRODUCTION_COST = "train_production_cost"
+    TRAIN_ARMOR = "train_armor"
+    #Infantry
+    INFANTRY_EQUIPMENT_PRODUCTION_COST = "infantry_equipment_production_cost"
+    INFANTRY_DIVISION_ATTACK = "infantry_division_attack"
+    INFANTRY_DIVISION_DEFENSE = "infantry_division_defense"
+    #Support artillery
+    SUPPORT_ARTILLERY_PRODUCTION_COST = "support_artillery_production_cost"
+    #Armor technology
+    ARMOR_TECHNOLOGY_MAX_SPEED = "armor_technology_max_speed"
+    ARMOR_DIVISION_ATTACK = "armor_division_attack"
+    ARMOR_DIVISION_DEFENSE = "armor_division_defense"
+    #Artillery
+    ARITLLERY_ATTACK = "artillery_attack"
+    ARTILLERY_DEFENSE = "artillery_defense"
+    #Paradropping
+    ORGANIZATION_AFTER_PARADROPPING = "organization_after_paradropping"
+    PARATROOPER_ANTI_AIR_DEFENSE = "paratrooper_anti_air_defense"
+
+    #Planes
+    #Close air support
+    CLOSE_AIR_SUPPORT_GROUND_ATTACK = "close_air_support_ground_attack"
+    #Fighter
+    FIGHTER_PRODUCTION_COST = "fighter_production_cost"
+    #Tactical bomber
+    TACTICAL_BOMBER_PRODUCTION_COST = "tactical_bomber_production_cost"
+    #Strategic bomber
+    STRATEGIC_BOMBER_PRODUCTION_COST = "strategic_bomber_production_cost"
+
+    AIR_SUPERIORITY = "air_superiority"
+    BAD_WEATHER_PENALTY = "bad_weather_penalty"
+    INTERCEPTION_MISSION_EFFICIENCY = "interception_mission_efficiency"
+    AIR_SUPPORT_MISSION_EFFICIENCY = "air_support_mission_efficiency"
+    GROUND_ATTACK_FACTOR = "ground_attack_factor"
+    GROUND_SUPPORT = "ground_support"
+    STRATEGIC_BOMBING = "strategic_bombing"
+    BOMBER_DEFENSE = "bomber_defense"
+
+    #Ships
+    CAPITAL_SHIP_ATTACK = "capital_ship_attack"
+    CAPITAL_SHIP_ARMOR = "capital_ship_armor"
+    SCREEN_ATTACK = "screen_attack"
+    SCREEN_DEFENSE = "screen_defense"
+    CONVOY_RAIDING_EFFICIENCY = "convoy_raiding_efficiency"
+    NAVAL_SPEED = "naval_speed"
+    NAVAL_MAX_RANGE_FACTOR = "naval_max_range_factor"
+    NAVAL_AA_ATTACK = "naval_aa_attack"
+    SUBMARINE_ATTACK = "submarine_attack"
+    SUBMARINE_DEFENSE = "submarine_defense"
+
+    #Planning
+    MAX_PLANNING_FACTOR = "max_planning_factor"
+
+    #Experience
+    DAILY_ARMY_EXPERIENCE_GAIN = "daily_army_experience_gain"
+    DAILY_NAVAL_EXPERIENCE_GAIN = "daily_naval_experience_gain"
+    DAILY_AIR_EXPERIENCE_GAIN = "daily_air_experience_gain"
+    AIR_EXPERIENCE_GAIN = "air_experience_gain"
+
+    #Command power
+    MAX_COMMAND_POWER_INCREASE = "max_command_power_increase"
+
+    #Doctrines
+    GRAND_BATTLE_PLAN_DOCTRINE_MASTERY_GAIN = "grand_battle_plan_doctrine_mastery_gain"
+    MOBILE_WARFARE_DOCTRINE_MASTERY_GAIN = "mobile_warfare_doctrine_mastery_gain"
+    BATTLEFIELD_SUPPORT_DOCTRINE_MASTERY_GAIN = "battlefield_support_doctrine_mastery_gain"
+    AIR_DOCTRINE_COST = "air_doctrine_cost"
+    NAVAL_DOCTRINE_COST = "naval_doctrine_cost"
+    TRADE_INTERDICTION_DOCTRINE_MASTERY_GAIN = "trade_interdiction_doctrine_mastery_gain"
+
 
     #Add many more later....

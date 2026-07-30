@@ -16,5 +16,8 @@ class Modifier_classes(Enum):
     CHIEF_OF_ARMY = "chief_of_army"
     CHIEF_OF_NAVY = "chief_of_navy"
     CHIEF_OF_AIR_FORCE = "chief_of_air_force"
+    HIGH_COMMANDER = "high_commander"
+
+    LEADER = "leader"
     
     #Add more later
