@@ -44,11 +44,11 @@ def test_stability_caps_at_100_percent(germany, new_game):
 
 def test_war_support_caps_at_100_percent(germany, new_game): 
     #Given default germany start
-    assert germany.get_full_war_support() == 0.40
+    assert germany.get_full_war_support() == 0.35
     assert germany.get_base_war_support() == 0.30
 
-    #When base war support increases by 75 percent
-    germany.add_base_war_support(0.75)
+    #When base war support increases by 70 percent
+    germany.add_base_war_support(0.70)
 
     #Then the base and full war support should both be 1.0
     assert germany.get_full_war_support() == 1.0
@@ -65,7 +65,7 @@ def test_war_support_caps_at_100_percent(germany, new_game):
     germany.add_base_war_support(-0.06)
 
     #Then full war support should be 0.99
-    assert germany.get_full_war_support() == pytest.approx(0.99)
+    assert germany.get_full_war_support() == pytest.approx(0.94)
     assert germany.get_base_war_support() == pytest.approx(0.89)
 
 

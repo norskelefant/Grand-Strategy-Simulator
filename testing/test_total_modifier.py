@@ -27,17 +27,38 @@ def test_total_modifier_bonus_for_custom_country_and_germany_is_correct(germany,
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.35
 
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0.11
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.05
+
+def test_total_modifier_works_when_switching_economy_law(germany, new_game): 
+    #Given Germany
+
+    #Then the full added bonuses should be the following
+    germany.add_political_power(150)
+
+    assert germany.get_full_added_bonuses()[modifier_types]
+
+
+
+
+def test_total_modifier_works_when_switching_trade_law(germany, new_game): 
 
 
 
 
 
 
+    assert trade_law.get_id() == "Limited_exports"
+    assert trade_law.get_end_date() == None
+    assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RESOURCES_TO_MARKET) == 0.25
+    assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == 0.05
+    assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.DOCKYARD_OUTPUT) == 0.05
+    assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSTRUCTION_SPEED) == 0.05
+    assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RESEARCH_SPEED) == 0.01
+    assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS) == 0.10
+    assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS) == 0.05
+    assert trade_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST) == -0.05
 
-
-
-
+    assert germany.get_political_power() == 150
 
 
 

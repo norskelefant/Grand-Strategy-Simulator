@@ -30,7 +30,7 @@ def test_modifier_removed_after_end_date(germany, new_game):
 
     #Some things are left alone
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0.11
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.05
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == 0.10
 
     #When 59 days pass
@@ -45,7 +45,7 @@ def test_modifier_removed_after_end_date(germany, new_game):
 
     #Some things are left alone
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0.11
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.05
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == 0.10
 
     #When 1240 more days pass
@@ -61,7 +61,7 @@ def test_modifier_removed_after_end_date(germany, new_game):
 
     #Some things are left alone
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0.11
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.05
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == 0.10
 
     #When 1 more day passes
@@ -75,7 +75,7 @@ def test_modifier_removed_after_end_date(germany, new_game):
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0
 
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0.11
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.05
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == 0.10
 
 

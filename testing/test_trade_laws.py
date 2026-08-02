@@ -125,7 +125,7 @@ def test_can_switch_to_closed_economy_if_requirements_are_fulfilled(germany, new
 
     germany.declare_war(testing_country)
 
-    germany.add_base_war_support(0.11)
+    germany.add_base_war_support(0.16)
 
     germany.switch_economy_law(economy_laws.Economy_laws.WAR_ECONOMY)
 

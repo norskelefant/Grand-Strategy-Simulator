@@ -1,4 +1,4 @@
-from hoi_simulator import country
+from hoi_simulator import country, ideologies
 
 def has_not_completed_focus(country, focus):
     return None
@@ -40,22 +40,22 @@ def is_not_country_leader(country, leader):
     return None
 
 def is_fascist(country):
-    return None
+    return country.check_ideology(ideologies.Ideologies.FASCIST)
 
 def is_not_fascist(country):
-    return None
+    return not country.check_ideology(ideologies.Ideologies.FASCIST)
 
 def is_communist(country):
-    return None
+    return country.check_ideology(ideologies.Ideologies.COMMUNIST)
 
 def is_not_communist(country):
-    return None
+    return not country.check_ideology(ideologies.Ideologies.COMMUNIST)
 
 def is_democratic(country):
-    return None
+    return country.check_ideology(ideologies.Ideologies.DEMOCRATIC)
 
 def is_non_aligned(country):
-    return None
+    return country.check_ideology(ideologies.Ideologies.NON_ALIGNED)
 
 def event_has_happened(country, event):
     return None

@@ -858,3 +858,8 @@ class Country:
         if modifier.get_end_date().get_day() == game.get_date().get_day() and modifier.get_end_date().get_month() == game.get_date().get_month() and modifier.get_end_date().get_year() == game.get_date().get_year(): 
             return True
         return False
+
+    def check_ideology(self, ideology_to_check): 
+        if self.get_ideology() is ideology_to_check: 
+            return True
+        return False

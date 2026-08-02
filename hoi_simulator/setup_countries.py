@@ -139,7 +139,13 @@ def create_advanced_germany():
                                    0,
                                    modifier_classes.Modifier_classes.NATIONAL_SPIRIT, 
                                    None, 
-                                   {modifier_types.Modifier_types.WAR_SUPPORT: 0.05}, 
+                                   {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.10, 
+                                    modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: -0.25, 
+                                    modifier_types.Modifier_types.ARMY_INTELLIGENCE_TO_OTHERS: -0.25, 
+                                    modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: -0.25, 
+                                    modifier_types.Modifier_types.AIR_FORCE_INTELLIGENCE_TO_OTHERS: -0.25, 
+                                    modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10, 
+                                    modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED: 0.10}, 
                                    True)
 
     pride_of_the_fleet = modifier.Modifier("Pride_of_the_fleet", 

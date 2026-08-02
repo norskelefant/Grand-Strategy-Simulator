@@ -93,6 +93,7 @@ class Modifier_types(Enum):
     CIVILIAN_INTELLIGENCE_TO_OTHERS = "civilian_intelligence_to_others"
     ARMY_INTELLIGENCE_TO_OTHERS = "army_intelligence_to_others"    
     NAVY_INTELLIGENCE_TO_OTHERS = "navy_intelligence_to_others"
+    AIR_FORCE_INTELLIGENCE_TO_OTHERS = "air_force_intelligence_to_others"
 
 
     #Foreign meddling
