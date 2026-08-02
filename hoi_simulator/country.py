@@ -878,7 +878,7 @@ class Country:
     def day_has_passed(self, game): 
         for modifier in self.get_modifiers().copy(): 
             if modifier.get_end_date() is None: 
-                return
+                continue
             if self.is_modifier_end_date_same_as_correct_date(modifier, game) == True: 
                 self.remove_from_full_added_bonuses(modifier)
                 self.get_modifiers().remove(modifier)

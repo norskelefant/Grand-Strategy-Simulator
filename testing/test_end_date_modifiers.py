@@ -103,6 +103,7 @@ def test_multiple_countries_modifiers_can_be_removed(germany, new_game):
 
     #Then the first testing modifier has to be removed
     assert len(testing_country.get_modifiers()) == 1
+    assert len(germany.get_modifiers()) == 4
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == pytest.approx(0.25)
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0
@@ -122,6 +123,7 @@ def test_multiple_countries_modifiers_can_be_removed(germany, new_game):
 
     #Then nothing should happen
     assert len(testing_country.get_modifiers()) == 1
+    assert len(germany.get_modifiers()) == 4
     #This has a small floating point error
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == pytest.approx(0.25)
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0.0
@@ -141,12 +143,13 @@ def test_multiple_countries_modifiers_can_be_removed(germany, new_game):
 
     #Then the second testing_country modifier should be removed
     assert len(testing_country.get_modifiers()) == 0
+    assert len(germany.get_modifiers()) == 3
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0
     assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == pytest.approx(0.05)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == 0.20
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == pytest.approx(0.20)
 
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0.11
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.05
