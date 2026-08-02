@@ -406,6 +406,7 @@ class Country:
         return bonus
     
     def switch_economy_law(self, new_law): 
+        old_economy_law = self.get_economy_law()
         has_switched = False
         cost = POSSIBLE_ECONOMY_LAWS[new_law.value].get_full_cost(self)
         if new_law.value == self.get_economy_law().id: 
@@ -428,6 +429,8 @@ class Country:
             self.economy_law = POSSIBLE_ECONOMY_LAWS["Total_mobilization"]
             has_switched = True
         if has_switched == True: 
+            self.remove_from_full_added_bonuses(old_economy_law)
+            self.add_to_full_added_bonuses(self.get_economy_law())
             self.remove_political_power(cost)
 
     def can_switch_to_civilian_economy(self): 
@@ -474,16 +477,31 @@ class Country:
     
     #Only used when creating country
     def set_economy_law(self, new_law): 
-        if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY:
+        old_law = self.get_economy_law()
+        has_switched = False
+        if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY and has_switched == False:
             self.economy_law = POSSIBLE_ECONOMY_LAWS["Civilian_economy"]
-        elif new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION:
+            self.remove_from_full_added_bonuses(old_law)
+            self.add_to_full_added_bonuses(self.get_economy_law())
+            has_switched = True
+        elif new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION and has_switched == False:
             self.economy_law = POSSIBLE_ECONOMY_LAWS["Early_mobilization"]
-        elif new_law == economy_laws.Economy_laws.PARTIAL_MOBILIZATION: 
+            self.remove_from_full_added_bonuses(old_law)
+            self.add_to_full_added_bonuses(self.get_economy_law())
+            has_switched = True
+        elif new_law == economy_laws.Economy_laws.PARTIAL_MOBILIZATION and has_switched == False: 
             self.economy_law = POSSIBLE_ECONOMY_LAWS["Partial_mobilization"]
-        elif new_law == economy_laws.Economy_laws.WAR_ECONOMY: 
+            has_switched = True
+        elif new_law == economy_laws.Economy_laws.WAR_ECONOMY and has_switched == False: 
             self.economy_law = POSSIBLE_ECONOMY_LAWS["War_economy"]
-        elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION: 
+            self.remove_from_full_added_bonuses(old_law)
+            self.add_to_full_added_bonuses(self.get_economy_law())
+            has_switched = True
+        elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION and has_switched == False: 
             self.economy_law = POSSIBLE_ECONOMY_LAWS["Total_mobilization"]
+            self.remove_from_full_added_bonuses(old_law)
+            self.add_to_full_added_bonuses(self.get_economy_law())
+            has_switched = True
 
     def add_political_power(self, amount): 
         self.political_power += amount
@@ -532,9 +550,10 @@ class Country:
         self.countries_at_war_with.append(country)
 
     def switch_trade_law(self, new_law): 
+        old_law = self.get_trade_law()
         has_switched = False
-        cost = POSSIBLE_TRADE_LAWS["Free_trade"].get_full_cost(self)
-        if new_law.value == self.get_trade_law().name: 
+        cost = POSSIBLE_TRADE_LAWS[new_law.value].get_full_cost(self)
+        if new_law.value == self.get_trade_law().id: 
             return
         if self.get_political_power() < cost: 
             return
@@ -551,6 +570,8 @@ class Country:
             self.trade_law = POSSIBLE_TRADE_LAWS["Closed_economy"]
             has_switched = True
         if has_switched == True: 
+            self.remove_from_full_added_bonuses(old_law)
+            self.add_to_full_added_bonuses(self.get_trade_law())
             self.remove_political_power(cost)
 
     def can_switch_to_free_trade(self): 
@@ -577,14 +598,28 @@ class Country:
 
     #Only used when creating country
     def set_trade_law(self, new_law): 
-        if new_law == trade_laws.Trade_laws.FREE_TRADE:
+        old_law = self.get_trade_law()
+        has_switched = False
+        if new_law == trade_laws.Trade_laws.FREE_TRADE and has_switched == False:
             self.economy_law = POSSIBLE_TRADE_LAWS["Free_trade"]
-        elif new_law == trade_laws.Trade_laws.EXPORT_FOCUS:
+            self.remove_from_full_added_bonuses(old_law)
+            self.add_to_full_added_bonuses(self.get_trade_law())
+            has_switched = True
+        elif new_law == trade_laws.Trade_laws.EXPORT_FOCUS and has_switched == False:
             self.economy_law = POSSIBLE_TRADE_LAWS["Export_focus"]
-        elif new_law == trade_laws.Trade_laws.LIMITED_EXPORTS: 
+            self.remove_from_full_added_bonuses(old_law)
+            self.add_to_full_added_bonuses(self.get_trade_law())
+            has_switched = True
+        elif new_law == trade_laws.Trade_laws.LIMITED_EXPORTS and has_switched == False: 
             self.economy_law = POSSIBLE_TRADE_LAWS["Limited_exports"]
-        elif new_law == trade_laws.Trade_laws.CLOSED_ECONOMY: 
+            self.remove_from_full_added_bonuses(old_law)
+            self.add_to_full_added_bonuses(self.get_trade_law())
+            has_switched = True
+        elif new_law == trade_laws.Trade_laws.CLOSED_ECONOMY and has_switched == False: 
             self.economy_law = POSSIBLE_TRADE_LAWS["Closed_economy"]
+            self.remove_from_full_added_bonuses(old_law)
+            self.add_to_full_added_bonuses(self.get_trade_law())
+            has_switched = True
 
     #Wait with conscription laws till later
     def switch_conscription_law(self, new_law): 

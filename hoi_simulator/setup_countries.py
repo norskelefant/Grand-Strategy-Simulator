@@ -39,7 +39,13 @@ def create_advanced_germany():
     westfalen = state.State("Westfalen", 9, 1, 3, 0, 3, False, None)
     wurttemberg = state.State("Württemberg", 8, 1, 3, 0, 4, False, None)
 
-    partial_mobilization = modifier.Modifier("Partial_mobilization", "Partial Mobilization", 0, modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}, True)
+    partial_mobilization = modifier.Modifier("Partial_mobilization",
+                            "Partial Mobilization", 
+                            0,
+                            modifier_classes.Modifier_classes.ECONOMY_LAW, 
+                            None, 
+                            {modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.25, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.10, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.10, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}, 
+                            True)
 
     limited_exports = modifier.Modifier("Limited_exports", "Limited Exports", 0, modifier_classes. Modifier_classes.TRADE_LAW, None, {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.05, modifier_types.Modifier_types.RESEARCH_SPEED: 0.01, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.05, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.05, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.25, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.20,
                        modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.10, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.05, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.05}, True)
@@ -170,6 +176,7 @@ def create_advanced_germany():
     #25% * floor((1-(-10%))*(1-12.4%) * 100) / 100 = 0.24
 
     return germany
+
 
 #Creates a simple Germany for test_construction. Does not have any infrastructure level buffs, or bonus buffs like construction speed, consumer goods or anything else
 def create_simple_germany(): 
