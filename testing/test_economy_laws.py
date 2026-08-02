@@ -25,7 +25,7 @@ def test_partial_mobilization_is_default_economy_law_for_germany(germany, new_ga
     #Then the economy law should be Partial_mobilization
     assert economy_law.get_id() == "Partial_mobilization"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.25
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.25
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.10
 
 def test_can_switch_economy_law_to_civilian_economy_if_prerequisites_are_fulfilled(germany, new_game): 
@@ -43,7 +43,7 @@ def test_can_switch_economy_law_to_civilian_economy_if_prerequisites_are_fulfill
     #Then the economy law should be civilian economy
     assert economy_law.get_id() == "Civilian_economy"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.35
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.35
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED) == -0.30
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == -0.30
 
@@ -64,7 +64,7 @@ def test_can_switch_economy_law_to_early_mobilization(germany, new_game):
     #Then the economy law should be early mobilization
     assert economy_law.get_id() == "Early_mobilization"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.30
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.30
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED) == -0.10
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == -0.10
 
@@ -87,7 +87,7 @@ def test_can_switch_economy_law_to_war_economy_one(germany, new_game):
     #Then the economy law should be war economy
     assert economy_law.get_id() == "War_economy"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.20
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.20
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.20
 
     assert germany.get_political_power() == 0
@@ -118,7 +118,7 @@ def test_can_switch_economy_law_to_war_economy_two(germany, new_game):
     #Then the economy law should be war economy
     assert economy_law.get_id() == "War_economy"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.20
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.20
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.20
 
     assert germany.get_political_power() == 0
@@ -148,7 +148,7 @@ def test_can_switch_economy_law_to_total_mobilization(germany, new_game):
     #Then the economy law should be total mobilization
     assert economy_law.get_id() == "Total_mobilization"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.15
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.15
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.30
 
     assert germany.get_political_power() == 0
@@ -166,7 +166,7 @@ def test_switching_economy_law_with_the_same_economy_law_has_no_effect(germany, 
     #Then the economy law should be total mobilization, and no political power should have been used
     assert economy_law.get_id() == "Partial_mobilization"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.25
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.25
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.10
 
     assert germany.get_political_power() == 150
@@ -184,7 +184,7 @@ def test_can_switch_to_early_mobilization_and_it_will_accept_if_switched_to_it_a
     #Then the economy law should be early mobilization
     assert economy_law.get_id() == "Early_mobilization"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.30
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.30
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED) == -0.10
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == -0.10
 
@@ -204,7 +204,7 @@ def test_can_switch_to_early_mobilization_and_it_will_accept_if_switched_to_it_a
     #Then the economy law should be early mobilization
     assert economy_law.get_id() == "Early_mobilization"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.30
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.30
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED) == -0.10
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == -0.10
 
@@ -221,7 +221,7 @@ def test_cannot_switch_economy_law_if_one_does_not_have_enough_political_power(g
     #Then the economy law should still be partial mobilization
     assert economy_law.get_id() == "Partial_mobilization"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.25
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.25
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.10
 
     assert germany.get_political_power() == 0
@@ -244,7 +244,7 @@ def test_cannot_switch_to_early_mobilization_if_criteria_is_not_fulfilled(german
     #Then the economy law should still be partial mobilization
     assert economy_law.get_id() == "Partial_mobilization"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.25
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.25
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.10
 
     assert germany.get_political_power() == 150
@@ -267,7 +267,7 @@ def test_cannot_switch_to_partial_mobilization_if_criteria_is_not_fulfilled(germ
     #Then the economy law should be early mobilization
     assert economy_law.get_id() == "Early_mobilization"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.30
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.30
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED) == -0.10
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == -0.10
 
@@ -281,7 +281,7 @@ def test_cannot_switch_to_partial_mobilization_if_criteria_is_not_fulfilled(germ
     #Then the economy law should remain early mobilization
     assert economy_law.get_id() == "Early_mobilization"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.30
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.30
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED) == -0.10
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == -0.10
 
@@ -314,7 +314,7 @@ def test_cannot_switch_to_war_economy_if_criteria_is_not_fulfilled(germany, new_
     #Then the economy law should remain partial mobilization
     assert economy_law.get_id() == "Partial_mobilization"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.25
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.25
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.10
 
     assert germany.get_political_power() == 150
@@ -344,7 +344,7 @@ def test_cannot_switch_to_total_mobilization_if_criteria_is_not_fulfilled(german
     #Then the economy law should remain partial mobilization
     assert economy_law.get_id() == "Partial_mobilization"
     assert economy_law.get_end_date() == None
-    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR) == 0.25
+    assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS) == 0.25
     assert economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED) == 0.10
 
     assert germany.get_political_power() == 150

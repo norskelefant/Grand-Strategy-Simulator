@@ -8,35 +8,35 @@ POSSIBLE_ECONOMY_LAWS = {"Civilian_economy": modifier.Modifier("Civilian_economy
                             150,
                             modifier_classes. Modifier_classes.ECONOMY_LAW, 
                             None, 
-                            {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.35, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: 0.30, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: 0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: -0.30, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.40, modifier_types.Modifier_types.FUEL_CAPACITY: -0.25, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.30, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.30}, 
+                            {modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.35, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: 0.30, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: 0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: -0.30, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.40, modifier_types.Modifier_types.FUEL_CAPACITY: -0.25, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.30, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.30}, 
                             lambda country: country.can_switch_to_civilian_economy()), 
                          "Early_mobilization": modifier.Modifier("Early_mobilization", 
                             "Early Mobilization",
                             150,
                             modifier_classes.Modifier_classes.ECONOMY_LAW, 
                             None, 
-                            {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: -0.15, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.25, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.10},
+                            {modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: -0.15, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.25, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.10},
                             lambda country: country.can_switch_to_early_mobilization()), 
                          "Partial_mobilization": modifier.Modifier("Partial_mobilization",
                             "Partial Mobilization", 
                             150,
                             modifier_classes.Modifier_classes.ECONOMY_LAW, 
                             None, 
-                            {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.10, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.10, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}, 
+                            {modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.25, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.10, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.10, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}, 
                             lambda country: country.can_switch_to_partial_mobilization()), 
                          "War_economy": modifier.Modifier("War_economy", 
                             "War Economy", 
                             150,
                             modifier_classes.Modifier_classes.ECONOMY_LAW, 
                             None, 
-                            {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.20, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.20, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.20, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.20}, 
+                            {modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.20, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.20, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.20, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.20}, 
                             lambda country: country.can_switch_to_war_economy()), 
                          "Total_mobilization": modifier.Modifier("Total_mobilization", 
                             "Total Mobilization",
                             150,
                             modifier_classes.Modifier_classes.ECONOMY_LAW, 
                             None, 
-                            {modifier_types.Modifier_types.RECRUITABLE_POPULATION: -3, modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.15, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.30, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.50, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30},
+                            {modifier_types.Modifier_types.RECRUITABLE_POPULATION: -3, modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.15, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.30, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.50, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30},
                             lambda country: country.can_switch_to_total_mobilization())
                          }
 
@@ -303,8 +303,8 @@ class Country:
         return self.get_consumer_goods_from_economy_law()
     
     def get_consumer_goods_from_economy_law(self): 
-        if modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR in self.economy_law.get_modifier_bonuses(): 
-            return self.economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR, 0)
+        if modifier_types.Modifier_types.BASE_CONSUMER_GOODS in self.economy_law.get_modifier_bonuses(): 
+            return self.economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS, 0)
     
     def get_floor_consumer_goods(self): 
         bonus = 1

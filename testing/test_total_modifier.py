@@ -35,7 +35,7 @@ def test_total_modifier_works_when_switching_economy_law(germany, new_game):
     #Then the full added bonuses should be the following
     germany.add_political_power(150)
 
-    assert germany.get_full_added_bonuses()[modifier_types]
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR]
 
 
 
