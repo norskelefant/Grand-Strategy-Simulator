@@ -121,6 +121,12 @@ class Modifier_types(Enum):
     TRADE_LAW_COST = "trade_law_cost"
     ECONOMY_LAW_COST = "economy_law_cost"
     POLITICAL_ADVISOR_COST = "political_advisor_cost"
+    THEORIST_COST = "theorist_cost"
+    INDUSTRIAL_CONCERN_COST = "industrial_concern_cost"
+    CHIEF_OF_ARMY_COST = "chief_of_army_cost"
+    CHIEF_OF_NAVY_COST = "chief_of_navy_cost"
+    CHIEF_OF_AIR_FORCE_COST = "chief_of_air_force_cost"
+    HIGH_COMMANDER_COST = "high_commander_cost"
 
     #Lend lease
     LEND_LEASE_TENSION_LIMIT = "lend_lease_tension_limit"

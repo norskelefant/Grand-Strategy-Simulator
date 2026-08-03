@@ -13,7 +13,7 @@ def create_german_industrial_concerns():
                 modifier_types.Modifier_types.SYNTHETIC_RESOURCES_RESEARCH_SPEED: 0.15
             },
             lambda country: (
-                requirements.has_free_industrial_concern_slot(country)
+                True
             ),
         ),
 
@@ -29,7 +29,7 @@ def create_german_industrial_concerns():
                 modifier_types.Modifier_types.INDUSTRIAL_RESEARCH_SPEED: 0.15
             },
             lambda country: (
-                requirements.has_free_industrial_concern_slot(country)
+                True
             ),
         ),
 
@@ -44,7 +44,7 @@ def create_german_industrial_concerns():
                 modifier_types.Modifier_types.ELECTRONICS_RESEARCH_SPEED: 0.15
             },
             lambda country: (
-                requirements.has_free_industrial_concern_slot(country)
+                True
             ),
         ),   
 
@@ -60,7 +60,7 @@ def create_german_industrial_concerns():
                 modifier_types.Modifier_types.EXCAVATION_TECHNOLOGY_RESEARCH_SPEED: 0.15
             },
             lambda country: (
-                requirements.has_free_industrial_concern_slot(country)
+                True
             ),
         ),   
 
@@ -78,7 +78,7 @@ def create_german_industrial_concerns():
                 modifier_types.Modifier_types.TRAIN_ARMOR: 0.15
             },
             lambda country: (
-                requirements.has_free_industrial_concern_slot(country)
+                True
             ),
         ),  
 
@@ -93,7 +93,7 @@ def create_german_industrial_concerns():
                 modifier_types.Modifier_types.RAILWAY_CONSTRUCTION_SPEED: 0.10
             },
             lambda country: (
-                requirements.has_free_industrial_concern_slot(country)
+                True
             ),
         ),  
 
@@ -108,7 +108,7 @@ def create_german_industrial_concerns():
                 modifier_types.Modifier_types.NUCLEAR_RESEARCH_SPEED: 0.05
             },
             lambda country: (
-                requirements.has_free_industrial_concern_slot(country)
+                True
             ),
         ),  
 
@@ -129,7 +129,6 @@ def create_german_industrial_concerns():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Establish_the_reichswerke")
-                and requirements.has_free_industrial_concern_slot(country)
             ),
         )
 

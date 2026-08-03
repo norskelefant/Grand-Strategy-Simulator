@@ -13,7 +13,6 @@ def create_german_theorists():
             },
             lambda country: (
                 requirements.has_not_completed_focus(country, "Reorganize_the_wehrmacht")
-                and requirements.has_free_theorist_slot(country)
             ),
         ),   
 
@@ -27,7 +26,7 @@ def create_german_theorists():
                 modifier_types.Modifier_types.MOBILE_WARFARE_DOCTRINE_MASTERY_GAIN: 0.15
             },
             lambda country: (
-                requirements.has_free_theorist_slot(country)
+                True
             ),
         ),   
 
@@ -41,7 +40,7 @@ def create_german_theorists():
                 modifier_types.Modifier_types.BATTLEFIELD_SUPPORT_DOCTRINE_MASTERY_GAIN: 0.15
             },
             lambda country: (
-                requirements.has_free_theorist_slot(country)
+                True
             ),
         ),   
 
@@ -55,7 +54,7 @@ def create_german_theorists():
                 modifier_types.Modifier_types.AIR_DOCTRINE_COST: -0.10
             },
             lambda country: (
-                requirements.has_free_theorist_slot(country)
+                True
             ),
         ),   
 
@@ -69,7 +68,7 @@ def create_german_theorists():
                 modifier_types.Modifier_types.NAVAL_DOCTRINE_COST: -0.10
             },
             lambda country: (
-                requirements.has_free_theorist_slot(country)
+                True
             ),
         ),   
 
@@ -85,7 +84,6 @@ def create_german_theorists():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Adopt_new_panzer_doctrine")
-                and requirements.has_free_theorist_slot(country)
             ),
         ),   
 
@@ -100,7 +98,6 @@ def create_german_theorists():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Wolfpack_tatics")
-                and requirements.has_free_theorist_slot(country)
             ),
         ),   
 
@@ -116,7 +113,6 @@ def create_german_theorists():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Dive_bombers")
-                and requirements.has_free_theorist_slot(country)
             ),
         )
 

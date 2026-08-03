@@ -14,7 +14,7 @@ def create_german_chief_of_air_forces():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.has_free_chief_of_air_slot(country)
+                True
             ),
         ),  
 
@@ -34,7 +34,6 @@ def create_german_chief_of_air_forces():
             },
             lambda country: (
                 (requirements.is_fascist(country) or requirements.event_has_happened(country, "Reinstated_nazi_leadership"))
-                and requirements.has_free_chief_of_air_slot(country)
             ),
         ),  
 
@@ -51,7 +50,6 @@ def create_german_chief_of_air_forces():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "expanding_the_luftwaffe")
-                and requirements.has_free_chief_of_air_slot(country)
             ),
         ),  
 
@@ -69,7 +67,6 @@ def create_german_chief_of_air_forces():
             lambda country: (
                 requirements.is_not_fascist(country)
                 and requirements.has_completed_focus(country, "Reorganize_the_luftwaffe")
-                and requirements.has_free_chief_of_air_slot(country)
             ),
         ),  
 

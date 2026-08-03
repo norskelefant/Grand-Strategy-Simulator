@@ -14,7 +14,7 @@ def create_german_chief_of_armys():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.has_free_chief_of_army_slot(country)
+                True
             ),
         ),   
 
@@ -31,7 +31,6 @@ def create_german_chief_of_armys():
             },
             lambda country: (
                 requirements.is_fascist(country)
-                and requirements.has_free_chief_of_army_slot(country)
             ),
         ),   
 
@@ -51,7 +50,6 @@ def create_german_chief_of_armys():
             lambda country: (
                 requirements.is_not_already_hired_elsewhere(country, "Werner_von_fritsch")
                 and requirements.has_completed_focus(country, "Prussian_artillery_doctrine")
-                and requirements.has_free_chief_of_army_slot(country)
             ),
         ),   
 
@@ -68,7 +66,6 @@ def create_german_chief_of_armys():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Instill_auftragstaktik")
-                and requirements.has_free_chief_of_army_slot(country)
             ),
         ),
 
@@ -85,7 +82,6 @@ def create_german_chief_of_armys():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Develop_modern_maneuver_warfare")
-                and requirements.has_free_chief_of_army_slot(country)
             ),
         ),    
 

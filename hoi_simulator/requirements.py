@@ -63,3 +63,4 @@ def has_not_hired_advisor(country, advisor_name):
 def has_created_intelligence_agency(country):
     return country.has_created_intelligence_agency()
 
+
