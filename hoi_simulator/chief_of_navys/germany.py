@@ -18,7 +18,6 @@ def create_chief_of_navys():
             },
             lambda country: (
                 requirements.is_not_country_leader(country, "Erich_raeder")
-                and requirements.has_free_chief_of_navy_slot(country)
             ),
         ),  
 
@@ -35,7 +34,6 @@ def create_chief_of_navys():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Trade_interdiction")
-                and requirements.has_free_chief_of_navy_slot(country)
             ),
         ),
 
@@ -52,7 +50,6 @@ def create_chief_of_navys():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Re-establish_the_seekriegsleitung")
-                and requirements.has_free_chief_of_navy_slot(country)
             ),
         ),
 

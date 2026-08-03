@@ -13,7 +13,7 @@ def create_german_high_commanders():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.has_free_high_commander_slot(country)
+                True
             ),
         ),          
 
@@ -30,7 +30,6 @@ def create_german_high_commanders():
             lambda country: (
                 requirements.is_not_already_hired_elsewhere(country, "Werner_von_fritsch")
                 and requirements.has_not_completed_focus(country, "Reorganize_the_wehrmacht")
-                and requirements.has_free_high_commander_slot(country)
             ),
         ),  
 
@@ -45,7 +44,7 @@ def create_german_high_commanders():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.has_free_high_commander_slot(country)
+                True
             ),
         ),    
 
@@ -61,7 +60,7 @@ def create_german_high_commanders():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.has_free_high_commander_slot(country)
+                True
             ),
         ),           
 
@@ -76,7 +75,7 @@ def create_german_high_commanders():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.has_free_high_commander_slot(country)
+                True
             ),
         ),   
 
@@ -92,7 +91,7 @@ def create_german_high_commanders():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 10
             },
             lambda country: (
-                requirements.has_free_high_commander_slot(country)
+                True
             ),
         ), 
 
@@ -107,7 +106,7 @@ def create_german_high_commanders():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.has_free_high_commander_slot(country)
+                True
             ),
         ),   
 
@@ -124,7 +123,6 @@ def create_german_high_commanders():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Adopt_new_panzer_doctrine")
-                and requirements.has_free_high_commander_slot(country)
             ),
         ),  
 
@@ -141,7 +139,6 @@ def create_german_high_commanders():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Falschirmjager")
-                and requirements.has_free_high_commander_slot(country)
             ),
         ),  
 
@@ -158,7 +155,6 @@ def create_german_high_commanders():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Dive_bombers")
-                and requirements.has_free_high_commander_slot(country)
             ),
         ),  
 
@@ -174,7 +170,6 @@ def create_german_high_commanders():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Tactical_bombers")
-                and requirements.has_free_high_commander_slot(country)
             ),
         ),  
 
@@ -191,7 +186,6 @@ def create_german_high_commanders():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Uralbomber_program")
-                and requirements.has_free_high_commander_slot(country)
             ),
         ), 
 
@@ -209,7 +203,6 @@ def create_german_high_commanders():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Salvage_captured_equipment")
-                and requirements.has_free_high_commander_slot(country)
             ),
         ), 
 
@@ -226,7 +219,6 @@ def create_german_high_commanders():
             },
             lambda country: (
                 (requirements.has_completed_focus(country, "Rocketry_innovations") or requirements.has_completed_focus(country, "Wonder_weapons") or requirements.has_completed_focus(country, "Glorious_mechanical_machinations"))
-                and requirements.has_free_high_commander_slot(country)
             ),
         )
     }
