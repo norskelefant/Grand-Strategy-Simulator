@@ -17,7 +17,7 @@ def create_chief_of_navys():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.is_not_current_country_leader(country, "Erich_raeder")
+                requirements.is_not_country_leader(country, "Erich_raeder")
                 and requirements.has_free_chief_of_navy_slot(country)
             ),
         ),  

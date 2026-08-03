@@ -74,7 +74,7 @@ POSSIBLE_TRADE_LAWS = {"Free_trade": modifier.Modifier("Free_trade",
 POSSIBLE_CONSCRIPTION_LAWS = None
 
 class Country: 
-    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, economy_law, base_war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, possible_advisors, industrial_concern, possible_industrial_concerns, theorist, possible_theorists, chief_of_army, possible_chiefs_of_army, chief_of_navy, possible_chiefs_of_navy, chief_of_air_force, possible_chiefs_of_air_force, high_commanders, possible_high_commanders, leader, possible_leaders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits, modifiers, full_added_bonuses): 
+    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, economy_law, base_war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, possible_advisors, industrial_concern, possible_industrial_concerns, theorist, possible_theorists, chief_of_army, possible_chiefs_of_army, chief_of_navy, possible_chiefs_of_navy, chief_of_air_force, possible_chiefs_of_air_force, high_commanders, possible_high_commanders, leader, possible_leaders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits, modifiers, events_gotten, intelligence_agency, full_added_bonuses): 
         self.name = name
         self.states = states
         self.tiles = tiles
@@ -132,6 +132,8 @@ class Country:
         self.focuses_that_can_be_done = focuses_that_can_be_done
         self.national_spirits = national_spirits
         self.modifiers = modifiers
+        self.events_gotten = events_gotten
+        self.intelligence_agency = intelligence_agency
 
         #Variable that has a simple count of all added bonuses. This is calculated by going through all modifiers and adding together
         self.full_added_bonuses = full_added_bonuses
@@ -263,6 +265,18 @@ class Country:
 
     def get_national_spirits(self): 
         return self.national_spirits
+
+    def get_leader(self): 
+        return self.leader
+
+    def get_focuses_done(self): 
+        return self.focuses_done
+
+    def get_events_gotten(self): 
+        return self.events_gotten
+
+    def get_intelligence_service(self): 
+        return self.intelligence_agency
 
     #Construction speed is calculated as follows
     #construction_per_civ_with_respect_to_coal * (1 + sum(modifiers)) * infrastructure_construction
@@ -898,3 +912,88 @@ class Country:
         if self.get_ideology() is ideology_to_check: 
             return True
         return False
+
+    def has_mefo_bills(self): 
+        if "Mefo_bills" in self.get_national_spirits(): 
+            return True
+        return False
+
+    def has_country_leader(self, leader_name): 
+        if self.get_leader().id == leader_name: 
+            return True
+        return False
+
+    def has_completed_focus(self, focus_name): 
+        if focus_name in self.get_focuses_done():
+            return True
+        return False
+
+    def event_has_happened(self, event_name): 
+        if event_name in self.get_events_gotten(): 
+            return True
+        return False
+
+    #Government hiring
+    def has_free_advisor_slot(self): 
+        if len(self.get_advisors()) <= 2: 
+            return True
+        return False
+
+    def has_free_chief_of_army_slot(self): 
+        if self.get_chief_of_army() is None: 
+            return True
+        return False
+
+    def has_free_chief_of_navy_slot(self): 
+        if self.get_chief_of_navy() is None: 
+            return True
+        return False
+
+    def has_free_chief_of_air_slot(self): 
+        if self.get_chief_of_air_force() is None: 
+            return True
+        return False
+
+    def has_free_high_commander_slot(self): 
+        if len(self.get_high_commanders()) <= 2: 
+            return True
+        return False
+
+    def has_free_industrial_concern_slot(self): 
+        if self.get_industrial_concern() is None: 
+            return True
+        return False
+
+    def has_free_theorist_slot(self): 
+        if self.get_theorist() is None: 
+            return True
+        return False
+
+    def is_already_hired_elsewhere(self, advisor_name): 
+        if advisor_name in self.get_advisors(): 
+            return True
+        if advisor_name in self.get_high_commanders(): 
+            return True
+        if advisor_name == self.get_theorist().id: 
+            return True
+        if advisor_name == self.get_chief_of_army().id: 
+            return True
+        if advisor_name == self.get_chief_of_navy().id: 
+            return True
+        if advisor_name == self.get_chief_of_air_force().id: 
+            return True
+        if advisor_name == self.get_industrial_concern().id: 
+            return True
+        return False
+
+    def has_hired_advisor(self, advisor_name): 
+        if advisor_name in self.get_advisors(): 
+            return True
+        return False
+
+    def has_created_intelligence_agency(self): 
+        if self.get_intelligence_agency() is not None: 
+            return True
+        return False
+
+
