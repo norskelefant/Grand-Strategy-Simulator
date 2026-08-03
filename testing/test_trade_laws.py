@@ -391,6 +391,9 @@ def create_custom_country():
                        focuses_that_can_be_done=[], 
                        national_spirits=[], 
                        modifiers=[], 
+                        possible_events={}, 
+                       events_gotten=[], 
+                       intelligence_agency=None,
                        full_added_bonuses={})
     
     custom_country.states["Custom_state"].set_country(custom_country)

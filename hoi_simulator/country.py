@@ -453,7 +453,7 @@ class Country:
         cost = POSSIBLE_ECONOMY_LAWS[new_law.value].get_full_cost(self)
         if new_law.value == self.get_economy_law().id: 
             return
-        if not self.has_enough_political_power(): 
+        if not self.has_enough_political_power(new_law.value): 
             return
         if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY and POSSIBLE_ECONOMY_LAWS["Civilian_economy"].requirements_met(self) == True: 
             self.economy_law = POSSIBLE_ECONOMY_LAWS["Civilian_economy"]
@@ -595,9 +595,7 @@ class Country:
         old_law = self.get_trade_law()
         has_switched = False
         cost = POSSIBLE_TRADE_LAWS[new_law.value].get_full_cost(self)
-        if new_law.value == self.get_trade_law().id: 
-            return
-        if self.get_political_power() < cost: 
+        if not self.has_enough_political_power(new_law.value):
             return
         if new_law == trade_laws.Trade_laws.FREE_TRADE and POSSIBLE_TRADE_LAWS["Free_trade"].requirements_met(self) == True:
             self.trade_law = POSSIBLE_TRADE_LAWS["Free_trade"]
@@ -1025,16 +1023,22 @@ class Country:
         if modifier is None: 
             return False
         cost = modifier.get_full_cost(self)
-        if cost < self.get_political_power(): 
+        if self.get_political_power() < cost: 
             return False
         return True
 
     def find_modifier_by_id(self, modifier_id): 
-        if modifier_id in self.possible_advisors(): 
+        if modifier_id in POSSIBLE_ECONOMY_LAWS: 
+            return POSSIBLE_ECONOMY_LAWS[modifier_id]
+        if modifier_id in POSSIBLE_TRADE_LAWS: 
+            return POSSIBLE_TRADE_LAWS[modifier_id]
+        #if modifier_id in POSSIBLE_CONSCRIPTION_LAWS: 
+        #    return POSSIBLE_CONSCRIPTION_LAWS[modifier_id]
+        if modifier_id in self.get_possible_advisors(): 
             return self.get_possible_advisors()[modifier_id]
-        if modifier_id in self.possible_theorists(): 
+        if modifier_id in self.get_possible_theorists(): 
             return self.get_possible_theorists()[modifier_id]
-        if modifier_id in self.possible_chiefs_of_army(): 
+        if modifier_id in self.get_possible_chiefs_of_army(): 
             return self.get_possible_chiefs_of_army()[modifier_id]
         if modifier_id in self.get_possible_chiefs_of_navy(): 
             return self.get_possible_chiefs_of_navy()[modifier_id]

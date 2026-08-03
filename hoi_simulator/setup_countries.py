@@ -104,6 +104,9 @@ def create_advanced_germany():
                        focuses_that_can_be_done=[], 
                        national_spirits=[], 
                        modifiers=[], 
+                       possible_events={}, 
+                       events_gotten=[], 
+                       intelligence_agency=None,
                        full_added_bonuses={}
                        )
 
@@ -262,6 +265,9 @@ def create_simple_germany():
                        focuses_that_can_be_done=[], 
                        national_spirits=[], 
                        modifiers=[], 
+                        possible_events={}, 
+                       events_gotten=[], 
+                       intelligence_agency=None,
                        full_added_bonuses={}
                        )
 
