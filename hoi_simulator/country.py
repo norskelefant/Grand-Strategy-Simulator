@@ -74,7 +74,7 @@ POSSIBLE_TRADE_LAWS = {"Free_trade": modifier.Modifier("Free_trade",
 POSSIBLE_CONSCRIPTION_LAWS = None
 
 class Country: 
-    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, economy_law, base_war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, possible_advisors, industrial_concern, possible_industrial_concerns, theorist, possible_theorists, chief_of_army, possible_chiefs_of_army, chief_of_navy, possible_chiefs_of_navy, chief_of_air_force, possible_chiefs_of_air_force, high_commanders, possible_high_commanders, leader, possible_leaders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits, modifiers, events_gotten, intelligence_agency, full_added_bonuses): 
+    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, economy_law, base_war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, possible_advisors, industrial_concern, possible_industrial_concerns, theorist, possible_theorists, chief_of_army, possible_chiefs_of_army, chief_of_navy, possible_chiefs_of_navy, chief_of_air_force, possible_chiefs_of_air_force, high_commanders, possible_high_commanders, leader, possible_leaders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits, modifiers, events_gotten, possible_events, intelligence_agency, full_added_bonuses): 
         self.name = name
         self.states = states
         self.tiles = tiles
@@ -132,6 +132,7 @@ class Country:
         self.focuses_that_can_be_done = focuses_that_can_be_done
         self.national_spirits = national_spirits
         self.modifiers = modifiers
+        self.possible_events = possible_events
         self.events_gotten = events_gotten
         self.intelligence_agency = intelligence_agency
 
@@ -275,8 +276,35 @@ class Country:
     def get_events_gotten(self): 
         return self.events_gotten
 
+    def get_possible_events(self): 
+        return self.possible_events
+    
     def get_intelligence_service(self): 
         return self.intelligence_agency
+
+    def get_possible_advisors(self): 
+        return self.possible_advisors
+
+    def get_possible_industrial_concerns(self): 
+        return self.possible_industrial_concerns
+
+    def get_possible_theorists(self): 
+        return self.possible_theorists
+
+    def get_possible_chiefs_of_army(self): 
+        return self.possible_chiefs_of_army
+
+    def get_possible_chiefs_of_navy(self): 
+        return self.possible_chiefs_of_navy
+
+    def get_possible_chiefs_of_air_force(self): 
+        return self.possible_chiefs_of_air_force
+
+    def get_possible_high_commanders(self): 
+        return self.possible_high_commanders
+
+    def get_focus_tree(self): 
+        return self.focus_tree
 
     #Construction speed is calculated as follows
     #construction_per_civ_with_respect_to_coal * (1 + sum(modifiers)) * infrastructure_construction
@@ -673,12 +701,6 @@ class Country:
         elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION: 
             self.economy_law = POSSIBLE_ECONOMY_LAWS["Total_mobilization"]
 
-    def has_national_spirit(self): 
-        return True
-    
-    def has_completed_focus(self): 
-        return True
-
     def get_modifiers(self): 
         return self.modifiers
 
@@ -1024,7 +1046,137 @@ class Country:
             return self.get_possible_high_commanders()[modifier_id]
         return None
 
-    
+    #Refactor later to only include legal focuses to do
+    def complete_focus(self, focus_name): 
+        self.get_focuses_done().append(self.get_focus_tree[focus_name])
 
+    #Refactor later to include actual events
+    def activate_event(self, event_name): 
+        self.get_events_gotten().append(self.get_possible_events[event_name])
 
+    #Refactor later to properly implement intelligence agencies, not just a string
+    def create_intelligence_agency(self, name): 
+        self.intelligence_agency = "name"
 
+    #def requirements_met(self, modifier): 
+    #    if modifier.get_requirements() == True: 
+    #        return True
+    #    return False
+
+    def hire_advisor(self, advisor_name, slot): 
+        advisor = self.get_possible_advisors()[advisor_name]
+        if advisor is None: 
+            return
+        if not self.has_enough_political_power(advisor_name): 
+            return
+        if not advisor.requirements_met(): 
+            return
+        if slot > 2 or slot < 0: 
+            return
+        if self.get_advisors()[slot] is not None: 
+            self.resign_advisor(slot)
+        self.get_advisors()[slot] = advisor
+        self.add_to_full_added_bonuses(advisor)
+        
+    def resign_advisor(self, slot): 
+        self.remove_from_full_added_bonuses(self.get_advisors()[slot])
+        self.get_advisors()[slot] = None 
+
+    def hire_theorist(self, theorist_name): 
+        theorist = self.get_possible_theorists()[theorist_name]
+        if theorist is None: 
+            return
+        if not self.has_enough_political_power(theorist_name): 
+            return
+        if not theorist.requirements_met(): 
+            return
+        self.resign_theorist()
+        self.theorist = theorist
+        self.add_to_full_added_bonuses(theorist)
+        
+    def resign_theorist(self): 
+        self.remove_from_full_added_bonuses(self.get_theorist())
+        self.theorist = None 
+
+    def hire_industrial_concern(self, industrial_concern_name): 
+        industrial_concern = self.get_possible_industrial_concerns()[industrial_concern_name]
+        if industrial_concern is None: 
+            return
+        if not self.has_enough_political_power(industrial_concern_name): 
+            return
+        if not industrial_concern.requirements_met(): 
+            return
+        self.resign_industrial_concern()
+        self.industrial_concern = industrial_concern
+        self.add_to_full_added_bonuses(industrial_concern)
+        
+    def resign_industrial_concern(self): 
+        self.remove_from_full_added_bonuses(self.get_industrial_concern())
+        self.industrial_concern = None 
+
+    def hire_chief_of_army(self, chief_of_army_name): 
+        chief_of_army = self.get_possible_chiefs_of_army()[chief_of_army_name]
+        if chief_of_army is None: 
+            return
+        if not self.has_enough_political_power(chief_of_army_name): 
+            return
+        if not chief_of_army.requirements_met(): 
+            return
+        self.resign_chief_of_army()
+        self.chief_of_army = chief_of_army
+        self.add_to_full_added_bonuses(chief_of_army)
+        
+    def resign_chief_of_army(self): 
+        self.remove_from_full_added_bonuses(self.get_chief_of_army())
+        self.chief_of_army = None 
+
+    def hire_chief_of_navy(self, chief_of_navy_name):
+        chief_of_navy = self.get_possible_chiefs_of_navy()[chief_of_navy_name]
+        if chief_of_navy is None:
+            return
+        if not self.has_enough_political_power(chief_of_navy_name):
+            return
+        if not chief_of_navy.requirements_met():
+            return
+        self.resign_chief_of_navy()
+        self.chief_of_navy = chief_of_navy
+        self.add_to_full_added_bonuses(chief_of_navy)
+
+    def resign_chief_of_navy(self):
+        self.remove_from_full_added_bonuses(self.get_chief_of_navy())
+        self.chief_of_navy = None
+
+    def hire_chief_of_air_force(self, chief_of_air_force_name):
+        chief_of_air_force = self.get_possible_chiefs_of_air_force()[chief_of_air_force_name]
+        if chief_of_air_force is None:
+            return
+        if not self.has_enough_political_power(chief_of_air_force_name):
+            return
+        if not chief_of_air_force.requirements_met():
+            return
+        self.resign_chief_of_air_force()
+        self.chief_of_air_force = chief_of_air_force
+        self.add_to_full_added_bonuses(chief_of_air_force)
+
+    def resign_chief_of_air_force(self):
+        self.remove_from_full_added_bonuses(self.get_chief_of_air_force())
+        self.chief_of_air_force = None
+
+    def hire_high_commander(self, high_commander_name, slot): 
+        high_commander = self.get_possible_high_commanders()[high_commander_name]
+        if high_commander is None: 
+            return
+        if not self.has_enough_political_power(high_commander_name): 
+            return
+        if not high_commander.requirements_met(): 
+            return
+        if slot > 2 or slot < 0: 
+            return
+        if self.get_high_commanders()[slot] is not None: 
+            self.resign_high_commander(slot)
+        self.get_high_commanders()[slot] = high_commander
+        self.add_to_full_added_bonuses(high_commander)
+        
+    def resign_high_commander(self, slot): 
+        self.remove_from_full_added_bonuses(self.get_high_commanders()[slot])
+        self.get_high_commanders()[slot] = None
