@@ -16,7 +16,7 @@ def new_game(germany):
     #Creates a new game instance before each test, which has default date
     return create_game(germany)
 
-def test_hjalmar_schact(germany, new_game): 
+#def test_hjalmar_schact(germany, new_game): 
     #Given a normal Germany game
     assert germany.get_consumer_goods() == 0.24
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == 0.20

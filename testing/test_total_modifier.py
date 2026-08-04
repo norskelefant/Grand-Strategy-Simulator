@@ -70,9 +70,12 @@ def test_total_modifier_works_when_switching_trade_law(germany, new_game):
     #Then the full added bonuses should be the following according to the trade law
     germany.add_political_power(150)
 
+    assert germany.get_full_stability() == pytest.approx(0.81)
+    print(germany.get_stability_modifier().modifier_bonuses[modifier_types.Modifier_types.FACTORY_OUTPUT])
+
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESOURCES_TO_MARKET] == 0.25
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.05
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.01
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS] == -0.15
@@ -88,19 +91,33 @@ def test_total_modifier_works_when_switching_trade_law(germany, new_game):
 
     #Then the new full added bonuses should be applied and the old ones removed
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESOURCES_TO_MARKET] == 0.80
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.15
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.15
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.274)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.274)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.15
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.10
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS] == pytest.approx(0.15)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS] == pytest.approx(-0.05)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.MARKET_CONSTRUCTION_BOOST_MULTIPLIER] == 0.05
 
-
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0.11
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.05
 
+def test_total_modifier_updates_stability_and_war_support_modifier(germany, new_game): 
+    #Given Germany with an extra war support and stability modifier
 
+    new_modifier = modifier.Modifier("testing_modifier", 
+                                     "Testing modifier", 
+                                     0, 
+                                     modifier_classes.Modifier_classes.BASE, 
+                                     None, 
+                                     {modifier_types.Modifier_types.STABILITY: 0.05, 
+                                      modifier_types.Modifier_types.WAR_SUPPORT: 0.10}, 
+                                     True)
+
+    germany.modifiers.append(new_modifier)
+    germany.add_to_full_added_bonuses(new_modifier)
+
+    #
 
 
 
@@ -136,8 +153,10 @@ def create_custom_country():
                        construction=construction.Construction(), 
                        base_ic=4, 
                        base_stability=70, 
+                       stability_modifier=None,
                        economy_law=modifier.Modifier("Partial_mobilization", "Partial Mobilization", 0, modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}, True), 
                        base_war_support=30, 
+                       war_support_modifier=None,
                        political_power=0, 
                        population=0, 
                        fuel=0, 

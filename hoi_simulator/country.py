@@ -308,6 +308,12 @@ class Country:
     def get_focus_tree(self): 
         return self.focus_tree
 
+    def get_stability_modifier(self): 
+        return self.stability_modifier
+
+    def get_war_support_modifier(self): 
+        return self.war_support_modifier
+
     #Construction speed is calculated as follows
     #construction_per_civ_with_respect_to_coal * (1 + sum(modifiers)) * infrastructure_construction
     #Also note that coal at maximum can reduce ic to 4 for any factory, but it also gives a construction speed debuff in general
@@ -578,7 +584,7 @@ class Country:
         other_stability = self.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY]
         if base_stability + other_stability + 1e-12 > 1.0: 
             return 1.0
-        if base_stability + other_stability - 12-12 < 0.0: 
+        if base_stability + other_stability - 1e-12 < 0.0: 
             return 0.0
         else: 
             return base_stability + other_stability
@@ -589,6 +595,8 @@ class Country:
             self.base_war_support = 1.0
         if self.get_base_war_support() < 0.0 - 1e-12: 
             self.base_war_support = 0.0
+        if self.get_war_support_modifier() is not None: 
+            self.update_war_support_modifier()
 
     def add_base_stability(self, amount): 
         self.base_stability += amount
@@ -596,11 +604,13 @@ class Country:
             self.base_stability = 1.0
         if self.get_base_stability() < 0.0 - 1e-12: 
             self.base_stability = 0.0
+        if self.get_stability_modifier() is not None: 
+            self.update_stability_modifier()
 
     def create_stability_modifier(self): 
         stability = self.get_full_stability()
         stability_percent = math.floor(
-            math.nextafter(self.get_full_stability() * 100.0, math.inf)
+            math.nextafter(stability * 100.0, math.inf)
         )
         if stability_percent > 50: 
             stability_over_50 = max(stability_percent - 50, 0)
@@ -609,7 +619,7 @@ class Country:
             consumer_goods = -0.0040 * stability_over_50
             factory_output = 0.0040 * stability_over_50
             dockyard_output = 0.0040 * stability_over_50
-            resistance_target = (100 - stability) * 0.002
+            resistance_target = (100 - stability_percent) * 0.002
             stability_modifier = modifier.Modifier("Stability", 
                                 "Stability", 
                                 0, 
@@ -619,7 +629,8 @@ class Country:
                                  modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: consumer_goods, 
                                  modifier_types.Modifier_types.FACTORY_OUTPUT: factory_output, 
                                  modifier_types.Modifier_types.DOCKYARD_OUTPUT: dockyard_output, 
-                                 modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES: resistance_target})
+                                 modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES: resistance_target}, 
+                                 True)
             self.add_to_full_added_bonuses(stability_modifier)
             self.stability_modifier = stability_modifier
         elif stability_percent < 50: 
@@ -628,7 +639,7 @@ class Country:
             consumer_goods = 0
             factory_output = -0.01 * stability_under_50
             dockyard_output = -0.01 * stability_under_50
-            resistance_target = (100 - stability) * 0.002
+            resistance_target = (100 - stability_percent) * 0.002
             stability_modifier = modifier.Modifier("Stability", 
                                 "Stability", 
                                 0, 
@@ -638,7 +649,7 @@ class Country:
                                  modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: consumer_goods, 
                                  modifier_types.Modifier_types.FACTORY_OUTPUT: factory_output, 
                                  modifier_types.Modifier_types.DOCKYARD_OUTPUT: dockyard_output, 
-                                 modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES: resistance_target})
+                                 modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES: resistance_target},True)
             self.add_to_full_added_bonuses(stability_modifier)
             self.stability_modifier = stability_modifier
         elif stability_percent == 50:
@@ -651,17 +662,23 @@ class Country:
                                modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.0, 
                                modifier_types.Modifier_types.FACTORY_OUTPUT: 0.0, 
                                modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.0, 
-                               modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES: 0.10})
+                               modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES: 0.10}, 
+                               True)
             self.add_to_full_added_bonuses(stability_modifier)
             self.stability_modifier = stability_modifier
 
-    def update_stability_modifier(self, stability_increase): 
-        return None
+    def update_stability_modifier(self): 
+        old_modifier = self.get_stability_modifier()
+        #This check is a bit problematic right now. Will need to be fixed later, as a country always needs a stability modifier, but the problem is that some old tests don't use stability
+        if old_modifier is not None: 
+            self.remove_from_full_added_bonuses(old_modifier)
+            #self.stability_modifier = None
+            self.create_stability_modifier()
 
     def create_war_support_modifier(self): 
         war_support = self.get_full_war_support()
         war_support_percent = math.floor(
-            math.nextafter(self.get_full_war_support() * 100.0, math.inf)
+            math.nextafter(war_support * 100.0, math.inf)
         )
         if war_support_percent > 50: 
             war_support_over_50 = max(war_support_percent - 50, 0)
@@ -677,7 +694,8 @@ class Country:
                                             {modifier_types.Modifier_types.MOBILIZATION_SPEED: mobilization_speed, 
                                              modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY: division_attack_on_core_territory, 
                                              modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY: division_defence_on_core_territory,
-                                             modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER: daily_command_power})
+                                             modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER: daily_command_power}, 
+                                             True)
             self.add_to_full_added_bonuses(war_support_modifier)
             self.war_support_modifier = war_support_modifier
 
@@ -693,7 +711,8 @@ class Country:
                                             None, 
                                             {modifier_types.Modifier_types.MOBILIZATION_SPEED: mobilization_speed, 
                                              modifier_types.Modifier_types.SURRENDER_LIMIT: surrender_limit, 
-                                             modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER: daily_command_power})
+                                             modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER: daily_command_power}, 
+                                             True)
             self.add_to_full_added_bonuses(war_support_modifier)
             self.war_support_modifier = war_support_modifier
 
@@ -706,14 +725,18 @@ class Country:
                                             {modifier_types.Modifier_types.MOBILIZATION_SPEED: 0.0, 
                                              modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY: 0.0, 
                                              modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY: 0.0, 
-                                             modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER: 0.0})
+                                             modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER: 0.0}, 
+                                             True)
             self.add_to_full_added_bonuses(war_support_modifier)
             self.war_support_modifier = war_support_modifier
 
-            
-
-    def update_war_support_modifier(self, war_support_increase): 
-        return None
+    def update_war_support_modifier(self): 
+        old_modifier = self.get_war_support_modifier()
+        if old_modifier is not None: 
+            self.remove_from_full_added_bonuses(old_modifier)
+            #self.war_support_modifier = None
+            self.create_war_support_modifier()
+        
     
     def change_ideology(self, new_ideology): 
         self.ideology = new_ideology
@@ -849,6 +872,10 @@ class Country:
                 if modifier_type == modifier_types.Modifier_types.BASE_WAR_SUPPORT: 
                     self.add_base_war_support(modifier_value)
                 self.full_added_bonuses[modifier_type] += modifier_value
+                if modifier_type == modifier_types.Modifier_types.STABILITY: 
+                    self.update_stability_modifier()
+                if modifier_type == modifier_types.Modifier_types.WAR_SUPPORT: 
+                    self.update_war_support_modifier()
 
     def remove_from_full_added_bonuses(self, modifier): 
         for modifier_type, modifier_value in modifier.get_modifier_bonuses().items(): 
@@ -857,6 +884,7 @@ class Country:
                 #Converts numbers very close to 0 to 0
                 if math.isclose(self.full_added_bonuses[modifier_type], 0.0, abs_tol=1e-12): 
                     self.full_added_bonuses[modifier_type] = 0
+
 
     def create_default_bonuses_map(self):
         defaults = {
@@ -1326,4 +1354,3 @@ class Country:
         self.remove_from_full_added_bonuses(self.get_high_commanders()[slot])
         self.get_high_commanders()[slot] = None
 
-    

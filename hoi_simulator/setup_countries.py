@@ -59,8 +59,10 @@ def create_advanced_germany():
                        construction=construction.Construction(), 
                        base_ic=4, 
                        base_stability=0.7, 
+                       stability_modifier=None,
                        economy_law=partial_mobilization, 
                        base_war_support=0.3, 
+                       war_support_modifier=None,
                        political_power=0, 
                        population=0, 
                        fuel=0, 
@@ -174,6 +176,9 @@ def create_advanced_germany():
     germany.modifiers.append(pride_of_the_fleet)
     germany.add_to_full_added_bonuses(pride_of_the_fleet)
 
+    germany.create_stability_modifier()
+    germany.create_war_support_modifier()
+
     #25% * floor((1-(-10%))*(1-12.4%) * 100) / 100 = 0.24
 
     return germany
@@ -220,8 +225,10 @@ def create_simple_germany():
                        construction=construction.Construction(), 
                        base_ic=4, 
                        base_stability=0.5, 
+                       stability_modifier=None,
                        economy_law=custom_economy_law, 
                        base_war_support=0, 
+                       war_support_modifier=None,
                        political_power=0, 
                        population=0, 
                        fuel=0, 
@@ -269,8 +276,12 @@ def create_simple_germany():
                        full_added_bonuses={}
                        )
 
+    germany.full_added_bonuses = germany.create_default_bonuses_map()
+
     for each_state in germany.get_states(): 
         germany.states[each_state].set_country(germany)
+
+    germany.add_to_full_added_bonuses(custom_economy_law)
 
     total_civs = germany.get_total_civs()
     total_mils = germany.get_total_mils()
