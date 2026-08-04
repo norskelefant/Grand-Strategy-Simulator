@@ -8,10 +8,8 @@ from hoi_simulator.industrial_concerns import germany as germany_industrial_conc
 from hoi_simulator.leaders import germany as germany_leaders
 from hoi_simulator.theorists import germany as germany_theorists
 
-#Explanation of scaled system: 
+#Explanation of scaled system(maybe implement later): 
 #To avoid floating point errors, the bonus system uses scaled integers. The scaled integers are 1000, so a 25% construction speed bonus is 25 and a 1% construction speed bonus is 1
-
-
 
 def create_advanced_germany(): 
     baden = state.State("Baden", 8, 0, 2, 0, 3, False, None)
@@ -244,7 +242,7 @@ def create_simple_germany():
                        can_research=[],
                        trade_law=None, 
                        conscription_law=None, 
-                       advisors=[], 
+                       advisors=[None, None, None], 
                        possible_advisors={},
                        industrial_concern=None, 
                        possible_industrial_concerns={},
@@ -256,7 +254,7 @@ def create_simple_germany():
                        possible_chiefs_of_navy={},
                        chief_of_air_force=None, 
                        possible_chiefs_of_air_force={},
-                       high_commanders=[], 
+                       high_commanders=[None, None, None], 
                        possible_high_commanders={},
                        leader=None, 
                        possible_leaders={},

@@ -74,7 +74,7 @@ POSSIBLE_TRADE_LAWS = {"Free_trade": modifier.Modifier("Free_trade",
 POSSIBLE_CONSCRIPTION_LAWS = None
 
 class Country: 
-    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, economy_law, base_war_support, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, possible_advisors, industrial_concern, possible_industrial_concerns, theorist, possible_theorists, chief_of_army, possible_chiefs_of_army, chief_of_navy, possible_chiefs_of_navy, chief_of_air_force, possible_chiefs_of_air_force, high_commanders, possible_high_commanders, leader, possible_leaders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits, modifiers, events_gotten, possible_events, intelligence_agency, full_added_bonuses): 
+    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, stability_modifier, economy_law, base_war_support, war_support_modifier, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, possible_advisors, industrial_concern, possible_industrial_concerns, theorist, possible_theorists, chief_of_army, possible_chiefs_of_army, chief_of_navy, possible_chiefs_of_navy, chief_of_air_force, possible_chiefs_of_air_force, high_commanders, possible_high_commanders, leader, possible_leaders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits, modifiers, events_gotten, possible_events, intelligence_agency, full_added_bonuses): 
         self.name = name
         self.states = states
         self.tiles = tiles
@@ -86,8 +86,10 @@ class Country:
         self.construction = construction
         self.base_ic = base_ic
         self.base_stability = base_stability
+        self.stability_modifier = stability_modifier
         self.economy_law = economy_law
         self.base_war_support = base_war_support
+        self.war_support_modifier = war_support_modifier
         self.political_power = political_power
 
         #manpower to be calculated later on using population and modifiers
@@ -342,20 +344,30 @@ class Country:
         return False
         
     def get_base_consumer_goods(self): 
-        return self.get_consumer_goods_from_economy_law()
+        return self.get_full_added_bonuses()[modifier_types.Modifier_types.BASE_CONSUMER_GOODS]
     
-    def get_consumer_goods_from_economy_law(self): 
-        if modifier_types.Modifier_types.BASE_CONSUMER_GOODS in self.economy_law.get_modifier_bonuses(): 
-            return self.economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS, 0)
+    #def get_consumer_goods_from_economy_law(self): 
+    #    if modifier_types.Modifier_types.BASE_CONSUMER_GOODS in self.economy_law.get_modifier_bonuses(): 
+    #        return self.economy_law.get_modifier_bonuses().get(modifier_types.Modifier_types.BASE_CONSUMER_GOODS, 0)
     
     def get_floor_consumer_goods(self): 
         bonus = 1
-        for modifier in self.get_modifiers(): 
+        modifiers = self.get_consumer_goods_modifier_list()
+        for modifier in modifiers: 
+            if modifier is None: 
+                continue
             if modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR in modifier.get_modifier_bonuses(): 
-                bonus *= 1 - modifier.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR, 0)
+                bonus *= 1 - modifier.get_modifier_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR]
         return bonus
     
     #25% * floor((1-(-10%))*(1-12.4%) * 100) / 100 = 0.24
+
+    #Made specifically for the floor_consumer_goods() function
+    def get_consumer_goods_modifier_list(self): 
+        full_modifier_list = []
+        full_modifier_list.extend(self.get_advisors())
+        full_modifier_list.append(self.get_industrial_concern())
+        return full_modifier_list
 
     def get_consumer_goods(self): 
         return self.get_base_consumer_goods() * math.floor(self.get_floor_consumer_goods() * 100) / 100
@@ -440,13 +452,13 @@ class Country:
         if construction_type == construction_types.Constructions.DOCKYARD: 
             self.free_dockyards -= 1
 
-    def get_full_stability(self): 
-        bonus = self.get_base_stability()
-        for modifier in self.get_modifiers():
+    #def get_full_stability(self): 
+    #    bonus = self.get_base_stability()
+    #    for modifier in self.get_modifiers():
             #The get method here is for dictionaries. Note that the second argument of 0 is for if nothing something is not a stability modifier
-            bonus += modifier.get_modifier_bonuses().get(modifier_types.Modifier_types.STABILITY, 0)
-        return bonus
-    
+    #        bonus += modifier.get_modifier_bonuses().get(modifier_types.Modifier_types.STABILITY, 0)
+    #    return bonus
+
     def switch_economy_law(self, new_law): 
         old_economy_law = self.get_economy_law()
         has_switched = False
@@ -556,6 +568,8 @@ class Country:
         other_war_support = self.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT]
         if base_war_support + other_war_support + 1e-12 > 1.0: 
             return 1.0
+        if base_war_support + other_war_support - 1e-12 < 0.0: 
+            return 0.0
         else: 
             return base_war_support + other_war_support
         
@@ -564,6 +578,8 @@ class Country:
         other_stability = self.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY]
         if base_stability + other_stability + 1e-12 > 1.0: 
             return 1.0
+        if base_stability + other_stability - 12-12 < 0.0: 
+            return 0.0
         else: 
             return base_stability + other_stability
 
@@ -571,12 +587,134 @@ class Country:
         self.base_war_support += amount
         if self.get_base_war_support() > 1.0 + 1e-12: 
             self.base_war_support = 1.0
+        if self.get_base_war_support() < 0.0 - 1e-12: 
+            self.base_war_support = 0.0
 
     def add_base_stability(self, amount): 
         self.base_stability += amount
         if self.get_base_stability() > 1.0 + 1e-12: 
             self.base_stability = 1.0
-        
+        if self.get_base_stability() < 0.0 - 1e-12: 
+            self.base_stability = 0.0
+
+    def create_stability_modifier(self): 
+        stability = self.get_full_stability()
+        stability_percent = math.floor(
+            math.nextafter(self.get_full_stability() * 100.0, math.inf)
+        )
+        if stability_percent > 50: 
+            stability_over_50 = max(stability_percent - 50, 0)
+            #Not 100% sure these calculations are correct. These use a full stability value, 
+            political_power_gain = 0.0020 * stability_over_50
+            consumer_goods = -0.0040 * stability_over_50
+            factory_output = 0.0040 * stability_over_50
+            dockyard_output = 0.0040 * stability_over_50
+            resistance_target = (100 - stability) * 0.002
+            stability_modifier = modifier.Modifier("Stability", 
+                                "Stability", 
+                                0, 
+                                modifier_classes.Modifier_classes.STABILITY, 
+                                None, 
+                                {modifier_types.Modifier_types.POLITICAL_POWER_GAIN: political_power_gain, 
+                                 modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: consumer_goods, 
+                                 modifier_types.Modifier_types.FACTORY_OUTPUT: factory_output, 
+                                 modifier_types.Modifier_types.DOCKYARD_OUTPUT: dockyard_output, 
+                                 modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES: resistance_target})
+            self.add_to_full_added_bonuses(stability_modifier)
+            self.stability_modifier = stability_modifier
+        elif stability_percent < 50: 
+            stability_under_50 = max(50 - stability_percent, 0)
+            political_power_gain = -0.0040 * stability_under_50
+            consumer_goods = 0
+            factory_output = -0.01 * stability_under_50
+            dockyard_output = -0.01 * stability_under_50
+            resistance_target = (100 - stability) * 0.002
+            stability_modifier = modifier.Modifier("Stability", 
+                                "Stability", 
+                                0, 
+                                modifier_classes.Modifier_classes.STABILITY, 
+                                None, 
+                                {modifier_types.Modifier_types.POLITICAL_POWER_GAIN: political_power_gain, 
+                                 modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: consumer_goods, 
+                                 modifier_types.Modifier_types.FACTORY_OUTPUT: factory_output, 
+                                 modifier_types.Modifier_types.DOCKYARD_OUTPUT: dockyard_output, 
+                                 modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES: resistance_target})
+            self.add_to_full_added_bonuses(stability_modifier)
+            self.stability_modifier = stability_modifier
+        elif stability_percent == 50:
+            stability_modifier = modifier.Modifier("Stability", 
+                              "Stability", 
+                              0, 
+                              modifier_classes.Modifier_classes.STABILITY, 
+                              None, 
+                              {modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.0, 
+                               modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.0, 
+                               modifier_types.Modifier_types.FACTORY_OUTPUT: 0.0, 
+                               modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.0, 
+                               modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES: 0.10})
+            self.add_to_full_added_bonuses(stability_modifier)
+            self.stability_modifier = stability_modifier
+
+    def update_stability_modifier(self, stability_increase): 
+        return None
+
+    def create_war_support_modifier(self): 
+        war_support = self.get_full_war_support()
+        war_support_percent = math.floor(
+            math.nextafter(self.get_full_war_support() * 100.0, math.inf)
+        )
+        if war_support_percent > 50: 
+            war_support_over_50 = max(war_support_percent - 50, 0)
+            mobilization_speed = 0.0060 * war_support_over_50
+            division_attack_on_core_territory = 0.0020 * war_support_over_50
+            division_defence_on_core_territory = 0.0020 * war_support_over_50
+            daily_command_power = 0.01 * war_support_over_50
+            war_support_modifier = modifier.Modifier("War_support", 
+                                            "War support", 
+                                            0, 
+                                            modifier_classes.Modifier_classes.WAR_SUPPORT,
+                                            None, 
+                                            {modifier_types.Modifier_types.MOBILIZATION_SPEED: mobilization_speed, 
+                                             modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY: division_attack_on_core_territory, 
+                                             modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY: division_defence_on_core_territory,
+                                             modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER: daily_command_power})
+            self.add_to_full_added_bonuses(war_support_modifier)
+            self.war_support_modifier = war_support_modifier
+
+        elif war_support_percent < 50: 
+            war_support_under_50 = max(50 - war_support_percent, 0)
+            mobilization_speed = -0.01 * war_support_under_50
+            surrender_limit = -0.006 * war_support_under_50
+            daily_command_power = -0.01 * war_support_under_50
+            war_support_modifier = modifier.Modifier("War_support", 
+                                            "War support", 
+                                            0, 
+                                            modifier_classes.Modifier_classes.WAR_SUPPORT, 
+                                            None, 
+                                            {modifier_types.Modifier_types.MOBILIZATION_SPEED: mobilization_speed, 
+                                             modifier_types.Modifier_types.SURRENDER_LIMIT: surrender_limit, 
+                                             modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER: daily_command_power})
+            self.add_to_full_added_bonuses(war_support_modifier)
+            self.war_support_modifier = war_support_modifier
+
+        elif war_support_percent == 50: 
+            war_support_modifier = modifier.Modifier("War_support", 
+                                            "War support", 
+                                            0, 
+                                            modifier_classes.Modifier_classes.WAR_SUPPORT, 
+                                            None, 
+                                            {modifier_types.Modifier_types.MOBILIZATION_SPEED: 0.0, 
+                                             modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY: 0.0, 
+                                             modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY: 0.0, 
+                                             modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER: 0.0})
+            self.add_to_full_added_bonuses(war_support_modifier)
+            self.war_support_modifier = war_support_modifier
+
+            
+
+    def update_war_support_modifier(self, war_support_increase): 
+        return None
+    
     def change_ideology(self, new_ideology): 
         self.ideology = new_ideology
 
@@ -722,6 +860,9 @@ class Country:
 
     def create_default_bonuses_map(self):
         defaults = {
+            modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.0, 
+            modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.0,
+
             modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: 0.0,
             modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.0,
             modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED: 0.0,
@@ -1184,3 +1325,5 @@ class Country:
     def resign_high_commander(self, slot): 
         self.remove_from_full_added_bonuses(self.get_high_commanders()[slot])
         self.get_high_commanders()[slot] = None
+
+    

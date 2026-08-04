@@ -31,6 +31,7 @@ class Modifier_types(Enum):
     RECRUITABLE_POPULATION_FACTOR = "recruitable_population_factor"
     NON_CORE_MANPOWER = "non_core_manpower"
     MONTHLY_POPULATION = "monthly_population"
+    MOBILIZATION_SPEED = "mobilization_speed"
 
     #Research
     RESEARCH_SPEED = "research_speed"
@@ -111,6 +112,7 @@ class Modifier_types(Enum):
     COMPLIANCE_GROWTH_SPEED = "compliance_growth_speed"
     RESITANCE_GROWTH_SPEED = "resistance_growth_speed"
     DAILY_COMPLIANCE_GAIN = "daily_compliance_gain"
+    RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES = "resistance_target_in_occupied_territories"
 
     #War goals
     JUSTIFY_WAR_GOAL_TIME = "justify_war_goal_time"
@@ -149,6 +151,7 @@ class Modifier_types(Enum):
 
     #Divisions
     DIVISION_DEFENCE_ON_CORE_TERRITORY = "division_defence_on_core_territory"
+    DIVISION_ATTACK_ON_CORE_TERRITORY = "division_attack_on_core_territory"
     DIVISION_ORGANIZATION = "division_organization"
     DIVISION_TRAINING_TIME = "division_training_time"
     DIVISION_ATTACK = "division_attack"
@@ -221,6 +224,7 @@ class Modifier_types(Enum):
 
     #Command power
     MAX_COMMAND_POWER_INCREASE = "max_command_power_increase"
+    DAILY_COMMAND_POWER_GAIN_MULTIPLIER = "daily_command_power_gain_multiplier"
 
     #Doctrines
     GRAND_BATTLE_PLAN_DOCTRINE_MASTERY_GAIN = "grand_battle_plan_doctrine_mastery_gain"
@@ -231,5 +235,7 @@ class Modifier_types(Enum):
     TRADE_INTERDICTION_DOCTRINE_MASTERY_GAIN = "trade_interdiction_doctrine_mastery_gain"
 
     WAR_PENALTY_STABILITY_MODIFIER = "war_penalty_stability_modifier"
+
+    SURRENDER_LIMIT = "surrender_limit"
 
     #Add many more later....

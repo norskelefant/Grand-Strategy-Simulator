@@ -8,8 +8,8 @@ from hoi_simulator import construction_types, modifier_types, modifier_classes, 
 
 def create_german_advisors(): 
     return {
-            "Hjalmar_Schacht": modifier.Modifier(
-            "Hjalmar_Schacht",
+            "Hjalmar_schacht": modifier.Modifier(
+            "Hjalmar_schacht",
             "Hjalmar Schacht",
             75,
             modifier_classes.Modifier_classes.ADVISOR,
@@ -27,8 +27,8 @@ def create_german_advisors():
             ),
         ),
 
-        "Walther_Funk": modifier.Modifier(
-            "Walther_Funk",
+        "Walther_funk": modifier.Modifier(
+            "Walther_funk",
             "Walther Funk",
             150,
             modifier_classes.Modifier_classes.ADVISOR,
@@ -47,8 +47,8 @@ def create_german_advisors():
 
         ),
 
-        "Franz_Seldte": modifier.Modifier(
-            "Franz_Seldte",
+        "Franz_seldte": modifier.Modifier(
+            "Franz_seldte",
             "Franz Seldte",
             150,
             modifier_classes.Modifier_classes.ADVISOR,

@@ -19,5 +19,8 @@ class Modifier_classes(Enum):
     HIGH_COMMANDER = "high_commander"
 
     LEADER = "leader"
+
+    STABILITY = "stability"
+    WAR_SUPPORT = "war_support"
     
     #Add more later
