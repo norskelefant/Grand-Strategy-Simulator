@@ -137,7 +137,6 @@ def test_next_month_moves_year(default_date):
 def create_default_date(): 
     return date.Date(1, 1, 1936)
 
-#https://chatgpt.com/c/6a4f882a-5a18-83eb-b2ab-4a3eae557bbe
 
 
 
