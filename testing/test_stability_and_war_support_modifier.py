@@ -17,7 +17,24 @@ def new_game(germany):
     return create_game(germany)
 
 def test_stability_modifier_at_50_percent(germany, new_game): 
-    assert True == False
+    #Given Germany
+
+    #When stability is 50%
+    germany.add_base_stability(-0.31)
+
+    assert germany.get_full_stability() == pytest.approx(0.50)
+
+    #Then the bonuses should be the following
+    #Only the 10% from mefo bills
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == 0.10
+    assert germany.get_consumer_goods() == 0.275
+    #Only 5% from limited exports
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.05)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.05)
+    #No extra political power gain
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.10
+
 
 def test_stability_modifier_at_70_percent(germany, new_game): 
     assert True == False

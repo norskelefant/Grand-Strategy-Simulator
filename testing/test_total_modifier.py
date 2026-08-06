@@ -105,6 +105,8 @@ def test_total_modifier_updates_stability_and_war_support_modifier(germany, new_
 
     #When an extra war support and stability modifier is given
 
+    assert germany
+
     new_modifier = modifier.Modifier("testing_modifier", 
                                      "Testing modifier", 
                                      0, 
@@ -117,9 +119,24 @@ def test_total_modifier_updates_stability_and_war_support_modifier(germany, new_
     germany.modifiers.append(new_modifier)
     germany.add_to_full_added_bonuses(new_modifier)
 
-    #Then the stability and war support modifiers should be updated(implement later)
+    #Then the stability and war support modifiers should be updated
+    assert germany.get_base_stability() == 0.7
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0.16
+    assert germany.get_base_war_support() == 0.3
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == pytest.approx(0.15)
 
-    assert True == False
+    #25% * ((1+10%)*(1-14.4%)) = 0.2354
+    assert germany.get_consumer_goods() == pytest.approx(0.2354)
+    #10% - 14.4% = 4.4%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == pytest.approx(-0.044)
+    #14.4% added, also have 5% as default, meaning the total is 19.4%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.194
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.194
+    #No extra political power gain at the beginning(when leaders are implemented later, this will change)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.072)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.028
+
+
 
 
 
