@@ -103,7 +103,7 @@ def test_can_switch_economy_law_to_war_economy_two(germany, new_game):
 
     germany.change_ideology(ideologies.Ideologies.DEMOCRATIC)
 
-    testing_country = create_custom_country()
+    testing_country = create_custom_country(new_game)
 
     germany.declare_war(testing_country)
 
@@ -133,7 +133,7 @@ def test_can_switch_economy_law_to_total_mobilization(germany, new_game):
 
     germany.change_ideology(ideologies.Ideologies.DEMOCRATIC)
 
-    testing_country = create_custom_country()
+    testing_country = create_custom_country(new_game)
 
     germany.declare_war(testing_country)
 
@@ -296,8 +296,6 @@ def test_cannot_switch_to_war_economy_if_criteria_is_not_fulfilled(germany, new_
     germany.add_base_war_support(0.16)
     germany.set_at_war(True)
 
-    testing_country = create_custom_country()
-
     germany.change_ideology(ideologies.Ideologies.DEMOCRATIC)
 
     assert germany.get_full_war_support() == 0.51
@@ -328,8 +326,6 @@ def test_cannot_switch_to_total_mobilization_if_criteria_is_not_fulfilled(german
     germany.add_base_war_support(0.46)
     germany.set_at_war(True)
 
-    testing_country = create_custom_country()
-
     assert germany.get_full_war_support() == pytest.approx(0.81)
     assert germany.get_is_at_war() == True
     assert germany.get_number_of_factories_enemy_country_with_most_factories_has() == 0
@@ -359,6 +355,6 @@ def created_advanced_germany():
 def create_game(germany): 
     return game.Game(date.Date(1, 1, 1936), [germany])
 
-def create_custom_country(): 
-    return custom_country.create_custom_country()
+def create_custom_country(game): 
+    return custom_country.create_custom_country(game)
 

@@ -172,5 +172,5 @@ def created_advanced_germany():
 def create_game(germany): 
     return game.Game(date.Date(1, 1, 1936), [germany])
 
-def create_custom_country(): 
-    return custom_country.create_custom_country()
+def create_custom_country(game): 
+    return custom_country.create_custom_country(game)

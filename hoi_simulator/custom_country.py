@@ -27,7 +27,7 @@ from hoi_simulator import country, state, setup_countries, construction, constru
 
 
 
-def create_custom_country(): 
+def create_custom_country(game): 
 
     custom_state = state.State("Custom_state", 50, 15, 15, 10, 3, True, None)
 
@@ -94,4 +94,9 @@ def create_custom_country():
     
     custom_country.states["Custom_state"].set_country(custom_country)
 
+    custom_country.full_added_bonuses = custom_country.create_default_bonuses_map()
+
+    game.countries.append(custom_country)
+
     return custom_country
+

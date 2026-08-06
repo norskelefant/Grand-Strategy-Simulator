@@ -18,7 +18,7 @@ def new_game(germany):
 
 def test_total_modifier_bonus_for_custom_country_and_germany_is_correct(germany, new_game): 
     #Given a custom country
-    testing_country = create_custom_country()
+    testing_country = create_custom_country(new_game)
 
     #When asking for the total modifiers
 
@@ -61,8 +61,6 @@ def test_total_modifier_works_when_switching_economy_law(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0.11
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.05
 
-
-
 def test_total_modifier_works_when_switching_trade_law(germany, new_game): 
 
     #Given Germany
@@ -103,7 +101,9 @@ def test_total_modifier_works_when_switching_trade_law(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == 0.05
 
 def test_total_modifier_updates_stability_and_war_support_modifier(germany, new_game): 
-    #Given Germany with an extra war support and stability modifier
+    #Given Germany
+
+    #When an extra war support and stability modifier is given
 
     new_modifier = modifier.Modifier("testing_modifier", 
                                      "Testing modifier", 
@@ -117,7 +117,9 @@ def test_total_modifier_updates_stability_and_war_support_modifier(germany, new_
     germany.modifiers.append(new_modifier)
     germany.add_to_full_added_bonuses(new_modifier)
 
-    #
+    #Then the stability and war support modifiers should be updated(implement later)
+
+    assert True == False
 
 
 
@@ -138,5 +140,19 @@ def created_advanced_germany():
 def create_game(germany): 
     return game.Game(date.Date(1, 1, 1936), [germany])
 
-def create_custom_country(): 
-    return custom_country.create_custom_country()
+def create_custom_country(game): 
+
+    testing_country = custom_country.create_custom_country(game)
+
+    testing_modifier_1 = modifier.Modifier("Testing_modifier_1", "Testing modifier 1", 0, modifier_classes.Modifier_classes.BASE, None, {modifier_types.Modifier_types.STABILITY: 0.10, modifier_types.Modifier_types.WAR_SUPPORT: 0.10, modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.10}, True)
+
+    testing_modifier_2 = modifier.Modifier("Testing_modifier_2", "Testing modifier 2", 0, modifier_classes.Modifier_classes.BASE, None, {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.25}, True)
+
+    testing_country.modifiers.append(testing_modifier_1)
+    testing_country.add_to_full_added_bonuses(testing_modifier_1)
+
+    testing_country.modifiers.append(testing_modifier_2)
+    testing_country.add_to_full_added_bonuses(testing_modifier_2)
+
+
+    return testing_country

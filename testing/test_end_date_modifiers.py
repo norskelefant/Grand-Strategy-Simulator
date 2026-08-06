@@ -4,7 +4,7 @@ import pytest
 
 import math
 
-from hoi_simulator import country, state, setup_countries, construction, construction_types, construction_line, date, game, modifier, modifier_classes, modifier_types, economy_laws, ideologies
+from hoi_simulator import country, state, setup_countries, construction, construction_types, construction_line, date, game, modifier, modifier_classes, modifier_types, economy_laws, ideologies, custom_country
 
 @pytest.fixture
 def germany(): 
@@ -181,23 +181,26 @@ def created_advanced_germany():
 def create_game(germany): 
     return game.Game(date.Date(1, 1, 1936), [germany])
 
-def create_custom_country(): 
-    custom_country = custom_country.create_custom_country()
+def create_custom_country(game): 
 
-    custom_country.full_added_bonuses = custom_country.create_default_bonuses_map()
+    partial_mobilization = modifier.Modifier("Partial_mobilization", "Partial Mobilization", 0, modifier_classes.Modifier_classes.ECONOMY_LAW, None, {modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}, True)
 
-    custom_country.add_to_full_added_bonuses(partial_mobilization)
+    testing_country = custom_country.create_custom_country(game)
+
+    testing_country.full_added_bonuses = testing_country.create_default_bonuses_map()
+
+    testing_country.add_to_full_added_bonuses(partial_mobilization)
 
     testing_modifier_1 = modifier.Modifier("Testing_modifier_1", "Testing modifier 1", 0, modifier_classes.Modifier_classes.BASE, date.Date(3, 1, 1936), {modifier_types.Modifier_types.STABILITY: 0.10, modifier_types.Modifier_types.WAR_SUPPORT: 0.10, modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.10}, True)
 
     testing_modifier_2 = modifier.Modifier("Testing_modifier_2", "Testing modifier 2", 0, modifier_classes.Modifier_classes.BASE, date.Date(25, 7, 1939), {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.25}, True)
 
-    custom_country.modifiers.append(testing_modifier_1)
-    custom_country.add_to_full_added_bonuses(testing_modifier_1)
+    testing_country.modifiers.append(testing_modifier_1)
+    testing_country.add_to_full_added_bonuses(testing_modifier_1)
 
-    custom_country.modifiers.append(testing_modifier_2)
-    custom_country.add_to_full_added_bonuses(testing_modifier_2)
+    testing_country.modifiers.append(testing_modifier_2)
+    testing_country.add_to_full_added_bonuses(testing_modifier_2)
 
-    game.countries.append(custom_country)
+    #game.countries.append(testing_country)
 
-    return custom_country
+    return testing_country

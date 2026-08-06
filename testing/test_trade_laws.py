@@ -121,7 +121,7 @@ def test_can_switch_to_closed_economy_if_requirements_are_fulfilled(germany, new
     #When switching the trade law to closed economy while prerequisites are fulfilled
     germany.add_political_power(300)
 
-    testing_country = create_custom_country()
+    testing_country = create_custom_country(new_game)
 
     germany.declare_war(testing_country)
 
@@ -169,7 +169,7 @@ def test_can_switch_to_limited_exports_if_requirements_are_fulfilled_two(germany
     assert trade_law.get_id() == "Free_trade"
     assert germany.get_political_power() == 150
 
-    testing_country = create_custom_country()
+    testing_country = create_custom_country(new_game)
 
     germany.set_at_war(True)
 
@@ -333,5 +333,5 @@ def created_advanced_germany():
 def create_game(germany): 
     return game.Game(date.Date(1, 1, 1936), [germany])
 
-def create_custom_country(): 
-    return custom_country.create_custom_country()
+def create_custom_country(game): 
+    return custom_country.create_custom_country(game)
