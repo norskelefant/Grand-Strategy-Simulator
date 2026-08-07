@@ -683,9 +683,8 @@ class Country:
 
     def create_war_support_modifier(self): 
         war_support = self.get_full_war_support()
-        war_support_percent = math.floor(
-            math.nextafter(war_support * 100.0, math.inf)
-        )
+        war_support_percent = math.floor(round(math.nextafter(war_support * 100.0, math.inf)))
+        print(war_support_percent)
         if war_support_percent > 50: 
             war_support_over_50 = max(war_support_percent - 50, 0)
             mobilization_speed = 0.0060 * war_support_over_50
