@@ -551,8 +551,6 @@ def test_stability_bonuses_do_not_go_over_100_percent(germany, new_game):
     #0 * 0.002 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.0
 
-
-
 def test_war_support_modifier_at_50_percent(germany, new_game): 
     assert True == False
 
