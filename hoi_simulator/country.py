@@ -380,7 +380,6 @@ class Country:
         return full_modifier_list
 
     def get_consumer_goods(self): 
-        print(self.get_base_consumer_goods())
         #print(self.get_floor_consumer_goods())
         return max(self.get_base_consumer_goods() * self.get_floor_consumer_goods(), 0.10)
     

@@ -253,28 +253,304 @@ def test_stability_decreased_from_84_to_62_changes_modifier(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.076
 
 def test_stability_increased_from_10_to_22_changes_modifier(germany, new_game): 
-    assert True == False
+    #Given Germany
+
+    #When stability is 10%
+    new_modifier = modifier.Modifier("testing_modifier", 
+                                     "Testing modifier", 
+                                     0, 
+                                     modifier_classes.Modifier_classes.BASE, 
+                                     None, 
+                                     {modifier_types.Modifier_types.STABILITY: -0.01}, 
+                                     True)
+
+    germany.modifiers.append(new_modifier)
+    germany.add_to_full_added_bonuses(new_modifier)
+
+    germany.add_base_stability(-0.70)
+
+    assert germany.get_full_stability() == 0.10
+
+    #Then the bonuses should be the following
+    #10% from Mefo bills and 0% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == 0.10
+    #25% * ((1+10%)) = 0.275
+    assert germany.get_consumer_goods() == 0.275
+    #5% from limited exports and -40% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.35)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.35)
+    #Political power gain of -16%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.16
+    #90 * 0.002 = 0.18
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.18
+
+    #When stability changes to 22%
+    germany.add_base_stability(0.12)
+
+    assert germany.get_full_stability() == 0.22
+
+    #Then the bonuses should be the following
+    #10% from Mefo bills and 0% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == 0.10
+    #25% * ((1+10%)) = 0.275
+    assert germany.get_consumer_goods() == 0.275
+    #5% from limited exports and -28% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.23)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.23)
+    #Political power gain of -11.2%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.112
+    #78 * 0.002 = 0.156
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.156
 
 def test_stability_decreased_from_49_to_40_changes_modifier(germany, new_game): 
-    assert True == False
+    #Given Germany
+
+    #When stability is 49%
+    germany.add_base_stability(-0.32)
+
+    assert germany.get_full_stability() == pytest.approx(0.49)
+
+    #Then the bonuses should be the following
+    #10% from Mefo bills and 0% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == 0.10
+    #25% * ((1+10%)) = 0.275
+    assert germany.get_consumer_goods() == 0.275
+    #5% from limited exports and -1% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.04)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.04)
+    #Political power gain of -0.4%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.004
+    #51 * 0.002 = 0.18
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == pytest.approx(0.102)
+
+    #When stability changes to 40%
+    germany.add_base_stability(-0.09)
+
+    assert germany.get_full_stability() == pytest.approx(0.40)
+
+    #Then the bonuses should be the following
+    #10% from Mefo bills and 0% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == 0.10
+    #25% * ((1+10%)) = 0.275
+    assert germany.get_consumer_goods() == 0.275
+    #5% from limited exports and -10% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.05)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.05)
+    #Political power gain of -4%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.04
+    #60 * 0.002 = 0.12
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.12
 
 def test_stability_increased_from_50_to_57_changes_modifier(germany, new_game): 
-    assert True == False
+    #Given Germany
+
+    #When stability is 50%
+    germany.add_base_stability(-0.31)
+
+    assert germany.get_full_stability() == pytest.approx(0.50)
+
+    #Then the bonuses should be the following
+    #10% from Mefo bills and 0% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == 0.10
+    #25% * ((1+10%)) = 0.275
+    assert germany.get_consumer_goods() == 0.275
+    #5% from limited exports and 0% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.05)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.05)
+    #Political power gain of 0%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.0
+    #50 * 0.002 = 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.10
+
+    #When stability changes to 57%
+    germany.add_base_stability(0.07)
+
+    assert germany.get_full_stability() == 0.57
+
+    #Then the bonuses should be the following
+    #10% from Mefo bills and -2.8% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == pytest.approx(0.072)
+    #25% * ((1+10%)*(1-2.8%)) = 0.2673
+    assert germany.get_consumer_goods() == pytest.approx(0.2673)
+    #5% from limited exports and 2.8% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.078)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.078)
+    #Political power gain of 1.4%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.014
+    #43 * 0.002 = 0.086
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == pytest.approx(0.086)
 
 def test_stability_decreased_from_50_to_43_changes_modifier(germany, new_game): 
-    assert True == False
+    #Given Germany
+
+    #When stability is 50%
+    germany.add_base_stability(-0.31)
+
+    assert germany.get_full_stability() == pytest.approx(0.50)
+
+    #Then the bonuses should be the following
+    #10% from Mefo bills and 0% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == 0.10
+    #25% * ((1+10%)) = 0.275
+    assert germany.get_consumer_goods() == 0.275
+    #5% from limited exports and 0% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.05)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.05)
+    #Political power gain of 0%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.0
+    #50 * 0.002 = 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.10
+
+    #When stability changes to 43%
+    germany.add_base_stability(-0.07)
+
+    assert germany.get_full_stability() == pytest.approx(0.43)
+
+    #Then the bonuses should be the following
+    #10% from Mefo bills and 0% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == 0.10
+    #25% * ((1+10%)) = 0.275
+    assert germany.get_consumer_goods() == 0.275
+    #5% from limited exports and -7% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.02)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.02)
+    #Political power gain of -2.8%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.028
+    #57 * 0.002 = 0.114
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.114
 
 def test_stability_increased_from_40_to_60_changes_modifier(germany, new_game): 
-    assert True == False
+    #Given Germany
+
+    #When stability is 40%
+    germany.add_base_stability(-0.41)
+
+    assert germany.get_full_stability() == pytest.approx(0.40)
+
+    #Then the bonuses should be the following
+    #10% from Mefo bills and 0% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == 0.10
+    #25% * ((1+10%)) = 0.275
+    assert germany.get_consumer_goods() == 0.275
+    #5% from limited exports and -10% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.05)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.05)
+    #Political power gain of -4%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.04
+    #60 * 0.002 = 0.12
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.12
+
+    #When stability changes to 60%
+    germany.add_base_stability(0.20)
+
+    assert germany.get_full_stability() == 0.60
+
+    #Then the bonuses should be the following
+    #10% from Mefo bills and -4% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == pytest.approx(0.06)
+    #25% * ((1+10%)*(1-4%)) = 0.264
+    assert germany.get_consumer_goods() == 0.264
+    #5% from limited exports and 4% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.09
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.09
+    #Political power gain of 2%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.02
+    #40 * 0.002 = 0.086
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.08
 
 def test_stability_decreased_from_60_to_40_changes_modifier(germany, new_game): 
-    assert True == False
+    #Given Germany
+
+    #When stability is 60%
+    germany.add_base_stability(-0.21)
+
+    assert germany.get_full_stability() == 0.60
+
+    #Then the bonuses should be the following
+    #10% from Mefo bills and -4% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == pytest.approx(0.06)
+    #25% * ((1+10%)*(1-4%)) = 0.264
+    assert germany.get_consumer_goods() == 0.264
+    #5% from limited exports and 4% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.09
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.09
+    #Political power gain of 2%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.02
+    #40 * 0.002 = 0.086
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.08
+
+    #When stability changes to 40%
+    germany.add_base_stability(-0.20)
+
+    assert germany.get_full_stability() == pytest.approx(0.40)
+
+    #Then the bonuses should be the following
+    #10% from Mefo bills and 0% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == 0.10
+    #25% * ((1+10%)) = 0.275
+    assert germany.get_consumer_goods() == 0.275
+    #5% from limited exports and -10% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.05)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.05)
+    #Political power gain of -4%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.04
+    #60 * 0.002 = 0.12
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.12
+
 
 def test_stability_bonuses_do_not_go_under_0_percent(germany, new_game): 
-    assert True == False
+    #Given Germany
+
+    #When stability goes under 0%
+    new_modifier = modifier.Modifier("testing_modifier", 
+                                     "Testing modifier", 
+                                     0, 
+                                     modifier_classes.Modifier_classes.BASE, 
+                                     None, 
+                                     {modifier_types.Modifier_types.STABILITY: -0.50}, 
+                                     True)
+
+    germany.modifiers.append(new_modifier)
+    germany.add_to_full_added_bonuses(new_modifier)
+
+    germany.add_base_stability(-0.50)
+
+    assert germany.get_full_stability() == 0.0
+
+    #Then the bonuses should be the same as those for 0% stability
+    #10% from Mefo bills
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == 0.10
+    #25% * ((1+10%)) = 0.275
+    assert germany.get_consumer_goods() == 0.275
+    #5% from limited exports and -50% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == -0.45
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == -0.45
+    #Political power gain of -20%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.20
+    #100 * 0.002 = 0.2
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.2
 
 def test_stability_bonuses_do_not_go_over_100_percent(germany, new_game): 
-    assert True == False
+    #Given Germany
+
+    #When stability goes above 100%
+    germany.add_base_stability(0.30)
+
+    assert germany.get_full_stability() == 1.0
+
+    #Then the bonuses should be the same as those for 100% stability
+    #10% from Mefo bills and -20% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == -0.10
+    #25% * ((1+10%)*(1-20%)) = 0.22
+    assert germany.get_consumer_goods() == pytest.approx(0.22)
+    #5% from limited exports and 20% from stability
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.25
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.25
+    #Political power gain of 10%
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
+    #0 * 0.002 = 0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.0
+
 
 
 def test_war_support_modifier_at_50_percent(germany, new_game): 
