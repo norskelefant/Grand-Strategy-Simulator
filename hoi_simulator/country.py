@@ -684,7 +684,6 @@ class Country:
     def create_war_support_modifier(self): 
         war_support = self.get_full_war_support()
         war_support_percent = math.floor(round(math.nextafter(war_support * 100.0, math.inf)))
-        print(war_support_percent)
         if war_support_percent > 50: 
             war_support_over_50 = max(war_support_percent - 50, 0)
             mobilization_speed = 0.0060 * war_support_over_50
@@ -1164,7 +1163,7 @@ class Country:
         return False
 
     def has_mefo_bills(self): 
-        if "Mefo_bills" in self.get_national_spirits(): 
+        if any(national_spirit.get_id() == "MEFO_bills" for national_spirit in self.get_national_spirits()): 
             return True
         return False
 
@@ -1239,7 +1238,8 @@ class Country:
         return False
 
     def has_hired_advisor(self, advisor_name): 
-        if advisor_name in self.get_advisors(): 
+        print(advisor_name)
+        if any(advisor is not None and advisor.get_id() == advisor_name for advisor in self.get_advisors()): 
             return True
         return False
 
@@ -1303,12 +1303,14 @@ class Country:
             return
         if not self.has_enough_political_power(advisor_name): 
             return
-        if not advisor.requirements_met(): 
+        if not advisor.requirements_met(self): 
+            print("Advisor requirements not met")
             return
         if slot > 2 or slot < 0: 
             return
         if self.get_advisors()[slot] is not None: 
             self.resign_advisor(slot)
+        self.add_political_power(-advisor.get_full_cost(self))
         self.get_advisors()[slot] = advisor
         self.add_to_full_added_bonuses(advisor)
         
@@ -1322,7 +1324,7 @@ class Country:
             return
         if not self.has_enough_political_power(theorist_name): 
             return
-        if not theorist.requirements_met(): 
+        if not theorist.requirements_met(self): 
             return
         self.resign_theorist()
         self.theorist = theorist
@@ -1338,7 +1340,7 @@ class Country:
             return
         if not self.has_enough_political_power(industrial_concern_name): 
             return
-        if not industrial_concern.requirements_met(): 
+        if not industrial_concern.requirements_met(self): 
             return
         self.resign_industrial_concern()
         self.industrial_concern = industrial_concern
@@ -1354,7 +1356,7 @@ class Country:
             return
         if not self.has_enough_political_power(chief_of_army_name): 
             return
-        if not chief_of_army.requirements_met(): 
+        if not chief_of_army.requirements_met(self): 
             return
         self.resign_chief_of_army()
         self.chief_of_army = chief_of_army
@@ -1370,7 +1372,7 @@ class Country:
             return
         if not self.has_enough_political_power(chief_of_navy_name):
             return
-        if not chief_of_navy.requirements_met():
+        if not chief_of_navy.requirements_met(self):
             return
         self.resign_chief_of_navy()
         self.chief_of_navy = chief_of_navy
@@ -1386,7 +1388,7 @@ class Country:
             return
         if not self.has_enough_political_power(chief_of_air_force_name):
             return
-        if not chief_of_air_force.requirements_met():
+        if not chief_of_air_force.requirements_met(self):
             return
         self.resign_chief_of_air_force()
         self.chief_of_air_force = chief_of_air_force
@@ -1402,7 +1404,7 @@ class Country:
             return
         if not self.has_enough_political_power(high_commander_name): 
             return
-        if not high_commander.requirements_met(): 
+        if not high_commander.requirements_met(self): 
             return
         if slot > 2 or slot < 0: 
             return

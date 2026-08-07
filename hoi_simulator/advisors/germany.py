@@ -22,8 +22,7 @@ def create_german_advisors():
             lambda country: (
                 requirements.is_not_communist(country)
                 and requirements.has_mefo_bills(country)
-                and requirements.has_not_hired_advisor(country, "Walther_Funk") 
-                and requirements.has_free_advisor_slot(country)
+                and requirements.has_not_hired_advisor(country, "Walther_funk") 
             ),
         ),
 
@@ -40,9 +39,8 @@ def create_german_advisors():
                 modifier_types.Modifier_types.SUPPLY_HUB_CONSTRUCTION_SPEED: 0.15
             },
             lambda country: (requirements.is_fascist(country) 
-            and requirements.has_not_hired_advisor(country, "Hjalmer_Schacht")
-            and requirements.has_not_hired_advisor(country, "Ludwog Erhard")
-            and requirements.has_free_advisor_slot(country)
+            and requirements.has_not_hired_advisor(country, "Hjalmer_schacht")
+            and requirements.has_not_hired_advisor(country, "Ludwig_erhard")
             ),
 
         ),
@@ -64,7 +62,6 @@ def create_german_advisors():
             },
             lambda country: ((requirements.is_fascist(country) 
             or requirements.event_has_happened(country, "Reinstated_nazi_leadership"))
-            and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -85,7 +82,6 @@ def create_german_advisors():
                 or requirements.event_has_happened(country, "Reinstated_nazi_leadership")
             )
             and requirements.has_not_completed_focus(country, "Hegemony_of_the_ss")
-            and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -104,7 +100,6 @@ def create_german_advisors():
             lambda country: (
                 (requirements.is_fascist(country)
                 or requirements.event_has_happened(country, "Reinstated_nazi_leadership"))
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -123,12 +118,11 @@ def create_german_advisors():
             },
             lambda country: (
                 (requirements.is_fascist(country) and requirements.has_completed_focus(country, "Reorganize_the_wermacht") or requirements.event_has_happened(country, "Reinstated_nazi_leadership"))
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
-        "Konstantin_von_Neurath": modifier.Modifier(
-            "Konstantin_von_Neurath",
+        "Konstantin_von_neurath": modifier.Modifier(
+            "Konstantin_von_neurath",
             "Konstantin von Neurath",
             50,
             modifier_classes.Modifier_classes.ADVISOR,
@@ -142,8 +136,7 @@ def create_german_advisors():
             },
             lambda country: (
                 requirements.is_not_communist(country)
-                and requirements.has_completed_focus(country, "Heed_von_Neuraths_concerns")
-                and requirements.has_free_advisor_slot(country)
+                and requirements.has_completed_focus(country, "Heed_von_neuraths_concerns")
             ),
         ),
 
@@ -161,7 +154,6 @@ def create_german_advisors():
             },
             lambda country: (
                 (requirements.event_has_happened(country, "Reinstated_nazi_leadership") or requirements.has_completed_focus(country, "Fund_the_fil_department"))
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -179,7 +171,6 @@ def create_german_advisors():
                 requirements.has_created_intelligence_agency(country) 
                 and requirements.has_not_completed_focus(country, "Reorganize_secret_services")
                 and requirements.has_not_completed_focus(country,"Start_the_proletarian_revolution")
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -195,7 +186,6 @@ def create_german_advisors():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Rally_the_wehrmacht")
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -211,7 +201,6 @@ def create_german_advisors():
             },
             lambda country: (
                 (requirements.has_completed_focus(country, "Revive_the_kaiserreich") or requirements.has_completed_focus(country, "Invite_german_monarchists"))
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -227,7 +216,6 @@ def create_german_advisors():
             },
             lambda country: (
                 (requirements.has_completed_focus(country, "Revive_the_kaiserreich") or requirements.has_completed_focus(country, "Invite_german_monarchists"))
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -245,7 +233,6 @@ def create_german_advisors():
             },
             lambda country: (
                 (requirements.has_completed_focus(country, "Revive_the_kaiserreich") or requirements.has_completed_focus(country, "Invite_german_monarchists") or requirements.has_completed_focus(country, "Strive_for_conservative_values"))
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -263,7 +250,6 @@ def create_german_advisors():
             },
             lambda country: (
                 (requirements.has_completed_focus(country, "Revive_the_kaiserreich") or requirements.has_completed_focus(country, "Invite_german_monarchists") or requirements.has_completed_focus(country, "Strive_for_conservative_values"))
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -279,7 +265,6 @@ def create_german_advisors():
                 modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENCE: 0.15            },
             lambda country: (
                 requirements.has_completed_focus(country, "Re-establish_free_elections")
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -293,7 +278,6 @@ def create_german_advisors():
                 modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT: 0.10           },
             lambda country: (
                 requirements.has_completed_focus(country, "Re-establish_free_elections")
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -308,7 +292,6 @@ def create_german_advisors():
                 modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT: 0.05           },
             lambda country: (
                 requirements.has_completed_focus(country, "Monarchist_sentiment")
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -323,7 +306,6 @@ def create_german_advisors():
                 modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT: 0.05           },
             lambda country: (
                 requirements.has_completed_focus(country, "Monarchist_sentiment")
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -340,7 +322,6 @@ def create_german_advisors():
             },
             lambda country: (
                 requirements.is_not_fascist(country)
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -358,7 +339,6 @@ def create_german_advisors():
             lambda country: (
                 requirements.has_completed_focus(country, "Prioritize_economic_growth")
                 and requirements.has_not_hired_advisor(country, "Walther_funk")
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -378,7 +358,6 @@ def create_german_advisors():
             lambda country: (
                 requirements.is_non_aligned(country)
                 and requirements.has_completed_focus(country, "Reestablish_the_freikorps")
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -395,7 +374,6 @@ def create_german_advisors():
             },
             lambda country: (
                 (requirements.is_non_aligned(country) or requirements.is_democratic(country))
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -413,7 +391,6 @@ def create_german_advisors():
             lambda country: (
                 requirements.is_non_aligned(country)
                 and requirements.has_completed_focus(country, "Reestablish_the_freikorps")
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -431,7 +408,6 @@ def create_german_advisors():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Monarchist_sentiment")
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -452,7 +428,6 @@ def create_german_advisors():
             },
             lambda country: (
                 (requirements.is_non_aligned(country) or requirements.is_democratic(country))
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -469,7 +444,6 @@ def create_german_advisors():
             lambda country: (
                 requirements.event_has_happened(country, "Ernst_thalman_has_been_freed_from_prison") 
                 and requirements.is_not_country_leader(country, "Ernst_thalmann")
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -487,7 +461,6 @@ def create_german_advisors():
                 requirements.is_not_country_leader(country, "Ernst_thalmann")
                 and (requirements.has_completed_focus(country, "Start_the_proletarian_revolution") or requirements.is_communist(country))
                 and requirements.has_not_completed_focus(country, "Revive_the_kaiserreich")
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -503,7 +476,6 @@ def create_german_advisors():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Formalize_the_intelligence_wing")
-                and requirements.has_free_advisor_slot(country)
             ),
         ),
 
@@ -520,7 +492,6 @@ def create_german_advisors():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Legacy_of_the_spartacus_league")
-                and requirements.has_free_advisor_slot(country)
             ),
         ), 
 
@@ -537,7 +508,6 @@ def create_german_advisors():
             },
             lambda country: (
                 requirements.is_communist(country)
-                and requirements.has_free_advisor_slot(country)
             ),
         ), 
 
@@ -554,7 +524,6 @@ def create_german_advisors():
             },
             lambda country: (
                 requirements.is_communist(country)
-                and requirements.has_free_advisor_slot(country)
             ),
         ), 
 
@@ -570,7 +539,6 @@ def create_german_advisors():
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Start_the_proletarian_revolution")
-                and requirements.has_free_advisor_slot(country)
             ),
         )
 
