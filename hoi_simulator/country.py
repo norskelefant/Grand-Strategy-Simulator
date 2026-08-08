@@ -281,7 +281,7 @@ class Country:
     def get_possible_events(self): 
         return self.possible_events
     
-    def get_intelligence_service(self): 
+    def get_intelligence_agency(self): 
         return self.intelligence_agency
 
     def get_possible_advisors(self): 
@@ -304,6 +304,9 @@ class Country:
 
     def get_possible_high_commanders(self): 
         return self.possible_high_commanders
+
+    def get_possible_leaders(self): 
+        return self.possible_leaders
 
     def get_focus_tree(self): 
         return self.focus_tree
@@ -1167,7 +1170,7 @@ class Country:
             return True
         return False
 
-    def has_country_leader(self, leader_name): 
+    def is_country_leader(self, leader_name): 
         if self.get_leader().id == leader_name: 
             return True
         return False
@@ -1238,7 +1241,6 @@ class Country:
         return False
 
     def has_hired_advisor(self, advisor_name): 
-        print(advisor_name)
         if any(advisor is not None and advisor.get_id() == advisor_name for advisor in self.get_advisors()): 
             return True
         return False
@@ -1282,11 +1284,13 @@ class Country:
 
     #Refactor later to only include legal focuses to do
     def complete_focus(self, focus_name): 
-        self.get_focuses_done().append(self.get_focus_tree[focus_name])
+        #Set
+        self.get_focuses_done().add(self.get_focus_tree()[focus_name])
 
     #Refactor later to include actual events
     def activate_event(self, event_name): 
-        self.get_events_gotten().append(self.get_possible_events[event_name])
+        #Set
+        self.get_events_gotten().add(self.get_possible_events()[event_name])
 
     #Refactor later to properly implement intelligence agencies, not just a string
     def create_intelligence_agency(self, name): 
@@ -1304,7 +1308,6 @@ class Country:
         if not self.has_enough_political_power(advisor_name): 
             return
         if not advisor.requirements_met(self): 
-            print("Advisor requirements not met")
             return
         if slot > 2 or slot < 0: 
             return
@@ -1416,4 +1419,36 @@ class Country:
     def resign_high_commander(self, slot): 
         self.remove_from_full_added_bonuses(self.get_high_commanders()[slot])
         self.get_high_commanders()[slot] = None
+
+    def switch_leader(self, leader_name): 
+        old_leader = self.get_leader()
+        if old_leader is not None: 
+            self.remove_from_full_added_bonuses(old_leader)
+        self.leader = self.get_possible_leaders()[leader_name]
+        self.add_to_full_added_bonuses(self.get_leader())
+
+    #Just for testing purposes at the moment. Will have to be rewritten later
+    def create_testing_focus_tree(self): 
+        self.focus_tree = {
+            "Prioritize_economic_growth": "Prioritize_economic_growth",
+            "Hegemony_of_the_ss": "Hegemony_of_the_ss",
+            "Reorganize_the_wehrmacht": "Reorganize_the_wehrmacht", 
+            "Heed_von_neuraths_concerns": "Heed_von_neuraths_concerns", 
+            "Fund_the_film_department": "Fund_the_film_department", 
+            "Reorganize_secret_services": "Reorganize_secret_services", 
+            "Start_the_proletarian_revolution": "Start_the_proletarian_revolution",
+            "Rally_the_wehrmacht": "Rally_the_wehrmacht", 
+            "Revive_the_kaiserreich": "Revive_the_kaiserreich", 
+            "Invite_german_monarchists": "Invite_german_monarchists", 
+            "Strive_for_conservative_values": "Strive_for_conservative_values", 
+            "Reestablish_free_elections": "Reestablish_free_elections", 
+            "Monarchist_sentiment": "Monarchist_sentiment", 
+            "Reestablish_the_freikorps": "Reestablish_the_freikorps"
+        }
+
+    def create_testing_events(self): 
+        self.possible_events = {
+            "Reinstated_nazi_leadership": "Reinstated_nazi_leadership", 
+            "Ernst_thalmann_has_been_freed_from_prison": "Ernst_thalmann_has_been_freed_from_prison"
+        }
 

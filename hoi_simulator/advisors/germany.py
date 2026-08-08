@@ -39,7 +39,7 @@ def create_german_advisors():
                 modifier_types.Modifier_types.SUPPLY_HUB_CONSTRUCTION_SPEED: 0.15
             },
             lambda country: (requirements.is_fascist(country) 
-            and requirements.has_not_hired_advisor(country, "Hjalmer_schacht")
+            and requirements.has_not_hired_advisor(country, "Hjalmar_schacht")
             and requirements.has_not_hired_advisor(country, "Ludwig_erhard")
             ),
 
@@ -56,7 +56,7 @@ def create_german_advisors():
                 modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_GROWTH: 0.025,
                 modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_BASE: 0.025,
                 modifier_types.Modifier_types.FACTORY_OUTPUT: 0.025, 
-                modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED: 0.025, 
+                modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.025, 
                 modifier_types.Modifier_types.RESITANCE_GROWTH_SPEED: 0.03, 
                 modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED: -0.01
             },
@@ -111,13 +111,13 @@ def create_german_advisors():
             None,
             {
                 modifier_types.Modifier_types.SUBVERSIVE_ACTIVITIES_COST: -0.25,
-                modifier_types.Modifier_types.SAME_IDEOLOGY_MONTHLY_OPINION: 5, 
+                modifier_types.Modifier_types.SAME_IDEOLOGY_MONTHLY_OPINION: 5.0, 
                 modifier_types.Modifier_types.JUSTIFY_WAR_GOAL_TIME: -0.15, 
                 modifier_types.Modifier_types.FACTION_TRADE_DEAL_OPINION_FACTOR: 0.10, 
                 modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENCE: 0.25
             },
             lambda country: (
-                (requirements.is_fascist(country) and requirements.has_completed_focus(country, "Reorganize_the_wermacht") or requirements.event_has_happened(country, "Reinstated_nazi_leadership"))
+                (requirements.is_fascist(country) and requirements.has_completed_focus(country, "Reorganize_the_wehrmacht") or requirements.event_has_happened(country, "Reinstated_nazi_leadership"))
             ),
         ),
 
@@ -131,7 +131,7 @@ def create_german_advisors():
                 modifier_types.Modifier_types.FOREIGN_SUBVERSIVE_ACTIVITIES_EFFICIENCY: -0.25,
                 modifier_types.Modifier_types.IMPROVE_RELATIONS_MAINTAIN_COST: -0.50,
                 modifier_types.Modifier_types.TRADE_DEAL_OPINION_FACTOR: 0.10,
-                modifier_types.Modifier_types.SUBJECT_AUTONOMY_GAIN: -0.001, 
+                modifier_types.Modifier_types.SUBJECT_AUTONOMY_GAIN: -0.10, 
                 modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED: 0.01
             },
             lambda country: (
@@ -204,38 +204,6 @@ def create_german_advisors():
             ),
         ),
 
-        "Alfred_hugenberg": modifier.Modifier(
-            "Alfred_hugenberg",
-            "Alfred Hugenberg",
-            150,
-            modifier_classes.Modifier_classes.ADVISOR,
-            None,
-            {
-                modifier_types.Modifier_types.WAR_PENALTY_STABILITY_MODIFIER: 0.10,
-                modifier_types.Modifier_types.DAILY_NON_ALIGNED_SUPPORT: 0.10
-            },
-            lambda country: (
-                (requirements.has_completed_focus(country, "Revive_the_kaiserreich") or requirements.has_completed_focus(country, "Invite_german_monarchists"))
-            ),
-        ),
-
-        "Carl_friedrich_goerdeler": modifier.Modifier(
-            "Carl_friedrich_goerdeler",
-            "Carl Friedrich Goerdeler",
-            150,
-            modifier_classes.Modifier_classes.ADVISOR,
-            None,
-            {
-                modifier_types.Modifier_types.RESOURCE_GAIN_EFFICIENCY: 0.05,
-                modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: -0.05,
-                modifier_types.Modifier_types.LACK_OF_RESOURCES_PENALTY: -0.05, 
-                modifier_types.Modifier_types.TRADE_DEAL_OPINION_FACTOR: 0.15
-            },
-            lambda country: (
-                (requirements.has_completed_focus(country, "Revive_the_kaiserreich") or requirements.has_completed_focus(country, "Invite_german_monarchists") or requirements.has_completed_focus(country, "Strive_for_conservative_values"))
-            ),
-        ),
-
         "Carl_friedrich_goerdeler": modifier.Modifier(
             "Carl_friedrich_goerdeler",
             "Carl Friedrich Goerdeler",
@@ -264,12 +232,12 @@ def create_german_advisors():
                 modifier_types.Modifier_types.STABILITY: 0.05,
                 modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENCE: 0.15            },
             lambda country: (
-                requirements.has_completed_focus(country, "Re-establish_free_elections")
+                requirements.has_completed_focus(country, "Reestablish_free_elections")
             ),
         ),
 
-        "Kurt_Schumacher": modifier.Modifier(
-            "Kurt_Schumacher",
+        "Kurt_schumacher": modifier.Modifier(
+            "Kurt_schumacher",
             "Kurt Schumacher",
             150,
             modifier_classes.Modifier_classes.ADVISOR,
@@ -277,21 +245,7 @@ def create_german_advisors():
             {
                 modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT: 0.10           },
             lambda country: (
-                requirements.has_completed_focus(country, "Re-establish_free_elections")
-            ),
-        ),
-
-        "Theodor_heuss": modifier.Modifier(
-            "Theodor_heuss",
-            "Theodor Heuss",
-            150,
-            modifier_classes.Modifier_classes.ADVISOR,
-            None,
-            {
-                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.10,
-                modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT: 0.05           },
-            lambda country: (
-                requirements.has_completed_focus(country, "Monarchist_sentiment")
+                requirements.has_completed_focus(country, "Reestablish_free_elections")
             ),
         ),
 
@@ -385,12 +339,13 @@ def create_german_advisors():
             None,
             {
                 modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.05,
-                modifier_types.Modifier_types.NON_CORE_MANPOWER: 0.02,
-                modifier_types.Modifier_types.GARRISON_PENETRATION_CHANCE: -0.10
+                modifier_types.Modifier_types.STABILITY: 0.05,
+                modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER: 0.05, 
+                modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER: 0.05, 
+                modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES: 0.10
             },
             lambda country: (
-                requirements.is_non_aligned(country)
-                and requirements.has_completed_focus(country, "Reestablish_the_freikorps")
+                requirements.has_completed_focus(country, "Monarchist_sentiment")
             ),
         ),
 
@@ -442,7 +397,7 @@ def create_german_advisors():
                 modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT: 0.10
             },
             lambda country: (
-                requirements.event_has_happened(country, "Ernst_thalman_has_been_freed_from_prison") 
+                requirements.event_has_happened(country, "Ernst_thalmann_has_been_freed_from_prison") 
                 and requirements.is_not_country_leader(country, "Ernst_thalmann")
             ),
         ),

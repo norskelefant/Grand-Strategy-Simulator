@@ -99,18 +99,21 @@ def create_advanced_germany():
                        possible_high_commanders=germany_high_commanders.create_german_high_commanders(),
                        leader=None, 
                        possible_leaders=germany_leaders.create_german_leaders(),
-                       focus_tree=[], 
-                       focuses_done=[], 
+                       focus_tree={}, 
+                       focuses_done=set(), 
                        focuses_that_can_be_done=[], 
                        national_spirits=[], 
                        modifiers=[], 
                        possible_events={}, 
-                       events_gotten=[], 
+                       events_gotten=set(), 
                        intelligence_agency=None,
                        full_added_bonuses={}
                        )
 
     germany.full_added_bonuses = germany.create_default_bonuses_map()
+
+    germany.create_testing_focus_tree()
+    germany.create_testing_events()
 
     germany.add_to_full_added_bonuses(partial_mobilization)
     germany.add_to_full_added_bonuses(limited_exports)
@@ -178,6 +181,8 @@ def create_advanced_germany():
 
     germany.create_stability_modifier()
     germany.create_war_support_modifier()
+
+    germany.switch_leader("Adolf_hitler")
 
     #25% * floor((1-(-10%))*(1-12.4%) * 100) / 100 = 0.24
 
