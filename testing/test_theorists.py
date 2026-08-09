@@ -19,25 +19,49 @@ def new_game(germany):
 def test_werner_von_blomberg(germany, new_game):
     assert True == False
 
+def test_werner_von_blomberg_without_fulfilling_not_having_completed_focus_reorganize_the_wehrmacht(germany, new_game):
+    assert True == False
+
 def test_erich_von_manstein(germany, new_game):
+    assert True == False
+
+def test_erich_von_manstein_without_fulfilling_political_power_cost(germany, new_game):
     assert True == False
 
 def test_w_von_richthofen(germany, new_game):
     assert True == False
 
+def test_w_von_richthofen_without_fulfilling_political_power_cost(germany, new_game):
+    assert True == False
+
 def test_walther_wever(germany, new_game):
+    assert True == False
+
+def test_walther_wever_without_fulfilling_political_power_cost(germany, new_game):
     assert True == False
 
 def test_otto_ciliax(germany, new_game):
     assert True == False
 
+def test_otto_ciliax_without_fulfilling_political_power_cost(germany, new_game):
+    assert True == False
+
 def test_heinz_guderian(germany, new_game):
+    assert True == False
+
+def test_heinz_guderian_without_fulfilling_having_completed_focus_adopt_new_panzer_doctrine(germany, new_game):
     assert True == False
 
 def test_alfred_saalwächter(germany, new_game):
     assert True == False
 
+def test_alfred_saalwächter_without_fulfilling_having_completed_focus_wolfpack_tactics(germany, new_game):
+    assert True == False
+
 def test_ernst_udet(germany, new_game):
+    assert True == False
+
+def test_ernst_udet_without_fulfilling_having_completed_focus_dive_bombers(germany, new_game):
     assert True == False
 
 def test_cannot_have_more_than_one_theorist(germany, new_game): 

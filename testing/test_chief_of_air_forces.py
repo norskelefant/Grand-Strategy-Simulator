@@ -19,13 +19,34 @@ def new_game(germany):
 def test_albert_kesselring(germany, new_game):
     assert True == False
 
-def test_hermann_göring(germany, new_game):
+def test_albert_kesselring_without_fulfilling_political_power_cost(germany, new_game):
+    assert True == False
+
+def test_hermann_göring_while_fulfilling_being_fascist(germany, new_game):
+    assert True == False
+
+def test_hermann_göring_while_fulfilling_having_reinstated_nazi_leadership(germany, new_game):
+    assert True == False
+
+def test_hermann_göring_without_fulfilling_being_fascist_or_having_reinstated_nazi_leadership(germany, new_game):
     assert True == False
 
 def test_ritter_von_greim(germany, new_game):
     assert True == False
 
+def test_ritter_von_greim_without_fulfilling_having_completed_focus_expanding_the_luftwaffe(germany, new_game):
+    assert True == False
+
 def test_helmuth_wilberg(germany, new_game):
+    assert True == False
+
+def test_helmuth_wilberg_without_fulfilling_not_being_fascist(germany, new_game):
+    assert True == False
+
+def test_helmuth_wilberg_without_fulfilling_having_completed_focus_reorganize_the_luftwaffe(germany, new_game):
+    assert True == False
+
+def test_helmuth_wilberg_without_fulfilling_both_requirements(germany, new_game):
     assert True == False
 
 def test_cannot_have_more_than_one_chief_of_air_force(germany, new_game): 

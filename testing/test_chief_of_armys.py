@@ -19,16 +19,34 @@ def new_game(germany):
 def test_ludwig_beck(germany, new_game):
     assert True == False
 
+def test_ludwig_beck_without_fulfilling_political_power_cost(germany, new_game):
+    assert True == False
+
 def test_wilhelm_keitel(germany, new_game):
+    assert True == False
+
+def test_wilhelm_keitel_without_fulfilling_being_fascist(germany, new_game):
     assert True == False
 
 def test_werner_von_fritsch(germany, new_game):
     assert True == False
 
+def test_werner_von_fritsch_without_fulfilling_werner_being_hired_elsewhere(germany, new_game):
+    assert True == False
+
+def test_werner_von_fritsch_without_fulfilling_having_completed_focus_prussian_artillery_doctrine(germany, new_game):
+    assert True == False
+
 def test_franz_halder(germany, new_game):
     assert True == False
 
+def test_franz_halder_without_fulfilling_having_completed_focus_instill_auftragstaktik(germany, new_game):
+    assert True == False
+
 def test_w_von_brauchitsch(germany, new_game):
+    assert True == False
+
+def test_w_von_brauchitsch_without_fulfilling_having_completed_focus_develop_modern_maneuver_warfare(germany, new_game):
     assert True == False
 
 def test_cannot_have_more_than_one_chief_of_army(germany, new_game): 

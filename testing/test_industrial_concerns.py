@@ -19,25 +19,49 @@ def new_game(germany):
 def test_ig_farben(germany, new_game):
     assert True == False
 
+def test_ig_farben_without_fulfilling_political_power_cost(germany, new_game): 
+    assert True == False
+
 def test_krupp(germany, new_game):
+    assert True == False
+
+def test_krupp_without_fulfilling_political_power_cost(germany, new_game): 
     assert True == False
 
 def test_siemens(germany, new_game):
     assert True == False
 
+def test_siemens_without_fulfilling_political_power_cost(germany, new_game): 
+    assert True == False
+
 def test_vereinigte_stahlwerke(germany, new_game):
+    assert True == False
+
+def test_vereinigte_stahlwerke_without_fulfilling_political_power_cost(germany, new_game):
     assert True == False
 
 def test_deutsche_reichsbahn(germany, new_game):
     assert True == False
 
+def test_deutsche_reichsbahn_without_fulfilling_political_power_cost(germany, new_game):
+    assert True == False
+
 def test_philipp_holzmann(germany, new_game):
+    assert True == False
+
+def test_philipp_holzmann_without_fulfilling_political_power_cost(germany, new_game):
     assert True == False
 
 def test_rwe(germany, new_game):
     assert True == False
 
+def test_rwe_without_fulfilling_political_power_cost(germany, new_game):
+    assert True == False
+
 def test_reichswerke(germany, new_game):
+    assert True == False
+
+def test_reichswerke_without_fulfilling_having_completed_focus_establish_the_reichswerke(germany, new_game):
     assert True == False
 
 def test_cannot_have_more_than_one_industrial_concern(germany, new_game): 

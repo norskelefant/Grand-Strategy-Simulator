@@ -19,10 +19,19 @@ def new_game(germany):
 def test_erich_raeder(germany, new_game):
     assert True == False
 
+def test_erich_raeder_without_fulfilling_erich_not_being_country_leader(germany, new_game):
+    assert True == False
+    
 def test_karl_dönitz(germany, new_game):
     assert True == False
 
+def test_karl_dönitz_without_fulfilling_having_completed_focus_trade_interdiction(germany, new_game):
+    assert True == False
+
 def test_rolf_carls(germany, new_game):
+    assert True == False
+
+def test_rolf_carls_without_fulfilling_having_completed_focus_reestablish_the_seekriegsleitung(germany, new_game):
     assert True == False
 
 def test_cannot_have_more_than_one_chief_of_navy(germany, new_game): 
