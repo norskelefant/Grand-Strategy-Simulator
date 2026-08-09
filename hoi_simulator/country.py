@@ -1443,7 +1443,9 @@ class Country:
             "Strive_for_conservative_values": "Strive_for_conservative_values", 
             "Reestablish_free_elections": "Reestablish_free_elections", 
             "Monarchist_sentiment": "Monarchist_sentiment", 
-            "Reestablish_the_freikorps": "Reestablish_the_freikorps"
+            "Reestablish_the_freikorps": "Reestablish_the_freikorps", 
+            "Formalize_the_intelligence_wing": "Formalize_the_intelligence_wing", 
+            "Legacy_of_the_spartacus_league": "Legacy_of_the_spartacus_league"
         }
 
     def create_testing_events(self): 

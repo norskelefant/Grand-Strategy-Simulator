@@ -31,6 +31,21 @@ def create_german_leaders():
             lambda country: (
                 True
             ),
+        ), 
+        "Walter_ulbricht": modifier.Modifier(
+            "Walter_ulbricht",
+            "Walter Ulbricht",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                #Just for tests working at the moment
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.0
+
+            },
+            lambda country: (
+                True
+            ),
         )
 
 

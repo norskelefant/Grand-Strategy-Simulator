@@ -413,7 +413,7 @@ def create_german_advisors():
                 modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT: 0.05
             },
             lambda country: (
-                requirements.is_not_country_leader(country, "Ernst_thalmann")
+                requirements.is_not_country_leader(country, "Walter_ulbricht")
                 and (requirements.has_completed_focus(country, "Start_the_proletarian_revolution") or requirements.is_communist(country))
                 and requirements.has_not_completed_focus(country, "Revive_the_kaiserreich")
             ),
@@ -427,7 +427,7 @@ def create_german_advisors():
             None,
             {
                 modifier_types.Modifier_types.OPERATIVE_SLOTS: 1,
-                modifier_types.Modifier_types.AGENCY_UPGRADE_TIME: 0.20
+                modifier_types.Modifier_types.AGENCY_UPGRADE_TIME: -0.20
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Formalize_the_intelligence_wing")

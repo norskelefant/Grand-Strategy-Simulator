@@ -1963,28 +1963,194 @@ def test_ernst_thälmann_without_fulfilling_not_having_ernst_as_country_leader(g
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
 def test_walter_ulbricht(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
+
+    #When Walter Ulbricht is hired when Walter Ulbricht is not country leader, is communist, has completed focus Start the proletarian revolution and has not completed focus Revive the kaiserreich
+    germany.complete_focus("Start_the_proletarian_revolution")
+    germany.change_ideology(ideologies.Ideologies.COMMUNIST)
+    germany.add_political_power(150)
+
+    germany.hire_advisor("Walter_ulbricht", 0)
+
+    assert germany.get_political_power() == 0
+
+    #Then Walter Ulbricht has the following bonuses
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
+
+    #and the full bonuses should be the following since Walter Ulbricht is hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
 
 def test_walter_ulbricht_without_fulfilling_walter_not_being_country_leader(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
+
+    #When Walter Ulbricht is hired when he is country leader
+    germany.change_ideology(ideologies.Ideologies.COMMUNIST)
+    germany.switch_leader("Walter_ulbricht")
+    germany.add_political_power(150)
+
+    germany.hire_advisor("Walter_ulbricht", 0)
+
+    assert germany.get_political_power() == 150
+
+    #Then Walter Ulbricht has the following bonuses
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
+
+    #but the full bonuses should be the samr since Walter Ulbricht is not hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
 def test_walter_ulbricht_without_fulfilling_having_completed_focus_start_the_proletarian_revolution_and_being_communist(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
+
+    #When Walter Ulbricht is hired when Germany is not communist and has not completed focus Start the proletarian revolution
+    germany.add_political_power(150)
+
+    germany.hire_advisor("Walter_ulbricht", 0)
+
+    assert germany.get_political_power() == 150
+
+    #Then Walter Ulbricht has the following bonuses
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
+
+    #but the full bonuses should be the samr since Walter Ulbricht is not hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
 def test_walter_ulbricht_without_fulfilling_having_not_completed_focus_revive_the_kaiserreich(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
+
+    #When Walter Ulbricht is hired when Germany has completed focus Revive the kaiserreich
+    germany.complete_focus("Revive_the_kaiserreich")
+    germany.add_political_power(150)
+
+    germany.hire_advisor("Walter_ulbricht", 0)
+
+    assert germany.get_political_power() == 150
+
+    #Then Walter Ulbricht has the following bonuses
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
+
+    #but the full bonuses should be the samr since Walter Ulbricht is not hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
 def test_wilhelm_zaisser(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.OPERATIVE_SLOTS] == 0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.AGENCY_UPGRADE_TIME] == 0.0
+
+    #When Wilhelm Zaisser is hired when Germany has completed focus Formalize the intelligence wing
+    germany.complete_focus("Formalize_the_intelligence_wing")
+    germany.add_political_power(150)
+
+    germany.hire_advisor("Wilhelm_zaisser", 0)
+
+    assert germany.get_political_power() == 0
+
+    #Then Wilhelm Zaisser has the following bonuses
+    wilhelm_zaisser = germany.find_modifier_by_id("Wilhelm_zaisser")
+
+    assert wilhelm_zaisser.get_modifier_bonuses()[modifier_types.Modifier_types.OPERATIVE_SLOTS] == 1
+    assert wilhelm_zaisser.get_modifier_bonuses()[modifier_types.Modifier_types.AGENCY_UPGRADE_TIME] == -0.20
+
+    #and the full bonuses should be the following since Wilhelm Zaisser is hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.OPERATIVE_SLOTS] == 1
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.AGENCY_UPGRADE_TIME] == -0.20
 
 def test_wilhelm_zaisser_without_fulfilling_having_completed_focus_formalize_the_intelligence_wing(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.OPERATIVE_SLOTS] == 0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.AGENCY_UPGRADE_TIME] == 0.0
+
+    #When Wilhelm Zaisser is hired when Germany has not completed focus Formalize the intelligence wing
+    germany.add_political_power(150)
+
+    germany.hire_advisor("Wilhelm_zaisser", 0)
+
+    assert germany.get_political_power() == 150
+
+    #Then Wilhelm Zaisser has the following bonuses
+    wilhelm_zaisser = germany.find_modifier_by_id("Wilhelm_zaisser")
+
+    assert wilhelm_zaisser.get_modifier_bonuses()[modifier_types.Modifier_types.OPERATIVE_SLOTS] == 1
+    assert wilhelm_zaisser.get_modifier_bonuses()[modifier_types.Modifier_types.AGENCY_UPGRADE_TIME] == -0.20
+
+    #but the full bonuses should be the same since Wilhelm Zaisser is not hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.OPERATIVE_SLOTS] == 0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.AGENCY_UPGRADE_TIME] == 0.0
 
 def test_otto_rühle(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.01
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
+
+    #When Otto Rühle is hired when Germany has completed focus Legacy of the spartacus league
+    germany.complete_focus("Legacy_of_the_spartacus_league")
+    germany.add_political_power(150)
+
+    germany.hire_advisor("Otto_ruhle", 0)
+
+    assert germany.get_political_power() == 0
+
+    #Then Otto Rühle has the following bonuses
+    otto_ruhle = germany.find_modifier_by_id("Otto_ruhle")
+
+    assert otto_ruhle.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
+    assert otto_ruhle.get_modifier_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.05
+    assert otto_ruhle.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
+
+    #and the full bonuses should be the following since Otto Rühle is hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == pytest.approx(0.06)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
+
 
 def test_otto_rühle_without_fulfilling_having_completed_focus_legacy_of_the_spartacus_league(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.01
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
+
+    #When Otto Rühle is hired when Germany has not completed focus Legacy of the spartacus league
+    germany.add_political_power(150)
+
+    germany.hire_advisor("Otto_ruhle", 0)
+
+    assert germany.get_political_power() == 150
+
+    #Then Otto Rühle has the following bonuses
+    otto_ruhle = germany.find_modifier_by_id("Otto_ruhle")
+
+    assert otto_ruhle.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
+    assert otto_ruhle.get_modifier_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.05
+    assert otto_ruhle.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
+
+    #but the full bonuses should be the same since Otto Rühle is not hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.01
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
 def test_hermann_duncker(germany, new_game):
     assert True == False
