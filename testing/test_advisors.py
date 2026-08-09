@@ -2459,7 +2459,7 @@ def test_replacing_an_advisor_while_having_three_advisors(germany, new_game):
 def test_one_cannot_hire_advisors_with_illegal_slot(germany, new_game): 
     #Given a normal Germany game
     #25% * ((1+10%)*(1-12.4%)) = 0.2409
-    germany.get_consumer_goods() == 0.2409
+    assert germany.get_consumer_goods() == pytest.approx(0.2409)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == pytest.approx(-0.024)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.INFRASTRUCTURE_CONSTRUCTION_SPEED] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.0

@@ -1255,6 +1255,7 @@ class Country:
         if modifier is None: 
             return False
         cost = modifier.get_full_cost(self)
+        print(cost)
         if self.get_political_power() < cost: 
             return False
         return True
@@ -1322,14 +1323,16 @@ class Country:
         self.get_advisors()[slot] = None 
 
     def hire_theorist(self, theorist_name): 
-        theorist = self.get_possible_theorists()[theorist_name]
+        theorist = self.get_possible_theorists().get(theorist_name)
         if theorist is None: 
             return
         if not self.has_enough_political_power(theorist_name): 
             return
         if not theorist.requirements_met(self): 
             return
-        self.resign_theorist()
+        if self.get_theorist() is not None: 
+            self.resign_theorist()
+        self.add_political_power(-theorist.get_full_cost(self))
         self.theorist = theorist
         self.add_to_full_added_bonuses(theorist)
         
@@ -1338,14 +1341,16 @@ class Country:
         self.theorist = None 
 
     def hire_industrial_concern(self, industrial_concern_name): 
-        industrial_concern = self.get_possible_industrial_concerns()[industrial_concern_name]
+        industrial_concern = self.get_possible_industrial_concerns().get(industrial_concern_name)
         if industrial_concern is None: 
             return
         if not self.has_enough_political_power(industrial_concern_name): 
             return
         if not industrial_concern.requirements_met(self): 
             return
-        self.resign_industrial_concern()
+        if self.get_industrial_concern() is not None: 
+            self.resign_industrial_concern()
+        self.add_political_power(-industrial_concern.get_full_cost(self))
         self.industrial_concern = industrial_concern
         self.add_to_full_added_bonuses(industrial_concern)
         
@@ -1354,14 +1359,16 @@ class Country:
         self.industrial_concern = None 
 
     def hire_chief_of_army(self, chief_of_army_name): 
-        chief_of_army = self.get_possible_chiefs_of_army()[chief_of_army_name]
+        chief_of_army = self.get_possible_chiefs_of_army().get(chief_of_army_name)
         if chief_of_army is None: 
             return
         if not self.has_enough_political_power(chief_of_army_name): 
             return
         if not chief_of_army.requirements_met(self): 
             return
-        self.resign_chief_of_army()
+        if self.get_chief_of_army() is not None: 
+            self.resign_chief_of_army()
+        self.add_political_power(-chief_of_army.get_full_cost(self))
         self.chief_of_army = chief_of_army
         self.add_to_full_added_bonuses(chief_of_army)
         
@@ -1370,14 +1377,16 @@ class Country:
         self.chief_of_army = None 
 
     def hire_chief_of_navy(self, chief_of_navy_name):
-        chief_of_navy = self.get_possible_chiefs_of_navy()[chief_of_navy_name]
+        chief_of_navy = self.get_possible_chiefs_of_navy().get(chief_of_navy_name)
         if chief_of_navy is None:
             return
         if not self.has_enough_political_power(chief_of_navy_name):
             return
         if not chief_of_navy.requirements_met(self):
             return
-        self.resign_chief_of_navy()
+        if self.get_chief_of_navy() is not None: 
+            self.resign_chief_of_navy()
+        self.add_political_power(-chief_of_navy.get_full_cost(self))
         self.chief_of_navy = chief_of_navy
         self.add_to_full_added_bonuses(chief_of_navy)
 
@@ -1386,14 +1395,16 @@ class Country:
         self.chief_of_navy = None
 
     def hire_chief_of_air_force(self, chief_of_air_force_name):
-        chief_of_air_force = self.get_possible_chiefs_of_air_force()[chief_of_air_force_name]
+        chief_of_air_force = self.get_possible_chiefs_of_air_force().get(chief_of_air_force_name)
         if chief_of_air_force is None:
             return
         if not self.has_enough_political_power(chief_of_air_force_name):
             return
         if not chief_of_air_force.requirements_met(self):
             return
-        self.resign_chief_of_air_force()
+        if self.get_chief_of_air_force() is not None: 
+            self.resign_chief_of_air_force()
+        self.add_political_power(-chief_of_air_force.get_full_cost(self))
         self.chief_of_air_force = chief_of_air_force
         self.add_to_full_added_bonuses(chief_of_air_force)
 
@@ -1402,7 +1413,7 @@ class Country:
         self.chief_of_air_force = None
 
     def hire_high_commander(self, high_commander_name, slot): 
-        high_commander = self.get_possible_high_commanders()[high_commander_name]
+        high_commander = self.get_possible_high_commanders().get(high_commander_name)
         if high_commander is None: 
             return
         if not self.has_enough_political_power(high_commander_name): 
@@ -1413,6 +1424,7 @@ class Country:
             return
         if self.get_high_commanders()[slot] is not None: 
             self.resign_high_commander(slot)
+        self.add_political_power(-high_commander.get_full_cost(self))
         self.get_high_commanders()[slot] = high_commander
         self.add_to_full_added_bonuses(high_commander)
         
@@ -1445,7 +1457,8 @@ class Country:
             "Monarchist_sentiment": "Monarchist_sentiment", 
             "Reestablish_the_freikorps": "Reestablish_the_freikorps", 
             "Formalize_the_intelligence_wing": "Formalize_the_intelligence_wing", 
-            "Legacy_of_the_spartacus_league": "Legacy_of_the_spartacus_league"
+            "Legacy_of_the_spartacus_league": "Legacy_of_the_spartacus_league", 
+            "Establish_the_reichswerke": "Establish_the_reichswerke"
         }
 
     def create_testing_events(self): 

@@ -42,7 +42,17 @@ class Modifier:
             return (1 + country.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_ADVISOR_COST]) * self.get_base_cost()
         if self.get_modifier_type() == modifier_classes.Modifier_classes.THEORIST: 
             return (1 + country.get_full_added_bonuses()[modifier_types.Modifier_types.THEORIST_COST]) * self.get_base_cost()
-        
+        if self.get_modifier_type() == modifier_classes.Modifier_classes.INDUSTRIAL_CONCERN: 
+            return (1 + country.get_full_added_bonuses()[modifier_types.Modifier_types.INDUSTRIAL_CONCERN_COST]) * self.get_base_cost()
+        if self.get_modifier_type() == modifier_classes.Modifier_classes.CHIEF_OF_ARMY: 
+            return (1 + country.get_full_added_bonuses()[modifier_types.Modifier_types.CHIEF_OF_ARMY_COST]) * self.get_base_cost()
+        if self.get_modifier_type() == modifier_classes.Modifier_classes.CHIEF_OF_NAVY: 
+            return (1 + country.get_full_added_bonuses()[modifier_types.Modifier_types.CHIEF_OF_NAVY_COST]) * self.get_base_cost()
+        if self.get_modifier_type() == modifier_classes.Modifier_classes.CHIEF_OF_AIR_FORCE: 
+            return (1 + country.get_full_added_bonuses()[modifier_types.Modifier_types.CHIEF_OF_AIR_FORCE_COST]) * self.get_base_cost()
+        if self.get_modifier_type() == modifier_classes.Modifier_classes.HIGH_COMMANDER: 
+            return (1 + country.get_full_added_bonuses()[modifier_types.Modifier_types.HIGH_COMMANDER_COST]) * self.get_base_cost()
+    
 
     def requirements_met(self, country): 
         return self.requirements(country)

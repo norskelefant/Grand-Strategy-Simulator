@@ -46,9 +46,6 @@ def test_helmuth_wilberg_without_fulfilling_not_being_fascist(germany, new_game)
 def test_helmuth_wilberg_without_fulfilling_having_completed_focus_reorganize_the_luftwaffe(germany, new_game):
     assert True == False
 
-def test_helmuth_wilberg_without_fulfilling_both_requirements(germany, new_game):
-    assert True == False
-
 def test_cannot_have_more_than_one_chief_of_air_force(germany, new_game): 
     assert True == False
 
