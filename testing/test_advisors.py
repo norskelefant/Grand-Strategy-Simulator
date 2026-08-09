@@ -2153,34 +2153,362 @@ def test_otto_rühle_without_fulfilling_having_completed_focus_legacy_of_the_spa
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
 def test_hermann_duncker(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_RETENTION] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_GROWTH] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMPLIANCE_GAIN] == 0.0
+
+    #When Hermann Duncker is hired when Germany is communist
+    germany.change_ideology(ideologies.Ideologies.COMMUNIST)
+    germany.add_political_power(150)
+
+    germany.hire_advisor("Hermann_duncker", 0)
+
+    assert germany.get_political_power() == 0
+
+    #Then Hermann Duncker has the following bonuses
+    hermann_duncker = germany.find_modifier_by_id("Hermann_duncker")
+
+    assert hermann_duncker.get_modifier_bonuses()[modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_RETENTION] == 0.05
+    assert hermann_duncker.get_modifier_bonuses()[modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_GROWTH] == 0.05
+    assert hermann_duncker.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMPLIANCE_GAIN] == 0.05
+
+    #and the full bonuses should be the following since Hermann Duncker is hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_RETENTION] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_GROWTH] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMPLIANCE_GAIN] == 0.05
 
 def test_hermann_duncker_without_fulfilling_being_communist(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_RETENTION] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_GROWTH] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMPLIANCE_GAIN] == 0.0
 
+    #When Hermann Duncker is hired when Germany is not communist
+    germany.add_political_power(150)
+
+    germany.hire_advisor("Hermann_duncker", 0)
+
+    assert germany.get_political_power() == 150
+
+    #Then Hermann Duncker has the following bonuses
+    hermann_duncker = germany.find_modifier_by_id("Hermann_duncker")
+
+    assert hermann_duncker.get_modifier_bonuses()[modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_RETENTION] == 0.05
+    assert hermann_duncker.get_modifier_bonuses()[modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_GROWTH] == 0.05
+    assert hermann_duncker.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMPLIANCE_GAIN] == 0.05
+
+    #but the full bonuses should be the same since Hermann Duncker is not hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_RETENTION] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_GROWTH] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMPLIANCE_GAIN] == 0.0
+    
 def test_august_thalheimer(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESOURCE_GAIN_EFFICIENCY] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.LACK_OF_RESOURCES_PENALTY] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+
+    #When August Thalheimer is hired when Germany is communist
+    germany.change_ideology(ideologies.Ideologies.COMMUNIST)
+    germany.add_political_power(150)
+
+    germany.hire_advisor("August_thalheimer", 0)
+
+    assert germany.get_political_power() == 0
+
+    #Then August Thalheimer has the following bonuses
+    august_thalheimer = germany.find_modifier_by_id("August_thalheimer")
+
+    assert august_thalheimer.get_modifier_bonuses()[modifier_types.Modifier_types.RESOURCE_GAIN_EFFICIENCY] == 0.05
+    assert august_thalheimer.get_modifier_bonuses()[modifier_types.Modifier_types.LACK_OF_RESOURCES_PENALTY] == -0.05
+    assert august_thalheimer.get_modifier_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.05
+
+    #and the full bonuses should be the following since August Thalheimer is hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESOURCE_GAIN_EFFICIENCY] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.LACK_OF_RESOURCES_PENALTY] == -0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.224)
 
 def test_august_thalheimer_without_fulfilling_being_communist(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESOURCE_GAIN_EFFICIENCY] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.LACK_OF_RESOURCES_PENALTY] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
 
-def test_bernhard_bästlein(germany, new_game):
-    assert True == False
+    #When August Thalheimer is hired when Germany is not communist
+    germany.add_political_power(150)
 
-def test_bernhard_bästlein_without_fulfilling_having_completed_focus_start_the_proletarian_revolution(germany, new_game):
-    assert True == False
+    germany.hire_advisor("August_thalheimer", 0)
+
+    assert germany.get_political_power() == 150
+
+    #Then August Thalheimer has the following bonuses
+    august_thalheimer = germany.find_modifier_by_id("August_thalheimer")
+
+    assert august_thalheimer.get_modifier_bonuses()[modifier_types.Modifier_types.RESOURCE_GAIN_EFFICIENCY] == 0.05
+    assert august_thalheimer.get_modifier_bonuses()[modifier_types.Modifier_types.LACK_OF_RESOURCES_PENALTY] == -0.05
+    assert august_thalheimer.get_modifier_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.05
+
+    #but the full bonuses should be the samr since August Thalheimer is not hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESOURCE_GAIN_EFFICIENCY] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.LACK_OF_RESOURCES_PENALTY] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+
+def test_bernhard_bastlein(germany, new_game):
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION_FACTOR] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY] == 0.0
+
+    #When Bernhard Bästlein is hired when Germany has completed focus Start the proletarian revolution
+    germany.complete_focus("Start_the_proletarian_revolution")
+    germany.add_political_power(150)
+
+    germany.hire_advisor("Bernhard_bastlein", 0)
+
+    assert germany.get_political_power() == 0
+
+    #Then Bernhard Bästlein has the following bonuses
+    bernhard_bastlein = germany.find_modifier_by_id("Bernhard_bastlein")
+
+    assert bernhard_bastlein.get_modifier_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION_FACTOR] == 0.05
+    assert bernhard_bastlein.get_modifier_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY] == 0.05
+
+    #and the full bonuses should be the following since Bernhard Bästlein is hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION_FACTOR] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY] == 0.05
+
+def test_bernhard_bastlein_without_fulfilling_having_completed_focus_start_the_proletarian_revolution(germany, new_game):
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION_FACTOR] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY] == 0.0
+
+    #When Bernhard Bästlein is hired when Germany has not completed focus Start the proletarian revolution
+    germany.add_political_power(150)
+
+    germany.hire_advisor("Bernhard_bastlein", 0)
+
+    assert germany.get_political_power() == 150
+
+    #Then Bernhard Bästlein has the following bonuses
+    bernhard_bastlein = germany.find_modifier_by_id("Bernhard_bastlein")
+
+    assert bernhard_bastlein.get_modifier_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION_FACTOR] == 0.05
+    assert bernhard_bastlein.get_modifier_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY] == 0.05
+
+    #but the full bonuses should be the samr since Bernhard Bästlein is not hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION_FACTOR] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY] == 0.0
 
 def test_having_three_advisors(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
+    #25% * ((1+10%)*(1-12.4%)) = 0.2409
+    germany.get_consumer_goods() == 0.2409
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == pytest.approx(-0.024)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.INFRASTRUCTURE_CONSTRUCTION_SPEED] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.0
+
+    #When Ernst Thälmann, Walter Ulbricht and Hans Luther are hired as advisors when Germany is communist and Ernst Thälmann has been freed from prison
+    germany.activate_event("Ernst_thalmann_has_been_freed_from_prison")
+    germany.change_ideology(ideologies.Ideologies.COMMUNIST)
+    germany.add_political_power(450)
+
+    germany.hire_advisor("Ernst_thalmann", 0)
+    germany.hire_advisor("Walter_ulbricht", 1)
+    germany.hire_advisor("Hans_luther", 2)
+
+    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann")
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+    hans_luther = germany.find_modifier_by_id("Hans_luther")
+
+    germany.get_political_power() == 0
+
+    #Then they have bonuses
+    assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.05
+    assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
+    assert hans_luther.get_modifier_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == -0.10
+    assert hans_luther.get_modifier_bonuses()[modifier_types.Modifier_types.INFRASTRUCTURE_CONSTRUCTION_SPEED] == 0.10
+    assert hans_luther.get_modifier_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.10
+
+    #and Germany has the following bonuses, since all 3 advisors are hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.212)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == pytest.approx(0.15)
+    #25% * ((1+10%)*(1-12.4%)*(1-10%)) = 0.21681
+    germany.get_consumer_goods() == 0.21681
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == -0.124
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.INFRASTRUCTURE_CONSTRUCTION_SPEED] == 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.10
 
 def test_replacing_an_advisor(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
+
+    #When Ernst Thälmann is hired while Germany is communist and Ernst has been freed from prison
+    germany.change_ideology(ideologies.Ideologies.COMMUNIST)
+    germany.activate_event("Ernst_thalmann_has_been_freed_from_prison")
+
+    germany.add_political_power(300)
+
+    germany.hire_advisor("Ernst_thalmann", 0)
+
+    assert germany.get_political_power() == 150
+
+    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann")
+
+    #Then Ernst Thälmann has the following bonuses
+    assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.05
+    assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
+
+    #and Germany has the following bonuses
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.112
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
+
+    #When Ernst Thälmann is swapped with Walter Ulbricht
+    germany.hire_advisor("Walter_ulbricht", 0)
+
+    assert germany.get_political_power() == 0
+
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+
+    #Then Walter Ulbricht has the following bonuses
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
+
+    #and Germany has the following bonuses
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
+
+def test_replacing_an_advisor_while_having_three_advisors(germany, new_game): 
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
+    #25% * ((1+10%)*(1-12.4%)) = 0.2409
+    germany.get_consumer_goods() == 0.2409
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == pytest.approx(-0.024)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.INFRASTRUCTURE_CONSTRUCTION_SPEED] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.0
+
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == 0.20
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED] == 0.10
+
+    #When Ernst Thälmann, Walter Ulbricht and Hans Luther are hired as advisors when Germany is communist and Ernst Thälmann has been freed from prison
+    germany.activate_event("Ernst_thalmann_has_been_freed_from_prison")
+    germany.change_ideology(ideologies.Ideologies.COMMUNIST)
+    germany.add_political_power(600)
+
+    germany.hire_advisor("Ernst_thalmann", 0)
+    germany.hire_advisor("Walter_ulbricht", 1)
+    germany.hire_advisor("Hans_luther", 2)
+
+    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann")
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+    hans_luther = germany.find_modifier_by_id("Hans_luther")
+
+    germany.get_political_power() == 150
+
+    #Then they have bonuses
+    assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.05
+    assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
+    assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
+    assert hans_luther.get_modifier_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == -0.10
+    assert hans_luther.get_modifier_bonuses()[modifier_types.Modifier_types.INFRASTRUCTURE_CONSTRUCTION_SPEED] == 0.10
+    assert hans_luther.get_modifier_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.10
+
+    #and Germany has the following bonuses, since all 3 advisors are hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.212)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == pytest.approx(0.15)
+    #25% * ((1+10%)*(1-12.4%)*(1-10%)) = 0.21681
+    germany.get_consumer_goods() == 0.21681
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == -0.124
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.INFRASTRUCTURE_CONSTRUCTION_SPEED] == 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.10
+
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == 0.20
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED] == 0.10
+
+    #When Ernst Thälmann is replaced with Hjalmar Schacht when ideology is fascist
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+    germany.hire_advisor("Hjalmar_schacht", 0)
+
+    assert germany.get_political_power() == 75
+
+    #Then Hjalmar Schacht has the following bonuses
+    Hjalmar_schacht = germany.find_modifier_by_id("Hjalmar_schacht")
+
+    assert Hjalmar_schacht.get_modifier_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == -0.10
+    assert Hjalmar_schacht.get_modifier_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == 0.10
+    assert Hjalmar_schacht.get_modifier_bonuses()[modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED] == 0.10
+
+    #and Germany has the following bonuses
+    #25% * ((1+10%)*(1-12.4%)*(1-10%)*(1-10%)) = 0.195129
+    assert germany.get_consumer_goods() == pytest.approx(0.195129)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == -0.224
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == pytest.approx(0.30)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED] == 0.20
+
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.162)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == pytest.approx(0.05)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.INFRASTRUCTURE_CONSTRUCTION_SPEED] == 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.10
 
 def test_one_cannot_hire_advisors_with_illegal_slot(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    #25% * ((1+10%)*(1-12.4%)) = 0.2409
+    germany.get_consumer_goods() == 0.2409
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == pytest.approx(-0.024)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.INFRASTRUCTURE_CONSTRUCTION_SPEED] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.0
+
+    #When Hjalmar Schacht is hired in the fourth slot
+    germany.add_political_power(150)
+
+    germany.hire_advisor("Hjalmar_schacht", 3)
+
+    assert germany.get_political_power() == 150
+
+    #Then Hjalmar Schacht has the following bonuses
+    Hjalmar_schacht = germany.find_modifier_by_id("Hjalmar_schacht")
+
+    assert Hjalmar_schacht.get_modifier_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == -0.10
+    assert Hjalmar_schacht.get_modifier_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == 0.10
+    assert Hjalmar_schacht.get_modifier_bonuses()[modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED] == 0.10
+
+    #But Germany has the same bonuses as before, because the slot is illegal
+    #25% * ((1+10%)*(1-12.4%)) = 0.2409
+    germany.get_consumer_goods() == 0.2409
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR] == pytest.approx(-0.024)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.INFRASTRUCTURE_CONSTRUCTION_SPEED] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.0
 
 def test_another_country_cannot_hire_german_advisor(germany, new_game): 
-    assert True == False
+    #Given a testing country that is not Germany
+    testing_country = create_custom_country(new_game)
+
+    assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.RESITANCE_GROWTH_SPEED] == 0.0
+    assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.OPERATIVE_SLOTS] == 0
+    assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS] == 0.0
+    assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.ARMY_INTELLIGENCE_TO_OTHERS] == 0.0
+
+    #When testing country hires Reinhard Heydrich while being fascist
+    testing_country.add_political_power(150)
+
+    testing_country.hire_advisor("Reinhard_heydrich", 0)
+
+    #Then he should not be hired
+    assert testing_country.get_political_power() == 150
+
+    assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.RESITANCE_GROWTH_SPEED] == 0.0
+    assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.OPERATIVE_SLOTS] == 0
+    assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS] == 0.0
+    assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.ARMY_INTELLIGENCE_TO_OTHERS] == 0.0
+
+
+
 
 
 

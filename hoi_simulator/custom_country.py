@@ -2,31 +2,6 @@ from hoi_simulator import country, state, setup_countries, construction, constru
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def create_custom_country(game): 
 
     custom_state = state.State("Custom_state", 50, 15, 15, 10, 3, True, None)
@@ -66,7 +41,7 @@ def create_custom_country(game):
                        can_research=[],
                        trade_law=None, 
                        conscription_law=None, 
-                       advisors=[], 
+                       advisors=[None, None, None], 
                        possible_advisors={},
                        industrial_concern=None, 
                        possible_industrial_concerns={},
@@ -78,7 +53,7 @@ def create_custom_country(game):
                        possible_chiefs_of_navy={},
                        chief_of_air_force=None, 
                        possible_chiefs_of_air_force={},
-                       high_commanders=[], 
+                       high_commanders=[None, None, None], 
                        possible_high_commanders={},
                        leader=None, 
                        possible_leaders={},
@@ -87,7 +62,7 @@ def create_custom_country(game):
                        focuses_that_can_be_done=[], 
                        national_spirits=[], 
                        modifiers=[], 
-                        possible_events={}, 
+                       possible_events={}, 
                        events_gotten=[], 
                        intelligence_agency=None,
                        full_added_bonuses={})

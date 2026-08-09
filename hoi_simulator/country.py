@@ -1302,7 +1302,7 @@ class Country:
     #    return False
 
     def hire_advisor(self, advisor_name, slot): 
-        advisor = self.get_possible_advisors()[advisor_name]
+        advisor = self.get_possible_advisors().get(advisor_name)
         if advisor is None: 
             return
         if not self.has_enough_political_power(advisor_name): 
