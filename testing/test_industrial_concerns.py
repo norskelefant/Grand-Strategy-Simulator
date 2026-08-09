@@ -545,8 +545,8 @@ def test_another_country_cannot_hire_german_industrial_concern(germany, new_game
     #Given a testing country that is not Germany
     testing_country = create_custom_country(new_game)
 
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.INDUSTRIAL_RESEARCH_SPEED] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SYNTHETIC_RESOURCES_RESEARCH_SPEED] == 0.0
+    assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.INDUSTRIAL_RESEARCH_SPEED] == 0.0
+    assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.SYNTHETIC_RESOURCES_RESEARCH_SPEED] == 0.0
 
     #When testing country hires IG Farben
     testing_country.add_political_power(150)
@@ -556,8 +556,8 @@ def test_another_country_cannot_hire_german_industrial_concern(germany, new_game
     #Then IG Farben should not be hired
     assert testing_country.get_political_power() == 150
 
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.INDUSTRIAL_RESEARCH_SPEED] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SYNTHETIC_RESOURCES_RESEARCH_SPEED] == 0.0
+    assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.INDUSTRIAL_RESEARCH_SPEED] == 0.0
+    assert testing_country.get_full_added_bonuses()[modifier_types.Modifier_types.SYNTHETIC_RESOURCES_RESEARCH_SPEED] == 0.0
 
 
 

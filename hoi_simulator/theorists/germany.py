@@ -97,7 +97,7 @@ def create_german_theorists():
                 modifier_types.Modifier_types.TRADE_INTERDICTION_DOCTRINE_MASTERY_GAIN: 0.15
             },
             lambda country: (
-                requirements.has_completed_focus(country, "Wolfpack_tatics")
+                requirements.has_completed_focus(country, "Wolfpack_tactics")
             ),
         ),   
 

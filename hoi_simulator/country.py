@@ -1458,7 +1458,10 @@ class Country:
             "Reestablish_the_freikorps": "Reestablish_the_freikorps", 
             "Formalize_the_intelligence_wing": "Formalize_the_intelligence_wing", 
             "Legacy_of_the_spartacus_league": "Legacy_of_the_spartacus_league", 
-            "Establish_the_reichswerke": "Establish_the_reichswerke"
+            "Establish_the_reichswerke": "Establish_the_reichswerke", 
+            "Adopt_new_panzer_doctrine": "Adopt_new_panzer_doctrine", 
+            "Wolfpack_tactics": "Wolfpack_tactics", 
+            "Dive_bombers": "Dive_bombers"
         }
 
     def create_testing_events(self): 
