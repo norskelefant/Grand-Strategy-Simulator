@@ -24,7 +24,7 @@ def create_german_high_commanders():
             modifier_classes.Modifier_classes.HIGH_COMMANDER,
             None,
             {
-                modifier_types.Modifier_types.DIVISION_ATTRITION: 0.08, 
+                modifier_types.Modifier_types.DIVISION_ATTRITION: -0.08, 
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
@@ -48,8 +48,8 @@ def create_german_high_commanders():
             ),
         ),    
 
-        "Ferdinand_schörner": modifier.Modifier(
-            "Ferdinand_schörner",
+        "Ferdinand_schorner": modifier.Modifier(
+            "Ferdinand_schorner",
             "Ferdinand Schörner",
             100,
             modifier_classes.Modifier_classes.HIGH_COMMANDER,
@@ -138,7 +138,7 @@ def create_german_high_commanders():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.has_completed_focus(country, "Falschirmjager")
+                requirements.has_completed_focus(country, "Fallschirmjager")
             ),
         ),  
 

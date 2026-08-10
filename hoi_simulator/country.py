@@ -1468,7 +1468,14 @@ class Country:
             "Trade_interdiction": "Trade_interdiction", 
             "Reestablish_the_seekriegsleitung": "Reestablish_the_seekriegsleitung", 
             "Expanding_the_luftwaffe": "Expanding_the_luftwaffe", 
-            "Reorganize_the_luftwaffe": "Reorganize_the_luftwaffe"
+            "Reorganize_the_luftwaffe": "Reorganize_the_luftwaffe", 
+            "Fallschirmjager": "Fallschirmjager", 
+            "Tactical_bombers": "Tactical_bombers", 
+            "Uralbomber_program": "Uralbomber_program", 
+            "Salvage_captured_equipment": "Salvage_captured_equipment", 
+            "Rocketry_innovations": "Rocketry_innovations", 
+            "Wonder_weapons": "Wonder_weapons", 
+            "Glorious_mechanical_machinations": "Glorious_mechanical_machinations"
         }
 
     def create_testing_events(self): 
