@@ -49,7 +49,7 @@ def create_german_chief_of_air_forces():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.has_completed_focus(country, "expanding_the_luftwaffe")
+                requirements.has_completed_focus(country, "Expanding_the_luftwaffe")
             ),
         ),  
 

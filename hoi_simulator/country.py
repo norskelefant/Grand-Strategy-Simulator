@@ -1466,7 +1466,9 @@ class Country:
             "Instill_auftragstaktik": "Instill_auftragstaktik", 
             "Develop_modern_maneuver_warfare": "Develop_modern_maneuver_warfare",
             "Trade_interdiction": "Trade_interdiction", 
-            "Reestablish_the_seekriegsleitung": "Reestablish_the_seekriegsleitung"
+            "Reestablish_the_seekriegsleitung": "Reestablish_the_seekriegsleitung", 
+            "Expanding_the_luftwaffe": "Expanding_the_luftwaffe", 
+            "Reorganize_the_luftwaffe": "Reorganize_the_luftwaffe"
         }
 
     def create_testing_events(self): 
