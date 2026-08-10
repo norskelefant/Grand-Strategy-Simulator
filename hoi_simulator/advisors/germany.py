@@ -386,8 +386,8 @@ def create_german_advisors():
             ),
         ),
 
-        "Ernst_thalmann": modifier.Modifier(
-            "Ernst_thalmann",
+        "Ernst_thalmann_a": modifier.Modifier(
+            "Ernst_thalmann_a",
             "Ernst Thälmann",
             150,
             modifier_classes.Modifier_classes.ADVISOR,
@@ -398,12 +398,12 @@ def create_german_advisors():
             },
             lambda country: (
                 requirements.event_has_happened(country, "Ernst_thalmann_has_been_freed_from_prison") 
-                and requirements.is_not_country_leader(country, "Ernst_thalmann")
+                and requirements.is_not_country_leader(country, "Ernst_thalmann_l")
             ),
         ),
 
-        "Walter_ulbricht": modifier.Modifier(
-            "Walter_ulbricht",
+        "Walter_ulbricht_a": modifier.Modifier(
+            "Walter_ulbricht_a",
             "Walter Ulbricht",
             150,
             modifier_classes.Modifier_classes.ADVISOR,
@@ -413,7 +413,7 @@ def create_german_advisors():
                 modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT: 0.05
             },
             lambda country: (
-                requirements.is_not_country_leader(country, "Walter_ulbricht")
+                requirements.is_not_country_leader(country, "Walter_ulbricht_l")
                 and (requirements.has_completed_focus(country, "Start_the_proletarian_revolution") or requirements.is_communist(country))
                 and requirements.has_not_completed_focus(country, "Revive_the_kaiserreich")
             ),

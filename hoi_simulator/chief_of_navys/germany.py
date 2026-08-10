@@ -2,8 +2,8 @@ from hoi_simulator import construction_types, modifier_types, modifier_classes, 
 
 def create_chief_of_navys(): 
     return {
-        "Erich_raeder": modifier.Modifier(
-            "Erich_raeder",
+        "Erich_raeder_con": modifier.Modifier(
+            "Erich_raeder_con",
             "Erich Raeder",
             100,
             modifier_classes.Modifier_classes.CHIEF_OF_NAVY,
@@ -17,7 +17,7 @@ def create_chief_of_navys():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.is_not_country_leader(country, "Erich_raeder")
+                requirements.is_not_country_leader(country, "Erich_raeder_l")
             ),
         ),  
 

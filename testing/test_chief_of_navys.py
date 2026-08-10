@@ -17,10 +17,74 @@ def new_game(germany):
     return create_game(germany)
 
 def test_erich_raeder(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_NAVAL_EXPERIENCE_GAIN] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ATTACK] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ARMOR] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SCREEN_ATTACK] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SCREEN_DEFENSE] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE] == 0.0
+
+    #When Erich Raeder is hired when Erich is not country leader
+    germany.add_political_power(100)
+
+    germany.hire_chief_of_navy("Erich_raeder_con")
+
+    assert germany.get_political_power() == 0
+
+    #Then Erich Raeder has the following bonuses
+    erich_raeder = germany.find_modifier_by_id("Erich_raeder_con")
+
+    assert erich_raeder.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_NAVAL_EXPERIENCE_GAIN] == 0.30
+    assert erich_raeder.get_modifier_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ATTACK] == 0.10
+    assert erich_raeder.get_modifier_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ARMOR] == 0.10
+    assert erich_raeder.get_modifier_bonuses()[modifier_types.Modifier_types.SCREEN_ATTACK] == 0.10
+    assert erich_raeder.get_modifier_bonuses()[modifier_types.Modifier_types.SCREEN_DEFENSE] == 0.10
+    assert erich_raeder.get_modifier_bonuses()[modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE] == 20
+
+    #and Germany has the following bonuses because Erich Raeder is hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_NAVAL_EXPERIENCE_GAIN] == 0.30
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ATTACK] == 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ARMOR] == 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SCREEN_ATTACK] == 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SCREEN_DEFENSE] == 0.10
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE] == 20
 
 def test_erich_raeder_without_fulfilling_erich_not_being_country_leader(germany, new_game):
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_NAVAL_EXPERIENCE_GAIN] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ATTACK] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ARMOR] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SCREEN_ATTACK] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SCREEN_DEFENSE] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE] == 0.0
+
+    #When Erich Raeder is hired when Erich is country leader
+    germany.switch_leader("Erich_raeder_l")
+    germany.add_political_power(100)
+
+    germany.hire_chief_of_navy("Erich_raeder_con")
+
+    assert germany.get_political_power() == 100
+
+    #Then Erich Raeder has the following bonuses
+    erich_raeder = germany.find_modifier_by_id("Erich_raeder_con")
+
+    assert erich_raeder.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_NAVAL_EXPERIENCE_GAIN] == 0.30
+    assert erich_raeder.get_modifier_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ATTACK] == 0.10
+    assert erich_raeder.get_modifier_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ARMOR] == 0.10
+    assert erich_raeder.get_modifier_bonuses()[modifier_types.Modifier_types.SCREEN_ATTACK] == 0.10
+    assert erich_raeder.get_modifier_bonuses()[modifier_types.Modifier_types.SCREEN_DEFENSE] == 0.10
+    assert erich_raeder.get_modifier_bonuses()[modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE] == 20
+
+    #but Germany has the following bonuses because Erich Raeder is not hired
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_NAVAL_EXPERIENCE_GAIN] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ATTACK] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ARMOR] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SCREEN_ATTACK] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SCREEN_DEFENSE] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE] == 0.0
+
     
 def test_karl_dönitz(germany, new_game):
     assert True == False

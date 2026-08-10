@@ -17,8 +17,8 @@ def create_german_leaders():
                 True
             ),
         ),  
-        "Ernst_thalmann": modifier.Modifier(
-            "Ernst_thalmann",
+        "Ernst_thalmann_l": modifier.Modifier(
+            "Ernst_thalmann_l",
             "Ernst Thälmann",
             0,
             modifier_classes.Modifier_classes.LEADER,
@@ -32,8 +32,8 @@ def create_german_leaders():
                 True
             ),
         ), 
-        "Walter_ulbricht": modifier.Modifier(
-            "Walter_ulbricht",
+        "Walter_ulbricht_l": modifier.Modifier(
+            "Walter_ulbricht_l",
             "Walter Ulbricht",
             0,
             modifier_classes.Modifier_classes.LEADER,
@@ -46,7 +46,25 @@ def create_german_leaders():
             lambda country: (
                 True
             ),
+        ),
+
+        "Erich_raeder_l": modifier.Modifier(
+            "Erich_raeder_l",
+            "Erich Raeder",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                #Just for tests working at the moment
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.0
+
+            },
+            lambda country: (
+                True
+            ),
         )
+
+        
 
 
 

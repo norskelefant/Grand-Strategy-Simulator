@@ -1902,12 +1902,12 @@ def test_ernst_thälmann(germany, new_game):
     germany.activate_event("Ernst_thalmann_has_been_freed_from_prison")
     germany.add_political_power(150)
 
-    germany.hire_advisor("Ernst_thalmann", 0)
+    germany.hire_advisor("Ernst_thalmann_a", 0)
 
     assert germany.get_political_power() == 0
 
     #Then Ernst Thälmann has the following bonuses
-    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann")
+    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann_a")
 
     assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.05
     assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
@@ -1924,12 +1924,12 @@ def test_ernst_thälmann_without_fulfilling_having_been_free_from_prison(germany
     #When Ernst Thälmann is hired when Ernst Thällmann has not been freed from prison and is not the leader of Germany
     germany.add_political_power(150)
 
-    germany.hire_advisor("Ernst_thalmann", 0)
+    germany.hire_advisor("Ernst_thalmann_a", 0)
 
     assert germany.get_political_power() == 150
 
     #Then Ernst Thälmann has the following bonuses
-    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann")
+    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann_a")
 
     assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.05
     assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
@@ -1945,15 +1945,15 @@ def test_ernst_thälmann_without_fulfilling_not_having_ernst_as_country_leader(g
 
     #When Ernst Thälmann is hired when Ernst Thällmann has been freed from prison and is the leader of Germany
     germany.activate_event("Ernst_thalmann_has_been_freed_from_prison")
-    germany.switch_leader("Ernst_thalmann")
+    germany.switch_leader("Ernst_thalmann_l")
     germany.add_political_power(150)
 
-    germany.hire_advisor("Ernst_thalmann", 0)
+    germany.hire_advisor("Ernst_thalmann_a", 0)
 
     assert germany.get_political_power() == 150
 
     #Then Ernst Thälmann has the following bonuses
-    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann")
+    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann_a")
 
     assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.05
     assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
@@ -1972,12 +1972,12 @@ def test_walter_ulbricht(germany, new_game):
     germany.change_ideology(ideologies.Ideologies.COMMUNIST)
     germany.add_political_power(150)
 
-    germany.hire_advisor("Walter_ulbricht", 0)
+    germany.hire_advisor("Walter_ulbricht_a", 0)
 
     assert germany.get_political_power() == 0
 
     #Then Walter Ulbricht has the following bonuses
-    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht_a")
 
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
@@ -1993,15 +1993,15 @@ def test_walter_ulbricht_without_fulfilling_walter_not_being_country_leader(germ
 
     #When Walter Ulbricht is hired when he is country leader
     germany.change_ideology(ideologies.Ideologies.COMMUNIST)
-    germany.switch_leader("Walter_ulbricht")
+    germany.switch_leader("Walter_ulbricht_l")
     germany.add_political_power(150)
 
-    germany.hire_advisor("Walter_ulbricht", 0)
+    germany.hire_advisor("Walter_ulbricht_a", 0)
 
     assert germany.get_political_power() == 150
 
     #Then Walter Ulbricht has the following bonuses
-    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht_a")
 
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
@@ -2018,12 +2018,12 @@ def test_walter_ulbricht_without_fulfilling_having_completed_focus_start_the_pro
     #When Walter Ulbricht is hired when Germany is not communist and has not completed focus Start the proletarian revolution
     germany.add_political_power(150)
 
-    germany.hire_advisor("Walter_ulbricht", 0)
+    germany.hire_advisor("Walter_ulbricht_a", 0)
 
     assert germany.get_political_power() == 150
 
     #Then Walter Ulbricht has the following bonuses
-    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht_a")
 
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
@@ -2041,12 +2041,12 @@ def test_walter_ulbricht_without_fulfilling_having_not_completed_focus_revive_th
     germany.complete_focus("Revive_the_kaiserreich")
     germany.add_political_power(150)
 
-    germany.hire_advisor("Walter_ulbricht", 0)
+    germany.hire_advisor("Walter_ulbricht_a", 0)
 
     assert germany.get_political_power() == 150
 
     #Then Walter Ulbricht has the following bonuses
-    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht_a")
 
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
@@ -2125,7 +2125,6 @@ def test_otto_rühle(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == pytest.approx(0.06)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
-
 
 def test_otto_rühle_without_fulfilling_having_completed_focus_legacy_of_the_spartacus_league(germany, new_game):
     #Given a normal Germany game
@@ -2314,12 +2313,12 @@ def test_having_three_advisors(germany, new_game):
     germany.change_ideology(ideologies.Ideologies.COMMUNIST)
     germany.add_political_power(450)
 
-    germany.hire_advisor("Ernst_thalmann", 0)
-    germany.hire_advisor("Walter_ulbricht", 1)
+    germany.hire_advisor("Ernst_thalmann_a", 0)
+    germany.hire_advisor("Walter_ulbricht_a", 1)
     germany.hire_advisor("Hans_luther", 2)
 
-    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann")
-    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann_a")
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht_a")
     hans_luther = germany.find_modifier_by_id("Hans_luther")
 
     germany.get_political_power() == 0
@@ -2353,11 +2352,11 @@ def test_replacing_an_advisor(germany, new_game):
 
     germany.add_political_power(300)
 
-    germany.hire_advisor("Ernst_thalmann", 0)
+    germany.hire_advisor("Ernst_thalmann_a", 0)
 
     assert germany.get_political_power() == 150
 
-    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann")
+    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann_a")
 
     #Then Ernst Thälmann has the following bonuses
     assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.05
@@ -2368,11 +2367,11 @@ def test_replacing_an_advisor(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
 
     #When Ernst Thälmann is swapped with Walter Ulbricht
-    germany.hire_advisor("Walter_ulbricht", 0)
+    germany.hire_advisor("Walter_ulbricht_a", 0)
 
     assert germany.get_political_power() == 0
 
-    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht_a")
 
     #Then Walter Ulbricht has the following bonuses
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
@@ -2400,12 +2399,12 @@ def test_replacing_an_advisor_while_having_three_advisors(germany, new_game):
     germany.change_ideology(ideologies.Ideologies.COMMUNIST)
     germany.add_political_power(600)
 
-    germany.hire_advisor("Ernst_thalmann", 0)
-    germany.hire_advisor("Walter_ulbricht", 1)
+    germany.hire_advisor("Ernst_thalmann_a", 0)
+    germany.hire_advisor("Walter_ulbricht_a", 1)
     germany.hire_advisor("Hans_luther", 2)
 
-    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann")
-    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht")
+    ernst_thalmann = germany.find_modifier_by_id("Ernst_thalmann_a")
+    walter_ulbricht = germany.find_modifier_by_id("Walter_ulbricht_a")
     hans_luther = germany.find_modifier_by_id("Hans_luther")
 
     germany.get_political_power() == 150
