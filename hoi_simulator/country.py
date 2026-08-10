@@ -1464,7 +1464,9 @@ class Country:
             "Dive_bombers": "Dive_bombers", 
             "Prussian_artillery_doctrine": "Prussian_artillery_doctrine", 
             "Instill_auftragstaktik": "Instill_auftragstaktik", 
-            "Develop_modern_maneuver_warfare": "Develop_modern_maneuver_warfare"
+            "Develop_modern_maneuver_warfare": "Develop_modern_maneuver_warfare",
+            "Trade_interdiction": "Trade_interdiction", 
+            "Reestablish_the_seekriegsleitung": "Reestablish_the_seekriegsleitung"
         }
 
     def create_testing_events(self): 

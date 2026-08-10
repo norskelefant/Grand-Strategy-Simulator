@@ -49,7 +49,7 @@ def create_chief_of_navys():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.has_completed_focus(country, "Re-establish_the_seekriegsleitung")
+                requirements.has_completed_focus(country, "Reestablish_the_seekriegsleitung")
             ),
         ),
 
