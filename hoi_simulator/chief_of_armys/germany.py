@@ -18,7 +18,7 @@ def create_german_chief_of_armys():
             ),
         ),   
 
-        "Wilhelm_heitel": modifier.Modifier(
+        "Wilhelm_keitel": modifier.Modifier(
             "Wilhelm_keitel",
             "Wilhelm Keitel",
             100,
@@ -34,8 +34,8 @@ def create_german_chief_of_armys():
             ),
         ),   
 
-        "Werner_von_fritsch": modifier.Modifier(
-            "Werner_von_fritsch",
+        "Werner_von_fritsch_coa": modifier.Modifier(
+            "Werner_von_fritsch_coa",
             "Werner von Fritsch",
             100,
             modifier_classes.Modifier_classes.CHIEF_OF_ARMY,
@@ -48,7 +48,7 @@ def create_german_chief_of_armys():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.is_not_already_hired_elsewhere(country, "Werner_von_fritsch")
+                requirements.is_not_already_hired_elsewhere(country, "Werner_von_fritsch_hc")
                 and requirements.has_completed_focus(country, "Prussian_artillery_doctrine")
             ),
         ),   
@@ -76,7 +76,7 @@ def create_german_chief_of_armys():
             modifier_classes.Modifier_classes.CHIEF_OF_ARMY,
             None,
             {
-                modifier_types.Modifier_types.DIVISION_SPEED: 0.30, 
+                modifier_types.Modifier_types.DIVISION_SPEED: 0.10, 
                 modifier_types.Modifier_types.DAILY_ARMY_EXPERIENCE_GAIN: 0.30,
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },

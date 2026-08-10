@@ -28,7 +28,7 @@ def has_free_advisor_slot(country):
     return country.has_free_advisor_slot()
 
 def is_not_already_hired_elsewhere(country, advisor_name):
-    return not country.is_not_already_hired_elsewhere(advisor_name)
+    return not country.is_already_hired_elsewhere(advisor_name)
 
 def is_not_country_leader(country, leader_name):
     return not country.is_country_leader(leader_name)

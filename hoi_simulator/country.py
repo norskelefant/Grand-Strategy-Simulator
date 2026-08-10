@@ -1224,19 +1224,20 @@ class Country:
     #----------------------------
 
     def is_already_hired_elsewhere(self, advisor_name): 
-        if advisor_name in self.get_advisors(): 
+        print(advisor_name)
+        if any(advisor is not None and advisor.get_id() == advisor_name for advisor in self.get_advisors()): 
             return True
-        if advisor_name in self.get_high_commanders(): 
+        if any(advisor is not None and advisor.get_id() == advisor_name for advisor in self.get_high_commanders()):
             return True
-        if advisor_name == self.get_theorist().id: 
+        if self.get_theorist() is not None and advisor_name == self.get_theorist().get_id(): 
             return True
-        if advisor_name == self.get_chief_of_army().id: 
+        if self.get_chief_of_army() is not None and advisor_name == self.get_chief_of_army().get_id(): 
             return True
-        if advisor_name == self.get_chief_of_navy().id: 
+        if self.get_chief_of_navy() is not None and advisor_name == self.get_chief_of_navy().get_id(): 
             return True
-        if advisor_name == self.get_chief_of_air_force().id: 
+        if self.get_chief_of_air_force() is not None and advisor_name == self.get_chief_of_air_force().get_id(): 
             return True
-        if advisor_name == self.get_industrial_concern().id: 
+        if self.get_industrial_concern() is not None and advisor_name == self.get_industrial_concern().get_id(): 
             return True
         return False
 
@@ -1255,7 +1256,6 @@ class Country:
         if modifier is None: 
             return False
         cost = modifier.get_full_cost(self)
-        print(cost)
         if self.get_political_power() < cost: 
             return False
         return True
@@ -1461,7 +1461,10 @@ class Country:
             "Establish_the_reichswerke": "Establish_the_reichswerke", 
             "Adopt_new_panzer_doctrine": "Adopt_new_panzer_doctrine", 
             "Wolfpack_tactics": "Wolfpack_tactics", 
-            "Dive_bombers": "Dive_bombers"
+            "Dive_bombers": "Dive_bombers", 
+            "Prussian_artillery_doctrine": "Prussian_artillery_doctrine", 
+            "Instill_auftragstaktik": "Instill_auftragstaktik", 
+            "Develop_modern_maneuver_warfare": "Develop_modern_maneuver_warfare"
         }
 
     def create_testing_events(self): 

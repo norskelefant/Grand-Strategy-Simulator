@@ -419,7 +419,7 @@ def test_another_country_cannot_hire_german_theorist(germany, new_game):
     #When testing country hires Werner von Blomberg
     testing_country.add_political_power(150)
 
-    testing_country.hire_industrial_concern("Werner_von_blomberg")
+    testing_country.hire_theorist("Werner_von_blomberg")
 
     #Then Werner von Blomberg should not be hired
     assert testing_country.get_political_power() == 150

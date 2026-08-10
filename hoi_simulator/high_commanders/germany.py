@@ -17,8 +17,8 @@ def create_german_high_commanders():
             ),
         ),          
 
-        "Werner_von_fritsch": modifier.Modifier(
-            "Werner_von_fritsch",
+        "Werner_von_fritsch_hc": modifier.Modifier(
+            "Werner_von_fritsch_hc",
             "Werner von Fritsch",
             100,
             modifier_classes.Modifier_classes.HIGH_COMMANDER,
@@ -28,7 +28,7 @@ def create_german_high_commanders():
                 modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 20
             },
             lambda country: (
-                requirements.is_not_already_hired_elsewhere(country, "Werner_von_fritsch")
+                requirements.is_not_already_hired_elsewhere(country, "Werner_von_fritsch_coa")
                 and requirements.has_not_completed_focus(country, "Reorganize_the_wehrmacht")
             ),
         ),  
