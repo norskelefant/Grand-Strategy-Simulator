@@ -78,12 +78,12 @@ def test_hermann_göring_while_fulfilling_being_fascist(germany, new_game):
     #When Hermann Göring is hired when Germany is fascist
     germany.add_political_power(100)
 
-    germany.hire_chief_of_air_force("Hermann_goring")
+    germany.hire_chief_of_air_force("Hermann_goring_coa")
 
     assert germany.get_political_power() == 0
 
     #Then Hermann Göring has the following bonuses
-    hermann_goring = germany.find_modifier_by_id("Hermann_goring")
+    hermann_goring = germany.find_modifier_by_id("Hermann_goring_coa")
 
     assert hermann_goring.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_AIR_EXPERIENCE_GAIN] == 0.20
     assert hermann_goring.get_modifier_bonuses()[modifier_types.Modifier_types.TACTICAL_BOMBER_PRODUCTION_COST] == -0.025
@@ -113,12 +113,12 @@ def test_hermann_göring_while_fulfilling_having_reinstated_nazi_leadership(germ
     germany.activate_event("Reinstated_nazi_leadership")
     germany.add_political_power(100)
 
-    germany.hire_chief_of_air_force("Hermann_goring")
+    germany.hire_chief_of_air_force("Hermann_goring_coa")
 
     assert germany.get_political_power() == 0
 
     #Then Hermann Göring has the following bonuses
-    hermann_goring = germany.find_modifier_by_id("Hermann_goring")
+    hermann_goring = germany.find_modifier_by_id("Hermann_goring_coa")
 
     assert hermann_goring.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_AIR_EXPERIENCE_GAIN] == 0.20
     assert hermann_goring.get_modifier_bonuses()[modifier_types.Modifier_types.TACTICAL_BOMBER_PRODUCTION_COST] == -0.025
@@ -148,12 +148,12 @@ def test_hermann_göring_without_fulfilling_being_fascist_or_having_reinstated_n
     germany.change_ideology(ideologies.Ideologies.COMMUNIST)
     germany.add_political_power(100)
 
-    germany.hire_chief_of_air_force("Hermann_goring")
+    germany.hire_chief_of_air_force("Hermann_goring_coa")
 
     assert germany.get_political_power() == 100
 
     #Then Hermann Göring has the following bonuses
-    hermann_goring = germany.find_modifier_by_id("Hermann_goring")
+    hermann_goring = germany.find_modifier_by_id("Hermann_goring_coa")
 
     assert hermann_goring.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_AIR_EXPERIENCE_GAIN] == 0.20
     assert hermann_goring.get_modifier_bonuses()[modifier_types.Modifier_types.TACTICAL_BOMBER_PRODUCTION_COST] == -0.025
@@ -333,12 +333,12 @@ def test_cannot_have_more_than_one_chief_of_air_force(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.AIR_SUPERIORITY] == 0.0
 
     #Then hiring another chief of air force
-    germany.hire_chief_of_air_force("Hermann_goring")
+    germany.hire_chief_of_air_force("Hermann_goring_coa")
 
     assert germany.get_political_power() == 0
 
     #Then Hermann göring has the following bonuses
-    hermann_goring = germany.find_modifier_by_id("Hermann_goring")
+    hermann_goring = germany.find_modifier_by_id("Hermann_goring_coa")
 
     assert hermann_goring.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_AIR_EXPERIENCE_GAIN] == 0.20
     assert hermann_goring.get_modifier_bonuses()[modifier_types.Modifier_types.TACTICAL_BOMBER_PRODUCTION_COST] == -0.025
@@ -393,12 +393,12 @@ def test_swapping_chief_of_air_force(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.AIR_SUPERIORITY] == 0.0
 
     #Then hiring another chief of air force
-    germany.hire_chief_of_air_force("Hermann_goring")
+    germany.hire_chief_of_air_force("Hermann_goring_coa")
 
     assert germany.get_political_power() == 0
 
     #Then Hermann göring has the following bonuses
-    hermann_goring = germany.find_modifier_by_id("Hermann_goring")
+    hermann_goring = germany.find_modifier_by_id("Hermann_goring_coa")
 
     assert hermann_goring.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_AIR_EXPERIENCE_GAIN] == 0.20
     assert hermann_goring.get_modifier_bonuses()[modifier_types.Modifier_types.TACTICAL_BOMBER_PRODUCTION_COST] == -0.025

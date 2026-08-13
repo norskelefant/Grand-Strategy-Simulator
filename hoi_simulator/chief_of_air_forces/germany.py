@@ -18,8 +18,8 @@ def create_german_chief_of_air_forces():
             ),
         ),  
 
-        "Hermann_goring": modifier.Modifier(
-            "Hermann_goring",
+        "Hermann_goring_coa": modifier.Modifier(
+            "Hermann_goring_coa",
             "Hermann Göring",
             100,
             modifier_classes.Modifier_classes.CHIEF_OF_AIR_FORCE,

@@ -380,6 +380,7 @@ class Country:
         full_modifier_list.append(self.get_stability_modifier())
         full_modifier_list.extend(self.get_modifiers())
         full_modifier_list.extend(self.get_national_spirits())
+        full_modifier_list.append(self.get_leader())
         return full_modifier_list
 
     def get_consumer_goods(self): 
@@ -1308,6 +1309,8 @@ class Country:
             return self.get_possible_industrial_concerns()[modifier_id]
         if modifier_id in self.get_possible_high_commanders(): 
             return self.get_possible_high_commanders()[modifier_id]
+        if modifier_id in self.get_possible_leaders(): 
+            return self.get_possible_leaders()[modifier_id]
         return None
 
     #Refactor later to only include legal focuses to do

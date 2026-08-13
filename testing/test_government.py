@@ -36,16 +36,6 @@ def test_having_full_government(germany, new_game):
     germany.hire_high_commander("Gerd_von_rundstedt", 1)
     germany.hire_high_commander("Gunther_lutjens", 2)
 
-    print(germany.get_theorist().id)
-    print(germany.get_industrial_concern().id)
-    print(germany.get_chief_of_army().id)
-    print(germany.get_chief_of_navy().id)
-    print(germany.get_chief_of_air_force().id)
-    print(germany.get_high_commanders()[0].id)
-    print(germany.get_high_commanders()[1].id)
-    print(germany.get_high_commanders()[2].id)
-
-
     assert germany.get_political_power() == 650
 
     #The Germany should have the following bonuses because of all the hirings

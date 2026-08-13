@@ -167,15 +167,15 @@ def create_german_leaders():
             lambda country: True,
         ),
 
-        "Hermann_goring": modifier.Modifier(
-            "Hermann_goring",
+        "Hermann_goring_l": modifier.Modifier(
+            "Hermann_goring_l",
             "Hermann Göring",
             0,
             modifier_classes.Modifier_classes.LEADER,
             None,
             {
-                modifier_types.Modifier_types.DAILY_POLITICAL_POWER_GAIN: 0.25,
                 modifier_types.Modifier_types.RESOURCE_GAIN_EFFICIENCY: 0.05,
+                modifier_types.Modifier_types.DAILY_POLITICAL_POWER_GAIN: 0.25,
                 modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_CAP: 0.05,
                 modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_GROWTH: 0.05,
                 modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_BASE: 0.05,
