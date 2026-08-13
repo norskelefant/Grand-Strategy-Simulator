@@ -50,9 +50,9 @@ def create_german_leaders():
             lambda country: True,
         ),
 
-        "Walther_ulbricht": modifier.Modifier(
-            "Walther_ulbricht",
-            "Walther Ulbricht",
+        "Walter_ulbricht_l": modifier.Modifier(
+            "Walter_ulbricht_l",
+            "Walter Ulbricht",
             0,
             modifier_classes.Modifier_classes.LEADER,
             None,
@@ -63,8 +63,8 @@ def create_german_leaders():
             lambda country: True,
         ),
 
-        "Ernst_thalmann": modifier.Modifier(
-            "Ernst_thalmann",
+        "Ernst_thalmann_l": modifier.Modifier(
+            "Ernst_thalmann_l",
             "Ernst Thälmann",
             0,
             modifier_classes.Modifier_classes.LEADER,
@@ -395,8 +395,8 @@ def create_german_leaders():
             lambda country: True,
         ),
 
-        "Erich_raeder": modifier.Modifier(
-            "Erich_raeder",
+        "Erich_raeder_l": modifier.Modifier(
+            "Erich_raeder_l",
             "Erich Raeder",
             0,
             modifier_classes.Modifier_classes.LEADER,

@@ -30,8 +30,8 @@ def test_stability_modifier_at_start(germany, new_game):
     #5% from limited exports and 12.4% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
-    #Political power gain of 6.2%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    #Political power gain of 6.2%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     #19 * 0.002 = 0.038
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.038
 
@@ -67,8 +67,8 @@ def test_stability_modifier_at_50_percent(germany, new_game):
     #Only 5% from limited exports
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.05)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.05)
-    #No extra political power gain
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.0
+    #No extra political power gain except for 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.10
 
 
@@ -88,8 +88,8 @@ def test_stability_modifier_at_70_percent(germany, new_game):
     #5% from limited exports and 8% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.13
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.13
-    #Political power gain of 4%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.04
+    #Political power gain of 4%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.14
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.06
 
 
@@ -109,8 +109,8 @@ def test_stability_modifier_at_71_percent(germany, new_game):
     #5% from limited exports and 8.40% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.134
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.134
-    #Political power gain of 4.2%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.042
+    #Political power gain of 4.2%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.142)
     #29 * 0.002 = 0.058
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.058
 
@@ -130,8 +130,8 @@ def test_stability_modifier_at_20_percent(germany, new_game):
     #5% from limited exports and -30% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == -0.25
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == -0.25
-    #Political power gain of -12%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.12
+    #Political power gain of -12%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(-0.02)
     #80 * 0.002 = 0.16
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.16
 
@@ -151,8 +151,8 @@ def test_stability_modifier_at_21_percent(germany, new_game):
     #5% from limited exports and -29% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == -0.24
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == -0.24
-    #Political power gain of -11.6%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.116
+    #Political power gain of -11.6%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.016
     #79 * 0.002 = 0.158
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.158
 
@@ -172,8 +172,8 @@ def test_stability_modifier_at_100_percent(germany, new_game):
     #5% from limited exports and 20% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.25
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.25
-    #Political power gain of 10%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
+    #Political power gain of 10%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.20
     #0 * 0.002 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.0
 
@@ -204,8 +204,8 @@ def test_stability_modifier_at_0_percent(germany, new_game):
     #5% from limited exports and -50% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == -0.45
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == -0.45
-    #Political power gain of -20%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.20
+    #Political power gain of -20%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.10
     #100 * 0.002 = 0.2
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.2
 
@@ -225,8 +225,8 @@ def test_stability_increased_from_60_to_70_changes_modifier(germany, new_game):
     #5% from limited exports and 4% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.09
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.09
-    #Political power gain of 2%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.02
+    #Political power gain of 2%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.12)
     #40 * 0.002 = 0.08
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.08
 
@@ -243,8 +243,8 @@ def test_stability_increased_from_60_to_70_changes_modifier(germany, new_game):
     #5% from limited exports and 8% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.13
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.13
-    #Political power gain of 4%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.04
+    #Political power gain of 4%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.14
     #30 * 0.002 = 0.06
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.06
 
@@ -265,8 +265,8 @@ def test_stability_decreased_from_84_to_62_changes_modifier(germany, new_game):
     #5% from limited exports and 13.6% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.186
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.186
-    #Political power gain of 6.8%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.068
+    #Political power gain of 6.8%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.168
     #16 * 0.002 = 0.032
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.032
 
@@ -283,8 +283,8 @@ def test_stability_decreased_from_84_to_62_changes_modifier(germany, new_game):
     #5% from limited exports and 4.8% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.098)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.098)
-    #Political power gain of 2.4%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.024
+    #Political power gain of 2.4%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.124
     #38 * 0.002 = 0.076
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.076
 
@@ -315,8 +315,8 @@ def test_stability_increased_from_10_to_22_changes_modifier(germany, new_game):
     #5% from limited exports and -40% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.35)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.35)
-    #Political power gain of -16%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.16
+    #Political power gain of -16%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.06
     #90 * 0.002 = 0.18
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.18
 
@@ -333,8 +333,8 @@ def test_stability_increased_from_10_to_22_changes_modifier(germany, new_game):
     #5% from limited exports and -28% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.23)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.23)
-    #Political power gain of -11.2%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.112
+    #Political power gain of -11.2%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(-0.012)
     #78 * 0.002 = 0.156
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.156
 
@@ -354,8 +354,8 @@ def test_stability_decreased_from_49_to_40_changes_modifier(germany, new_game):
     #5% from limited exports and -1% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.04)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.04)
-    #Political power gain of -0.4%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.004
+    #Political power gain of -0.4%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.096
     #51 * 0.002 = 0.18
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == pytest.approx(0.102)
 
@@ -372,8 +372,8 @@ def test_stability_decreased_from_49_to_40_changes_modifier(germany, new_game):
     #5% from limited exports and -10% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.05)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.05)
-    #Political power gain of -4%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.04
+    #Political power gain of -4%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.06)
     #60 * 0.002 = 0.12
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.12
 
@@ -393,8 +393,8 @@ def test_stability_increased_from_50_to_57_changes_modifier(germany, new_game):
     #5% from limited exports and 0% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.05)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.05)
-    #Political power gain of 0%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.0
+    #Political power gain of 0%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
     #50 * 0.002 = 0.10
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.10
 
@@ -411,8 +411,8 @@ def test_stability_increased_from_50_to_57_changes_modifier(germany, new_game):
     #5% from limited exports and 2.8% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.078)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.078)
-    #Political power gain of 1.4%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.014
+    #Political power gain of 1.4%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.114
     #43 * 0.002 = 0.086
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == pytest.approx(0.086)
 
@@ -432,8 +432,8 @@ def test_stability_decreased_from_50_to_43_changes_modifier(germany, new_game):
     #5% from limited exports and 0% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.05)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.05)
-    #Political power gain of 0%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.0
+    #Political power gain of 0%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
     #50 * 0.002 = 0.10
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.10
 
@@ -450,8 +450,8 @@ def test_stability_decreased_from_50_to_43_changes_modifier(germany, new_game):
     #5% from limited exports and -7% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.02)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.02)
-    #Political power gain of -2.8%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.028
+    #Political power gain of -2.8%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.072)
     #57 * 0.002 = 0.114
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.114
 
@@ -471,8 +471,8 @@ def test_stability_increased_from_40_to_60_changes_modifier(germany, new_game):
     #5% from limited exports and -10% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.05)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.05)
-    #Political power gain of -4%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.04
+    #Political power gain of -4%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.06)
     #60 * 0.002 = 0.12
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.12
 
@@ -489,8 +489,8 @@ def test_stability_increased_from_40_to_60_changes_modifier(germany, new_game):
     #5% from limited exports and 4% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.09
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.09
-    #Political power gain of 2%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.02
+    #Political power gain of 2%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.12)
     #40 * 0.002 = 0.086
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.08
 
@@ -510,8 +510,8 @@ def test_stability_decreased_from_60_to_40_changes_modifier(germany, new_game):
     #5% from limited exports and 4% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.09
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.09
-    #Political power gain of 2%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.02
+    #Political power gain of 2%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.12)
     #40 * 0.002 = 0.086
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.08
 
@@ -528,8 +528,8 @@ def test_stability_decreased_from_60_to_40_changes_modifier(germany, new_game):
     #5% from limited exports and -10% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.05)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.05)
-    #Political power gain of -4%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.04
+    #Political power gain of -4%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.06)
     #60 * 0.002 = 0.12
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.12
 
@@ -561,8 +561,8 @@ def test_stability_bonuses_do_not_go_under_0_percent(germany, new_game):
     #5% from limited exports and -50% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == -0.45
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == -0.45
-    #Political power gain of -20%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.20
+    #Political power gain of -20%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == -0.10
     #100 * 0.002 = 0.2
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.2
 
@@ -582,8 +582,8 @@ def test_stability_bonuses_do_not_go_over_100_percent(germany, new_game):
     #5% from limited exports and 20% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.25
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.25
-    #Political power gain of 10%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.10
+    #Political power gain of 10%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.20
     #0 * 0.002 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.0
 
@@ -1081,8 +1081,8 @@ def test_stability_and_war_support_changes_at_the_same_time_changes_modifier(ger
     #5% from limited exports and 6% from stability
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.11)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.11)
-    #Political power gain of 3%
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.03
+    #Political power gain of 3%, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.13
     #35 * 0.002 = 0.07
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.07
 

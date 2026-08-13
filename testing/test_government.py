@@ -54,7 +54,7 @@ def test_having_full_government(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS] == -0.152
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.ARMY_INTELLIGENCE_TO_OTHERS] == -0.252
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.AGENCY_UPGRADE_TIME] == -0.20
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.112
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.212)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER] == 0.10
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == pytest.approx(-0.015)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_ENEMY_BOMBING] == 0.0020

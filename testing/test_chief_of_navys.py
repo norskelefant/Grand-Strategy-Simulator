@@ -78,7 +78,7 @@ def test_erich_raeder_without_fulfilling_erich_not_being_country_leader(germany,
     assert erich_raeder.get_modifier_bonuses()[modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE] == 20
 
     #but Germany has the following bonuses because Erich Raeder is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_NAVAL_EXPERIENCE_GAIN] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_NAVAL_EXPERIENCE_GAIN] == 0.08
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ATTACK] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CAPITAL_SHIP_ARMOR] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SCREEN_ATTACK] == 0.0

@@ -134,8 +134,8 @@ def test_total_modifier_updates_stability_and_war_support_modifier(germany, new_
     #14.4% added, also have 5% as default, meaning the total is 19.4%
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.194
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.194
-    #No extra political power gain at the beginning(when leaders are implemented later, this will change)
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.072)
+    #7.2% from stability, 10% from leader
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.172)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES] == 0.028
 
 

@@ -302,7 +302,7 @@ def test_franz_seldte_while_fulfilling_having_reinstated_nazi_leadership(germany
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.02
 
     #When Franz Seldte is hired when nazi leadership is reinstated
     germany.change_ideology(ideologies.Ideologies.COMMUNIST)
@@ -333,7 +333,7 @@ def test_franz_seldte_while_fulfilling_having_reinstated_nazi_leadership(germany
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.179
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.179
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.03
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.01
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.03
 
 def test_franz_seldte_while_fulfilling_being_fascist(germany, new_game): 
     #Given a normal Germany game
@@ -343,7 +343,7 @@ def test_franz_seldte_while_fulfilling_being_fascist(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.02
 
     #When Franz Seldte is hired when Germany is fascist
     germany.add_political_power(150)
@@ -371,7 +371,7 @@ def test_franz_seldte_while_fulfilling_being_fascist(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.179
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.179
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.03
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.01
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.03
 
 def test_franz_seldte_without_fulfilling_having_gotten_event_reinstated_nazi_leadership_and_being_fascist(germany, new_game): 
     #Given a normal Germany game
@@ -381,7 +381,7 @@ def test_franz_seldte_without_fulfilling_having_gotten_event_reinstated_nazi_lea
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.02
 
     #When Franz Seldte is hired when Germany is is not fascist or has gotten event reinstated nazi leadership
     germany.change_ideology(ideologies.Ideologies.COMMUNIST)
@@ -409,11 +409,11 @@ def test_franz_seldte_without_fulfilling_having_gotten_event_reinstated_nazi_lea
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.02
 
 def test_hanns_kerrl(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.01
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.0
@@ -436,7 +436,7 @@ def test_hanns_kerrl(germany, new_game):
     assert hanns_kerrl.get_modifier_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_ENEMY_BOMBING] == 0.0020
 
     #and the full bonuses should be the following after hiring Hanns Kerrl
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.112
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.212)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER] == 0.10
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == pytest.approx(-0.015)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == -0.02
@@ -444,7 +444,7 @@ def test_hanns_kerrl(germany, new_game):
 
 def test_hanns_kerrl_without_fulfilling_having_gotten_event_reinstated_nazi_leadership_and_being_fascist(germany, new_game): 
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.01
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.0
@@ -469,7 +469,7 @@ def test_hanns_kerrl_without_fulfilling_having_gotten_event_reinstated_nazi_lead
     assert hanns_kerrl.get_modifier_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_ENEMY_BOMBING] == 0.0020
 
     #but the full bonuses should be the same since hanns Kerrl is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.01
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.0
@@ -477,7 +477,7 @@ def test_hanns_kerrl_without_fulfilling_having_gotten_event_reinstated_nazi_lead
 
 def test_hanns_kerrl_without_fulfilling_not_having_done_focus_hegemony_of_the_ss(germany, new_game): 
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.01
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.0
@@ -502,7 +502,7 @@ def test_hanns_kerrl_without_fulfilling_not_having_done_focus_hegemony_of_the_ss
     assert hanns_kerrl.get_modifier_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_ENEMY_BOMBING] == 0.0020
 
     #but the full bonuses should be the same since hanns Kerrl is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.01
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.0
@@ -699,7 +699,7 @@ def test_konstantin_von_neurath(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IMPROVE_RELATIONS_MAINTAIN_COST] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.TRADE_DEAL_OPINION_FACTOR] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SUBJECT_AUTONOMY_GAIN] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.02
 
     #When Konstantin von Neurath is when Germany is not communist and has completed focus Heed von Neurath's concerns
     germany.complete_focus("Heed_von_neuraths_concerns")
@@ -723,7 +723,7 @@ def test_konstantin_von_neurath(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IMPROVE_RELATIONS_MAINTAIN_COST] == -0.50
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.TRADE_DEAL_OPINION_FACTOR] == 0.10
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SUBJECT_AUTONOMY_GAIN] == -0.10
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == 0.01
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.01
 
 def test_konstantin_von_neurath_without_fulfilling_not_being_communist(germany, new_game):
     #Given a normal Germany game
@@ -731,7 +731,7 @@ def test_konstantin_von_neurath_without_fulfilling_not_being_communist(germany, 
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IMPROVE_RELATIONS_MAINTAIN_COST] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.TRADE_DEAL_OPINION_FACTOR] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SUBJECT_AUTONOMY_GAIN] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.02
 
     #When Konstantin von Neurath is when Germany is not communist and has completed focus Heed von Neurath's concerns
     germany.change_ideology(ideologies.Ideologies.COMMUNIST)
@@ -755,7 +755,7 @@ def test_konstantin_von_neurath_without_fulfilling_not_being_communist(germany, 
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IMPROVE_RELATIONS_MAINTAIN_COST] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.TRADE_DEAL_OPINION_FACTOR] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SUBJECT_AUTONOMY_GAIN] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.02
 
 def test_konstantin_von_neurath_without_fulfilling_having_completed_focus_heed_von_neuraths_concerns(germany, new_game):
     #Given a normal Germany game
@@ -763,7 +763,7 @@ def test_konstantin_von_neurath_without_fulfilling_having_completed_focus_heed_v
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IMPROVE_RELATIONS_MAINTAIN_COST] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.TRADE_DEAL_OPINION_FACTOR] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SUBJECT_AUTONOMY_GAIN] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.02
 
     #When Konstantin von Neurath is when Germany is not communist and has completed focus Heed von Neurath's concerns
     germany.add_political_power(50)
@@ -786,14 +786,14 @@ def test_konstantin_von_neurath_without_fulfilling_having_completed_focus_heed_v
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IMPROVE_RELATIONS_MAINTAIN_COST] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.TRADE_DEAL_OPINION_FACTOR] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SUBJECT_AUTONOMY_GAIN] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED] == -0.02
 
 def test_leni_riefenstahl_while_fulfilling_both_requirements(germany, new_game):
     #Given a normal Germany game
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.0010
 
     #When Leni Reifenstahl is hired when Germany has reinstated nazi leadership and has completed focus fund the film department
     germany.complete_focus("Fund_the_film_department")
@@ -816,14 +816,14 @@ def test_leni_riefenstahl_while_fulfilling_both_requirements(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE] == 0.15
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER] == 0.05
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER] == 0.05
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.0010
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.0020
 
 def test_leni_riefenstahl_without_fulfilling_having_reinstated_nazi_leadership_and_having_completed_focus_fund_the_film_department(germany, new_game):
     #Given a normal Germany game
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.001
 
     #When Leni Reifenstahl is hired when Germany has not gotten reinstated nazi leadership and has not completed focus fund the film department
     germany.add_political_power(150)
@@ -844,7 +844,7 @@ def test_leni_riefenstahl_without_fulfilling_having_reinstated_nazi_leadership_a
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.001
 
 def test_wilhelm_canaris(germany, new_game):
     #Given a normal Germany game
@@ -1210,7 +1210,7 @@ def test_carl_friedrich_goerdeler_without_fulfilling_having_completed_either_of_
 
 def test_julius_leber(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_stability() == pytest.approx(0.81)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE] == 0.0
 
@@ -1231,13 +1231,13 @@ def test_julius_leber(germany, new_game):
 
     #and the full bonuses should be the following since Julius Leber is hired
     #Extra 0.01 from 5% more stability
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.122)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.222)
     assert germany.get_full_stability() == 0.86
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE] == 0.15
 
 def test_julius_leber_without_fulfilling_having_completed_focus_reestablish_free_elections(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_stability() == pytest.approx(0.81)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE] == 0.0
 
@@ -1256,7 +1256,7 @@ def test_julius_leber_without_fulfilling_having_completed_focus_reestablish_free
     assert julius_leber.get_modifier_bonuses()[modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE] == 0.15
 
     #and the full bonuses should be the same as Julius Leber is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_stability() == pytest.approx(0.81)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE] == 0.0
 
@@ -1301,7 +1301,7 @@ def test_kurt_schumacher_without_fulfilling_having_completed_focus_reestablish_f
 
 def test_theodor_heuss(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT] == 0.0
 
     #When Theodor Heuss is hired when Germany has completed focus Monarchist sentiment
@@ -1319,12 +1319,12 @@ def test_theodor_heuss(germany, new_game):
     assert theodor_heuss.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT] == 0.05
 
     #and the full bonuses should be the following since Theodor Heuss is hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.262
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT] == 0.05
 
 def test_theodor_heuss_without_fulfilling_having_completed_focus_monarchist_sentiment(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT] == 0.0
 
     #When Theodor Heuss is hired when Germany has not completed focus Monarchist sentiment
@@ -1341,7 +1341,7 @@ def test_theodor_heuss_without_fulfilling_having_completed_focus_monarchist_sent
     assert theodor_heuss.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT] == 0.05
 
     #but the full bonuses should be the samr since Theodor Heuss is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT] == 0.0
 
 def test_hans_luther(germany, new_game):
@@ -1582,7 +1582,7 @@ def test_hermann_ehrhardt_without_fulfilling_having_completed_focus_reestablish_
 
 def test_adolf_friedrich_of_mecklenburg_while_fulfilling_being_non_aligned(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.NON_CORE_MANPOWER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.GARRISON_PENETRATION_CHANCE] == 0.0
 
@@ -1602,13 +1602,13 @@ def test_adolf_friedrich_of_mecklenburg_while_fulfilling_being_non_aligned(germa
     assert adolf_friedrich_of_mecklenburg.get_modifier_bonuses()[modifier_types.Modifier_types.GARRISON_PENETRATION_CHANCE] == -0.10
 
     #and the full bonuses should be the following since Adolf Freidrich is hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.112
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.212)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.NON_CORE_MANPOWER] == 0.02
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.GARRISON_PENETRATION_CHANCE] == -0.10
 
 def test_adolf_friedrich_of_mecklenburg_while_fulfilling_being_democratic(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.NON_CORE_MANPOWER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.GARRISON_PENETRATION_CHANCE] == 0.0
 
@@ -1628,13 +1628,13 @@ def test_adolf_friedrich_of_mecklenburg_while_fulfilling_being_democratic(german
     assert adolf_friedrich_of_mecklenburg.get_modifier_bonuses()[modifier_types.Modifier_types.GARRISON_PENETRATION_CHANCE] == -0.10
 
     #and the full bonuses should be the following since Adolf Freidrich is hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.112
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.212)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.NON_CORE_MANPOWER] == 0.02
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.GARRISON_PENETRATION_CHANCE] == -0.10
 
 def test_adolf_friedrich_of_mecklenburg_without_fulfilling_being_non_aligned_or_democratic(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.NON_CORE_MANPOWER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.GARRISON_PENETRATION_CHANCE] == 0.0
 
@@ -1653,17 +1653,17 @@ def test_adolf_friedrich_of_mecklenburg_without_fulfilling_being_non_aligned_or_
     assert adolf_friedrich_of_mecklenburg.get_modifier_bonuses()[modifier_types.Modifier_types.GARRISON_PENETRATION_CHANCE] == -0.10
 
     #but the full bonuses should be the same since Adolf Freidrich is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.NON_CORE_MANPOWER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.GARRISON_PENETRATION_CHANCE] == 0.0
 
 def test_wilhelm_von_gayl(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_stability() == pytest.approx(0.81)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.001
 
     #When Vilhelm von Gayl is hired when Germany has completed focus Monarchist sentiment
     germany.complete_focus("Monarchist_sentiment")
@@ -1684,19 +1684,19 @@ def test_wilhelm_von_gayl(germany, new_game):
  
     #and the full bonuses should be the following since Vilhelm von Gayl is hired
     #0.01 extra from stability
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.122)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.222)
     assert germany.get_full_stability() == 0.86
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER] == 0.05
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER] == 0.05
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.0010
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.0020
 
 def test_wilhelm_von_gayl_without_fulfilling_having_completed_focus_monarchist_sentiment(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_stability() == pytest.approx(0.81)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.001
 
     #When Vilhelm von Gayl is hired when Germany has not completed focus Monarchist sentiment
     germany.add_political_power(150)
@@ -1715,11 +1715,11 @@ def test_wilhelm_von_gayl_without_fulfilling_having_completed_focus_monarchist_s
     assert vilhelm_von_gayl.get_modifier_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.0010
  
     #but the full bonuses should be the samr since Vilhelm von Gayl is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_stability() == pytest.approx(0.81)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER] == 0.0
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES] == 0.001
 
 def test_andreas_hermes(germany, new_game):
     #Given a normal Germany game
@@ -1780,7 +1780,7 @@ def test_andreas_hermes_without_fulfilling_having_completed_focus_monarchist_sen
 
 def test_dietrich_bonhoeffer_while_fulfilling_being_non_aligned(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
@@ -1808,7 +1808,7 @@ def test_dietrich_bonhoeffer_while_fulfilling_being_non_aligned(germany, new_gam
     assert dietrich_bonhoeffer.get_modifier_bonuses()[modifier_types.Modifier_types.ACCEPTANCE_OF_FASCIST_DIPLOMACY] == -50
  
     #and the full bonuses should be the following since Dietrich Bonhoeffer is hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.112
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.212)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER] == 0.10
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == -0.03
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == -0.03
@@ -1819,7 +1819,7 @@ def test_dietrich_bonhoeffer_while_fulfilling_being_non_aligned(germany, new_gam
 
 def test_dietrich_bonhoeffer_while_fulfilling_being_democratic(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
@@ -1847,7 +1847,7 @@ def test_dietrich_bonhoeffer_while_fulfilling_being_democratic(germany, new_game
     assert dietrich_bonhoeffer.get_modifier_bonuses()[modifier_types.Modifier_types.ACCEPTANCE_OF_FASCIST_DIPLOMACY] == -50
  
     #and the full bonuses should be the following since Dietrich Bonhoeffer is hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.112
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.212)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER] == 0.10
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == -0.03
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == -0.03
@@ -1857,7 +1857,7 @@ def test_dietrich_bonhoeffer_while_fulfilling_being_democratic(germany, new_game
 
 def test_dietrich_bonhoeffer_without_fulfilling_being_non_aligned_or_democratic(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
@@ -1884,7 +1884,7 @@ def test_dietrich_bonhoeffer_without_fulfilling_being_non_aligned_or_democratic(
     assert dietrich_bonhoeffer.get_modifier_bonuses()[modifier_types.Modifier_types.ACCEPTANCE_OF_FASCIST_DIPLOMACY] == -50
  
     #but the full bonuses should be the same since Dietrich Bonhoeffer is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
@@ -1892,9 +1892,9 @@ def test_dietrich_bonhoeffer_without_fulfilling_being_non_aligned_or_democratic(
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_FASCISM_SUPPORT] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.ACCEPTANCE_OF_COMMUNIST_DIPLOMACY] == 0
 
-def test_ernst_thälmann(germany, new_game):
+def test_ernst_thalmann(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
     #When Ernst Thälmann is hired when Ernst Thällmann has been freed from prison and is not the leader of Germany
@@ -1912,12 +1912,12 @@ def test_ernst_thälmann(germany, new_game):
     assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
 
     #and the full bonuses should be the following since Ernst Thälmann is hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.112
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.212)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
 
-def test_ernst_thälmann_without_fulfilling_having_been_free_from_prison(germany, new_game):
+def test_ernst_thalmann_without_fulfilling_having_been_free_from_prison(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
     #When Ernst Thälmann is hired when Ernst Thällmann has not been freed from prison and is not the leader of Germany
@@ -1934,12 +1934,12 @@ def test_ernst_thälmann_without_fulfilling_having_been_free_from_prison(germany
     assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
 
     #and the full bonuses should be the same since Ernst Thälmann is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
 def test_ernst_thälmann_without_fulfilling_not_having_ernst_as_country_leader(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
     #When Ernst Thälmann is hired when Ernst Thällmann has been freed from prison and is the leader of Germany
@@ -1958,12 +1958,12 @@ def test_ernst_thälmann_without_fulfilling_not_having_ernst_as_country_leader(g
     assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
 
     #and the full bonuses should be the same since Ernst Thälmann is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.012)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.09
 
 def test_walter_ulbricht(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
     #When Walter Ulbricht is hired when Walter Ulbricht is not country leader, is communist, has completed focus Start the proletarian revolution and has not completed focus Revive the kaiserreich
@@ -1982,18 +1982,20 @@ def test_walter_ulbricht(germany, new_game):
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
 
     #and the full bonuses should be the following since Walter Ulbricht is hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.262
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
 
 def test_walter_ulbricht_without_fulfilling_walter_not_being_country_leader(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
     #When Walter Ulbricht is hired when he is country leader
     germany.change_ideology(ideologies.Ideologies.COMMUNIST)
     germany.switch_leader("Walter_ulbricht_l")
     germany.add_political_power(150)
+
+    print(germany.get_leader().get_id())
 
     germany.hire_advisor("Walter_ulbricht_a", 0)
 
@@ -2006,12 +2008,12 @@ def test_walter_ulbricht_without_fulfilling_walter_not_being_country_leader(germ
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
 
     #but the full bonuses should be the samr since Walter Ulbricht is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
 
 def test_walter_ulbricht_without_fulfilling_having_completed_focus_start_the_proletarian_revolution_and_being_communist(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
     #When Walter Ulbricht is hired when Germany is not communist and has not completed focus Start the proletarian revolution
@@ -2028,12 +2030,12 @@ def test_walter_ulbricht_without_fulfilling_having_completed_focus_start_the_pro
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
 
     #but the full bonuses should be the samr since Walter Ulbricht is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
 def test_walter_ulbricht_without_fulfilling_having_not_completed_focus_revive_the_kaiserreich(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
     #When Walter Ulbricht is hired when Germany has completed focus Revive the kaiserreich
@@ -2051,7 +2053,7 @@ def test_walter_ulbricht_without_fulfilling_having_not_completed_focus_revive_th
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
 
     #but the full bonuses should be the samr since Walter Ulbricht is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
 def test_wilhelm_zaisser(germany, new_game):
@@ -2101,7 +2103,7 @@ def test_wilhelm_zaisser_without_fulfilling_having_completed_focus_formalize_the
 
 def test_otto_rühle(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.01
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
@@ -2121,13 +2123,13 @@ def test_otto_rühle(germany, new_game):
     assert otto_ruhle.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
 
     #and the full bonuses should be the following since Otto Rühle is hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.262
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == pytest.approx(0.06)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
 
 def test_otto_rühle_without_fulfilling_having_completed_focus_legacy_of_the_spartacus_league(germany, new_game):
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.01
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
@@ -2146,7 +2148,7 @@ def test_otto_rühle_without_fulfilling_having_completed_focus_legacy_of_the_spa
     assert otto_ruhle.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
 
     #but the full bonuses should be the same since Otto Rühle is not hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESEARCH_SPEED] == 0.01
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
@@ -2299,7 +2301,7 @@ def test_bernhard_bastlein_without_fulfilling_having_completed_focus_start_the_p
 
 def test_having_three_advisors(germany, new_game): 
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
     #25% * ((1+10%)*(1-12.4%)) = 0.2409
     germany.get_consumer_goods() == 0.2409
@@ -2332,7 +2334,7 @@ def test_having_three_advisors(germany, new_game):
     assert hans_luther.get_modifier_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.10
 
     #and Germany has the following bonuses, since all 3 advisors are hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.212)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.312)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == pytest.approx(0.15)
     #25% * ((1+10%)*(1-12.4%)*(1-10%)) = 0.21681
     germany.get_consumer_goods() == 0.21681
@@ -2342,7 +2344,7 @@ def test_having_three_advisors(germany, new_game):
 
 def test_replacing_an_advisor(germany, new_game): 
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
 
     #When Ernst Thälmann is hired while Germany is communist and Ernst has been freed from prison
@@ -2362,7 +2364,7 @@ def test_replacing_an_advisor(germany, new_game):
     assert ernst_thalmann.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
 
     #and Germany has the following bonuses
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.112
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.212)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.10
 
     #When Ernst Thälmann is swapped with Walter Ulbricht
@@ -2377,12 +2379,12 @@ def test_replacing_an_advisor(germany, new_game):
     assert walter_ulbricht.get_modifier_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
 
     #and Germany has the following bonuses
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.262
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.05
 
 def test_replacing_an_advisor_while_having_three_advisors(germany, new_game): 
     #Given a normal Germany game
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.062
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == 0.162
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == 0.0
     #25% * ((1+10%)*(1-12.4%)) = 0.2409
     germany.get_consumer_goods() == 0.2409
@@ -2418,7 +2420,7 @@ def test_replacing_an_advisor_while_having_three_advisors(germany, new_game):
     assert hans_luther.get_modifier_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.10
 
     #and Germany has the following bonuses, since all 3 advisors are hired
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.212)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.312)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == pytest.approx(0.15)
     #25% * ((1+10%)*(1-12.4%)*(1-10%)) = 0.21681
     germany.get_consumer_goods() == 0.21681
@@ -2449,7 +2451,7 @@ def test_replacing_an_advisor_while_having_three_advisors(germany, new_game):
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED] == pytest.approx(0.30)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED] == 0.20
 
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.162)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.POLITICAL_POWER_GAIN] == pytest.approx(0.262)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT] == pytest.approx(0.05)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.INFRASTRUCTURE_CONSTRUCTION_SPEED] == 0.10
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED] == 0.10
