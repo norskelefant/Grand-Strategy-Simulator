@@ -103,9 +103,9 @@ def test_total_modifier_works_when_switching_trade_law(germany, new_game):
 def test_total_modifier_updates_stability_and_war_support_modifier(germany, new_game): 
     #Given Germany
 
-    #When an extra war support and stability modifier is given
+    print(germany.get_leader().id)
 
-    assert germany
+    #When an extra war support and stability modifier is given
 
     new_modifier = modifier.Modifier("testing_modifier", 
                                      "Testing modifier", 
@@ -122,8 +122,10 @@ def test_total_modifier_updates_stability_and_war_support_modifier(germany, new_
     #Then the stability and war support modifiers should be updated
     assert germany.get_base_stability() == 0.7
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.STABILITY] == 0.16
+    assert germany.get_full_stability() == 0.86
     assert germany.get_base_war_support() == 0.3
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.WAR_SUPPORT] == pytest.approx(0.15)
+    assert germany.get_full_war_support() == 0.45
 
     #25% * ((1+10%)*(1-14.4%)) = 0.2354
     assert germany.get_consumer_goods() == pytest.approx(0.2354)

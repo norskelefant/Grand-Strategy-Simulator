@@ -25,6 +25,7 @@ class Modifier_types(Enum):
     PRODUCTION_EFFICIENCY_BASE = "production_efficiency_base"
     DOCKYARD_OUTPUT = "dockyard_output"
     PRODUCTION_EFFICIENCY_RETENTION = "production_efficiency_retention"
+    PRODUCTION_EFFICIENCY_CAP = "production_efficiency_cap"
 
     #Manpower
     RECRUITABLE_POPULATION = "recruitable_population"
@@ -86,7 +87,7 @@ class Modifier_types(Enum):
     DAILY_NON_ALIGNED_SUPPORT = "daily_non_aligned_support"
     DAILY_COMMUNIST_SUPPORT = "daily_communist_support"
     DAILY_FASCISM_SUPPORT = "daily_fascism_support"
-    IDEOLOGY_DRIFT_DEFENCE = "ideology_drift_defence"
+    IDEOLOGY_DRIFT_DEFENSE = "ideology_drift_defence"
 
     #Spies
     OPERATIVE_SLOTS = "operative_slots"
@@ -95,30 +96,37 @@ class Modifier_types(Enum):
     ARMY_INTELLIGENCE_TO_OTHERS = "army_intelligence_to_others"    
     NAVY_INTELLIGENCE_TO_OTHERS = "navy_intelligence_to_others"
     AIR_FORCE_INTELLIGENCE_TO_OTHERS = "air_force_intelligence_to_others"
-
+    COUNTER_INTELLIGENCE = "counter_intelligence"
+    INTELLIGENCE_GAINED_FROM_COMBAT = "intelligence_gained_from_combat"
+    BOOST_IDEOLOGY_MISSION_EFFECTS = "boost_ideology_mission_effects"
 
     #Foreign meddling
     FOREIGN_SUBVERSIVE_ACTIVITIES_EFFICIENCY = "foreign_subversive_activities_efficiency"
     SUBVERSIVE_ACTIVITIES_COST = "subversive_activities_cost"
     IMPROVE_RELATIONS_MAINTAIN_COST = "improve_relations_maintain_cost"
+    IMPROVE_RELATIONS_OPINION = "improve_relations_opinion"
     TRADE_DEAL_OPINION_FACTOR = "trade_deal_opinion_factor"
     FACTION_TRADE_DEAL_OPINION_FACTOR = "faction_trade_deal_opinion_factor"
     SAME_IDEOLOGY_MONTHLY_OPINION = "same_ideology_monthly_opinion"
+    STRENGTHEN_RESISTANCE_EFFICIENCY = "strengthen_resistance_efficiency"
 
     #Subjects
     SUBJECT_AUTONOMY_GAIN = "subject_autonomy_gain"
+    MASTER_IMPACT = "master_impact"
 
     #Resistance and compliance
     COMPLIANCE_GROWTH_SPEED = "compliance_growth_speed"
-    RESITANCE_GROWTH_SPEED = "resistance_growth_speed"
+    RESISTANCE_GROWTH_SPEED = "resistance_growth_speed"
     DAILY_COMPLIANCE_GAIN = "daily_compliance_gain"
     RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES = "resistance_target_in_occupied_territories"
+    RESISTANCE_TARGET = "resistance_target"
 
     #War goals
     JUSTIFY_WAR_GOAL_TIME = "justify_war_goal_time"
 
     #Political power
     POLITICAL_POWER_GAIN = "political_power_gain"
+    DAILY_POLITICAL_POWER_GAIN = "daily_political_power_gain"
     CONSCRIPTION_LAW_COST = "conscription_law_cost"
     TRADE_LAW_COST = "trade_law_cost"
     ECONOMY_LAW_COST = "economy_law_cost"
@@ -139,25 +147,32 @@ class Modifier_types(Enum):
 
     #Militia
     MILITIA_ATTACK = "militia_attack"
-    MILITIA_DEFENCE = "militia_defence"
+    MILITIA_DEFENSE = "militia_defence"
     MILITIA_ORGANIZATION = "militia_organization"
 
     #Garrison
     GARRISON_PENETRATION_CHANCE = "garrison_penetration_chance"
+    DAMAGE_TO_GARRISONS = "damage_to_garrisons"
 
     #Diplomacy
     ACCEPTANCE_OF_COMMUNIST_DIPLOMACY = "acceptance_of_cummunist_diplomacy"
     ACCEPTANCE_OF_FASCIST_DIPLOMACY = "acceptance_of_fascist_diplomacy"
+    ACCEPTANCE_OF_DEMOCRATIC_DIPLOMACY = "acceptance_of_democratic_diplomacy"
+    ACCEPTANCE_OF_NON_ALIGNED_DIPLOMACY = "acceptance_of_non_aligned_diplomacy"
 
     #Divisions
-    DIVISION_DEFENCE_ON_CORE_TERRITORY = "division_defence_on_core_territory"
+    DIVISION_DEFENSE_ON_CORE_TERRITORY = "division_defence_on_core_territory"
     DIVISION_ATTACK_ON_CORE_TERRITORY = "division_attack_on_core_territory"
     DIVISION_ORGANIZATION = "division_organization"
     DIVISION_TRAINING_TIME = "division_training_time"
     DIVISION_ATTACK = "division_attack"
+    DIVISION_DEFENSE = "division_defense"
     DIVISION_SPEED = "division_speed"
     DIVISION_RECOVERY_RATE = "division_recovery_rate"
     DIVISION_ATTRITION = "division_attrition"
+
+    #Special forces
+    SPECIAL_FORCES_CAPACITY_MULTIPLIER = "special_forces_capacity_multiplier"
 
     #Equipment
     EQUIPMENT_CONVERSION_SPEED = "equipment_conversion_speed"
@@ -212,6 +227,8 @@ class Modifier_types(Enum):
     NAVAL_AA_ATTACK = "naval_aa_attack"
     SUBMARINE_ATTACK = "submarine_attack"
     SUBMARINE_DEFENSE = "submarine_defense"
+    FLEET_COORDINATION = "fleet_coordination"
+    SHIP_RECOVERY_RATE = "ship_recovery_rate"
 
     #Planning
     MAX_PLANNING_FACTOR = "max_planning_factor"
@@ -220,7 +237,9 @@ class Modifier_types(Enum):
     DAILY_ARMY_EXPERIENCE_GAIN = "daily_army_experience_gain"
     DAILY_NAVAL_EXPERIENCE_GAIN = "daily_naval_experience_gain"
     DAILY_AIR_EXPERIENCE_GAIN = "daily_air_experience_gain"
+    ARMY_EXPERIENCE_GAIN = "army_experience_gain"
     AIR_EXPERIENCE_GAIN = "air_experience_gain"
+    NAVAL_EXPERIENCE_GAIN = "naval_experience_gain"
 
     #Command power
     MAX_COMMAND_POWER_INCREASE = "max_command_power_increase"
@@ -237,5 +256,12 @@ class Modifier_types(Enum):
     WAR_PENALTY_STABILITY_MODIFIER = "war_penalty_stability_modifier"
 
     SURRENDER_LIMIT = "surrender_limit"
+
+    #AI
+    AI_DESIRED_DIVISIONS_FACTOR = "ai_desired_divisions_factor"
+
+    #MIOs
+    FUNDS_GAIN = "funds_gain"
+    MILITARY_INDUSTRIAL_ORGANIZATION_RESEARCH_BONUS = "military_industrial_organization_research_bonus"
 
     #Add many more later....

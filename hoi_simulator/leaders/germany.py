@@ -1,8 +1,115 @@
 from hoi_simulator import construction_types, modifier_types, modifier_classes, economy_laws, modifier, ideologies, trade_laws, requirements
 
-#Implement later
+#https://hoi4.paradoxwikis.com/German_Reich
 def create_german_leaders(): 
     return {
+        "Konrad_adenauer": modifier.Modifier(
+            "Konrad_adenauer",
+            "Konrad Adenauer",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.10,
+                modifier_types.Modifier_types.STABILITY: 0.10,
+                modifier_types.Modifier_types.ACCEPTANCE_OF_COMMUNIST_DIPLOMACY: -50,
+                modifier_types.Modifier_types.ACCEPTANCE_OF_FASCIST_DIPLOMACY: -50,
+                modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.05,
+            },
+            lambda country: True,
+        ),
+
+        "Hans_vogel": modifier.Modifier(
+            "Hans_vogel",
+            "Hans Vogel",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.10,
+                modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_GROWTH: 0.05,
+                modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_BASE: 0.05,
+                modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER: -0.10,
+                modifier_types.Modifier_types.ACCEPTANCE_OF_COMMUNIST_DIPLOMACY: -25,
+                modifier_types.Modifier_types.ACCEPTANCE_OF_FASCIST_DIPLOMACY: -50,
+                modifier_types.Modifier_types.MASTER_IMPACT: -0.10,
+            },
+            lambda country: True,
+        ),
+
+        "Wilhelm_pieck": modifier.Modifier(
+            "Wilhelm_pieck",
+            "Wilhelm Pieck",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.FACTORY_OUTPUT: 0.10,
+                modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE: 0.15,
+            },
+            lambda country: True,
+        ),
+
+        "Walther_ulbricht": modifier.Modifier(
+            "Walther_ulbricht",
+            "Walther Ulbricht",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT: 0.05,
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.10,
+            },
+            lambda country: True,
+        ),
+
+        "Ernst_thalmann": modifier.Modifier(
+            "Ernst_thalmann",
+            "Ernst Thälmann",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT: 0.09,
+                modifier_types.Modifier_types.SURRENDER_LIMIT: 0.20,
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: -0.05,
+            },
+            lambda country: True,
+        ),
+
+        "Heinrich_brandler": modifier.Modifier(
+            "Heinrich_brandler",
+            "Heinrich Brandler",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: -0.10,
+                modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER: 0.15,
+                modifier_types.Modifier_types.POLITICAL_ADVISOR_COST: -0.25,
+                modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_CAP: 0.05,
+                modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_BASE: 0.05,
+            },
+            lambda country: True,
+        ),
+
+        "Otto_grotewohl": modifier.Modifier(
+            "Otto_grotewohl",
+            "Otto Grotewohl",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.10,
+                modifier_types.Modifier_types.POLITICAL_ADVISOR_COST: -0.25,
+                modifier_types.Modifier_types.IMPROVE_RELATIONS_OPINION: 0.10,
+                modifier_types.Modifier_types.STABILITY: 0.10,
+                modifier_types.Modifier_types.ACCEPTANCE_OF_DEMOCRATIC_DIPLOMACY: 25,
+                modifier_types.Modifier_types.MASTER_IMPACT: -0.10,
+            },
+            lambda country: True,
+        ),
+
         "Adolf_hitler": modifier.Modifier(
             "Adolf_hitler",
             "Adolf Hitler",
@@ -10,63 +117,319 @@ def create_german_leaders():
             modifier_classes.Modifier_classes.LEADER,
             None,
             {
-                #Just for tests working at the moment
-                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.0
+                modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES: 0.001,
+                modifier_types.Modifier_types.AI_DESIRED_DIVISIONS_FACTOR: 0.20,
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.10,
+                modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED: -0.02,
+                modifier_types.Modifier_types.RESISTANCE_TARGET: 0.05,
             },
-            lambda country: (
-                True
-            ),
-        ),  
-        "Ernst_thalmann_l": modifier.Modifier(
-            "Ernst_thalmann_l",
-            "Ernst Thälmann",
-            0,
-            modifier_classes.Modifier_classes.LEADER,
-            None,
-            {
-                #Just for tests working at the moment
-                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.0
-
-            },
-            lambda country: (
-                True
-            ),
-        ), 
-        "Walter_ulbricht_l": modifier.Modifier(
-            "Walter_ulbricht_l",
-            "Walter Ulbricht",
-            0,
-            modifier_classes.Modifier_classes.LEADER,
-            None,
-            {
-                #Just for tests working at the moment
-                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.0
-
-            },
-            lambda country: (
-                True
-            ),
+            lambda country: True,
         ),
 
-        "Erich_raeder_l": modifier.Modifier(
-            "Erich_raeder_l",
+        "Heinrich_himmler": modifier.Modifier(
+            "Heinrich_himmler",
+            "Heinrich Himmler",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.DAILY_POLITICAL_POWER_GAIN: 0.25,
+                modifier_types.Modifier_types.DAMAGE_TO_GARRISONS: -0.25,
+                modifier_types.Modifier_types.FOREIGN_SUBVERSIVE_ACTIVITIES_EFFICIENCY: -0.30,
+                modifier_types.Modifier_types.NON_CORE_MANPOWER: 0.02,
+                modifier_types.Modifier_types.SUBVERSIVE_ACTIVITIES_COST: -0.25,
+                modifier_types.Modifier_types.OPERATIVE_SLOTS: 1,
+                modifier_types.Modifier_types.COUNTER_INTELLIGENCE: 0.20,
+                modifier_types.Modifier_types.INTELLIGENCE_GAINED_FROM_COMBAT: 0.25,
+            },
+            lambda country: True,
+        ),
+
+        "Heinrich_himmler_waffen_ss": modifier.Modifier(
+            "Heinrich_himmler_waffen_ss",
+            "Heinrich Himmler - Waffen-SS",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.DAILY_POLITICAL_POWER_GAIN: 0.25,
+                modifier_types.Modifier_types.DAMAGE_TO_GARRISONS: -0.25,
+                modifier_types.Modifier_types.FOREIGN_SUBVERSIVE_ACTIVITIES_EFFICIENCY: -0.30,
+                modifier_types.Modifier_types.NON_CORE_MANPOWER: 0.04,
+                modifier_types.Modifier_types.SUBVERSIVE_ACTIVITIES_COST: -0.25,
+                modifier_types.Modifier_types.OPERATIVE_SLOTS: 1,
+                modifier_types.Modifier_types.COUNTER_INTELLIGENCE: 0.20,
+                modifier_types.Modifier_types.INTELLIGENCE_GAINED_FROM_COMBAT: 0.25,
+                modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED: -0.15,
+                modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED: -0.10,
+                modifier_types.Modifier_types.SPECIAL_FORCES_CAPACITY_MULTIPLIER: 0.05,
+            },
+            lambda country: True,
+        ),
+
+        "Hermann_goring": modifier.Modifier(
+            "Hermann_goring",
+            "Hermann Göring",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.DAILY_POLITICAL_POWER_GAIN: 0.25,
+                modifier_types.Modifier_types.RESOURCE_GAIN_EFFICIENCY: 0.05,
+                modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_CAP: 0.05,
+                modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_GROWTH: 0.05,
+                modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_BASE: 0.05,
+                modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_RETENTION: 0.05,
+            },
+            lambda country: True,
+        ),
+
+        "Fritz_todt": modifier.Modifier(
+            "Fritz_todt",
+            "Fritz Todt",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.DAILY_POLITICAL_POWER_GAIN: 0.25,
+                modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: 0.10,
+                modifier_types.Modifier_types.INFRASTRUCTURE_CONSTRUCTION_SPEED: 0.10,
+                modifier_types.Modifier_types.RAILWAY_CONSTRUCTION_SPEED: 0.10,
+                modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10,
+                modifier_types.Modifier_types.DOCKYARD_CONSTRUCTION_SPEED: 0.10,
+            },
+            lambda country: True,
+        ),
+
+        "Albert_speer": modifier.Modifier(
+            "Albert_speer",
+            "Albert Speer",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.DAILY_POLITICAL_POWER_GAIN: 0.25,
+                modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.05,
+                modifier_types.Modifier_types.DAILY_FASCISM_SUPPORT: 0.01,
+                modifier_types.Modifier_types.FACTORY_OUTPUT: 0.10,
+                modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.10,
+            },
+            lambda country: True,
+        ),
+
+        "Joseph_goebbels": modifier.Modifier(
+            "Joseph_goebbels",
+            "Joseph Goebbels",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.DAILY_POLITICAL_POWER_GAIN: 0.25,
+                modifier_types.Modifier_types.WAR_SUPPORT: 0.10,
+                modifier_types.Modifier_types.DAILY_FASCISM_SUPPORT: 0.20,
+                modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER: 0.10,
+                modifier_types.Modifier_types.SURRENDER_LIMIT: 0.10,
+                modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER: 0.10,
+                modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER: 0.10,
+                modifier_types.Modifier_types.OPERATIVE_SLOTS: 2,
+                modifier_types.Modifier_types.BOOST_IDEOLOGY_MISSION_EFFECTS: 0.15,
+                modifier_types.Modifier_types.STRENGTHEN_RESISTANCE_EFFICIENCY: 0.15,
+            },
+            lambda country: True,
+        ),
+
+        "Rudolf_hess": modifier.Modifier(
+            "Rudolf_hess",
+            "Rudolf Hess",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.DAILY_POLITICAL_POWER_GAIN: 0.25,
+                modifier_types.Modifier_types.SAME_IDEOLOGY_MONTHLY_OPINION: 1.00,
+                modifier_types.Modifier_types.FUNDS_GAIN: 0.15,
+                modifier_types.Modifier_types.MILITARY_INDUSTRIAL_ORGANIZATION_RESEARCH_BONUS: 0.15,
+                modifier_types.Modifier_types.RECRUITABLE_POPULATION_FACTOR: 0.05,
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.15,
+                modifier_types.Modifier_types.CONSCRIPTION_LAW_COST: -0.25,
+                modifier_types.Modifier_types.TRADE_LAW_COST: -0.25,
+                modifier_types.Modifier_types.ECONOMY_LAW_COST: -0.25,
+                modifier_types.Modifier_types.RESEARCH_SPEED: 0.05,
+            },
+            lambda country: True,
+        ),
+
+        "Martin_bormann": modifier.Modifier(
+            "Martin_bormann",
+            "Martin Bormann",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.DAILY_POLITICAL_POWER_GAIN: 0.25,
+                modifier_types.Modifier_types.POLITICAL_ADVISOR_COST: -0.50,
+                modifier_types.Modifier_types.THEORIST_COST: -0.25,
+                modifier_types.Modifier_types.CHIEF_OF_ARMY_COST: -0.25,
+                modifier_types.Modifier_types.CHIEF_OF_NAVY_COST: -0.25,
+                modifier_types.Modifier_types.CHIEF_OF_AIR_FORCE_COST: -0.25,
+                modifier_types.Modifier_types.HIGH_COMMANDER_COST: -0.25,
+                modifier_types.Modifier_types.RECRUITABLE_POPULATION_FACTOR: 0.05,
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.15,
+                modifier_types.Modifier_types.CONSCRIPTION_LAW_COST: -0.25,
+                modifier_types.Modifier_types.TRADE_LAW_COST: -0.25,
+                modifier_types.Modifier_types.ECONOMY_LAW_COST: -0.25,
+                modifier_types.Modifier_types.RESEARCH_SPEED: 0.05,
+            },
+            lambda country: True,
+        ),
+
+        "Eva_braun": modifier.Modifier(
+            "Eva_braun",
+            "Eva Braun",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.WAR_SUPPORT: 0.15,
+                modifier_types.Modifier_types.JUSTIFY_WAR_GOAL_TIME: -0.10,
+                modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE: 0.50,
+                modifier_types.Modifier_types.DIVISION_ATTACK: 0.05,
+                modifier_types.Modifier_types.DIVISION_DEFENSE: 0.05,
+                modifier_types.Modifier_types.DIVISION_RECOVERY_RATE: 0.05,
+            },
+            lambda country: True,
+        ),
+
+        "Otto_strasser": modifier.Modifier(
+            "Otto_strasser",
+            "Otto Strasser",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT: -0.05,
+                modifier_types.Modifier_types.DAILY_NON_ALIGNED_SUPPORT: -0.05,
+                modifier_types.Modifier_types.ACCEPTANCE_OF_FASCIST_DIPLOMACY: -20,
+                modifier_types.Modifier_types.CONSUMER_GOODS_FACTOR: -0.10,
+                modifier_types.Modifier_types.WAR_SUPPORT: 0.05,
+            },
+            lambda country: True,
+        ),        
+
+        "August_von_mackensen": modifier.Modifier(
+            "August_von_mackensen",
+            "August von Mackensen",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.WAR_SUPPORT: 0.05,
+                modifier_types.Modifier_types.STABILITY: 0.05,
+                modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY: 0.10,
+                modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY: 0.10,
+                modifier_types.Modifier_types.DIVISION_RECOVERY_RATE: 0.05,
+            },
+            lambda country: True,
+        ),
+
+        "Wilhelm_ii": modifier.Modifier(
+            "Wilhelm_ii",
+            "Wilhelm II",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.ACCEPTANCE_OF_DEMOCRATIC_DIPLOMACY: -50,
+                modifier_types.Modifier_types.DAILY_DEMOCRACY_SUPPORT: -0.02,
+                modifier_types.Modifier_types.STABILITY: 0.10,
+
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: -0.10,
+                modifier_types.Modifier_types.IMPROVE_RELATIONS_OPINION: -0.15,
+                modifier_types.Modifier_types.POLITICAL_ADVISOR_COST: -0.25,
+                modifier_types.Modifier_types.TRADE_LAW_COST: -0.25,
+                modifier_types.Modifier_types.CONSCRIPTION_LAW_COST: -0.25,
+                modifier_types.Modifier_types.ECONOMY_LAW_COST: -0.25,
+                modifier_types.Modifier_types.HIGH_COMMANDER_COST: -0.25,
+                modifier_types.Modifier_types.CHIEF_OF_AIR_FORCE_COST: -0.25,
+                modifier_types.Modifier_types.CHIEF_OF_ARMY_COST: -0.25,
+                modifier_types.Modifier_types.CHIEF_OF_NAVY_COST: -0.25,
+            },
+            lambda country: True,
+        ),
+
+        "Wilhelm_iii": modifier.Modifier(
+            "Wilhelm_iii",
+            "Wilhelm III",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.STABILITY: 0.05,
+            },
+            lambda country: True,
+        ),
+
+        "Wilhelm_iv": modifier.Modifier(
+            "Wilhelm_iv",
+            "Wilhelm IV",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {},
+            lambda country: True,
+        ),
+
+        "Victoria": modifier.Modifier(
+            "Victoria",
+            "Victoria",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.WEEKLY_STABILITY: 0.001,
+                modifier_types.Modifier_types.STABILITY: 0.10,
+                modifier_types.Modifier_types.WAR_SUPPORT: 0.05,
+                modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY: 0.10,
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.15,
+            },
+            lambda country: True,
+        ),
+
+        "Erich_raeder": modifier.Modifier(
+            "Erich_raeder",
             "Erich Raeder",
             0,
             modifier_classes.Modifier_classes.LEADER,
             None,
             {
-                #Just for tests working at the moment
-                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.0
-
+                modifier_types.Modifier_types.FLEET_COORDINATION: 0.15,
+                modifier_types.Modifier_types.SHIP_RECOVERY_RATE: 0.10,
+                modifier_types.Modifier_types.DAILY_NAVAL_EXPERIENCE_GAIN: 0.08,
+                modifier_types.Modifier_types.DIVISION_ORGANIZATION: -0.05,
             },
-            lambda country: (
-                True
-            ),
-        )
+            lambda country: True,
+        ),
 
-        
-
-
+        "Fourth_supreme_army_command": modifier.Modifier(
+            "Fourth_supreme_army_command",
+            "Fourth Supreme Army Command",
+            0,
+            modifier_classes.Modifier_classes.LEADER,
+            None,
+            {
+                modifier_types.Modifier_types.POLITICAL_POWER_GAIN: -0.15,
+                modifier_types.Modifier_types.STABILITY: -0.10,
+                modifier_types.Modifier_types.MAX_PLANNING_FACTOR: 0.10,
+                modifier_types.Modifier_types.ARMY_EXPERIENCE_GAIN: 0.10,
+                modifier_types.Modifier_types.NAVAL_EXPERIENCE_GAIN: 0.10,
+                modifier_types.Modifier_types.AIR_EXPERIENCE_GAIN: 0.10,
+                modifier_types.Modifier_types.HIGH_COMMANDER_COST: -0.25,
+                modifier_types.Modifier_types.CHIEF_OF_AIR_FORCE_COST: -0.25,
+                modifier_types.Modifier_types.CHIEF_OF_ARMY_COST: -0.25,
+                modifier_types.Modifier_types.CHIEF_OF_NAVY_COST: -0.25,
+            },
+            lambda country: True,
+        ),
 
 
 

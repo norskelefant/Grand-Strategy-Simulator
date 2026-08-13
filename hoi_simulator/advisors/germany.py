@@ -57,7 +57,7 @@ def create_german_advisors():
                 modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_BASE: 0.025,
                 modifier_types.Modifier_types.FACTORY_OUTPUT: 0.025, 
                 modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.025, 
-                modifier_types.Modifier_types.RESITANCE_GROWTH_SPEED: 0.03, 
+                modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED: 0.03, 
                 modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED: -0.01
             },
             lambda country: ((requirements.is_fascist(country) 
@@ -75,7 +75,7 @@ def create_german_advisors():
                 modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.05,
                 modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER: 0.10,
                 modifier_types.Modifier_types.RESEARCH_SPEED: -0.025,
-                modifier_types.Modifier_types.RESITANCE_GROWTH_SPEED: -0.02, 
+                modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED: -0.02, 
                 modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_ENEMY_BOMBING: 0.002
             },
             lambda country: ((requirements.is_fascist(country) 
@@ -92,7 +92,7 @@ def create_german_advisors():
             modifier_classes.Modifier_classes.ADVISOR,
             None,
             {
-                modifier_types.Modifier_types.RESITANCE_GROWTH_SPEED: -0.05,
+                modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED: -0.05,
                 modifier_types.Modifier_types.OPERATIVE_SLOTS: 1, 
                 modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: -0.002, 
                 modifier_types.Modifier_types.ARMY_INTELLIGENCE_TO_OTHERS: -0.002
@@ -114,7 +114,7 @@ def create_german_advisors():
                 modifier_types.Modifier_types.SAME_IDEOLOGY_MONTHLY_OPINION: 5.0, 
                 modifier_types.Modifier_types.JUSTIFY_WAR_GOAL_TIME: -0.15, 
                 modifier_types.Modifier_types.FACTION_TRADE_DEAL_OPINION_FACTOR: 0.10, 
-                modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENCE: 0.25
+                modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE: 0.25
             },
             lambda country: (
                 (requirements.is_fascist(country) and requirements.has_completed_focus(country, "Reorganize_the_wehrmacht") or requirements.event_has_happened(country, "Reinstated_nazi_leadership"))
@@ -147,7 +147,7 @@ def create_german_advisors():
             modifier_classes.Modifier_classes.ADVISOR,
             None,
             {
-                modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENCE: 0.15,
+                modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE: 0.15,
                 modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER: 0.05,
                 modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER: 0.05,
                 modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES: 0.001
@@ -230,7 +230,7 @@ def create_german_advisors():
             {
                 modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.05,
                 modifier_types.Modifier_types.STABILITY: 0.05,
-                modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENCE: 0.15            },
+                modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE: 0.15            },
             lambda country: (
                 requirements.has_completed_focus(country, "Reestablish_free_elections")
             ),
@@ -304,9 +304,9 @@ def create_german_advisors():
             None,
             {
                 modifier_types.Modifier_types.RECRUITABLE_POPULATION_FACTOR: 0.03,
-                modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENCE: 0.15,
+                modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE: 0.15,
                 modifier_types.Modifier_types.MILITIA_ATTACK: 0.05, 
-                modifier_types.Modifier_types.MILITIA_DEFENCE: 0.05, 
+                modifier_types.Modifier_types.MILITIA_DEFENSE: 0.05, 
                 modifier_types.Modifier_types.MILITIA_ORGANIZATION: 0.05, 
             },
             lambda country: (
@@ -342,7 +342,7 @@ def create_german_advisors():
                 modifier_types.Modifier_types.STABILITY: 0.05,
                 modifier_types.Modifier_types.OFFENSIVE_WAR_STABILITY_MODIFIER: 0.05, 
                 modifier_types.Modifier_types.DEFENSIVE_WAR_STABILITY_MODIFIER: 0.05, 
-                modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES: 0.10
+                modifier_types.Modifier_types.WEEKLY_WAR_SUPPORT_COMBAT_CASUALTIES: 0.001
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Monarchist_sentiment")
@@ -375,7 +375,7 @@ def create_german_advisors():
             {
                 modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.05,
                 modifier_types.Modifier_types.PARTY_POPULARITY_STABILITY_MODIFIER: 0.10,
-                modifier_types.Modifier_types.RESITANCE_GROWTH_SPEED: -0.03, 
+                modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED: -0.03, 
                 modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT: -0.03, 
                 modifier_types.Modifier_types.ACCEPTANCE_OF_COMMUNIST_DIPLOMACY: -25,
                 modifier_types.Modifier_types.DAILY_FASCISM_SUPPORT: -0.05,
@@ -490,7 +490,7 @@ def create_german_advisors():
             None,
             {
                 modifier_types.Modifier_types.RECRUITABLE_POPULATION_FACTOR: 0.05,
-                modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY: 0.05, 
+                modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY: 0.05, 
             },
             lambda country: (
                 requirements.has_completed_focus(country, "Start_the_proletarian_revolution")

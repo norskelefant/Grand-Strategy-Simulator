@@ -700,7 +700,7 @@ class Country:
                                             None, 
                                             {modifier_types.Modifier_types.MOBILIZATION_SPEED: mobilization_speed, 
                                              modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY: division_attack_on_core_territory, 
-                                             modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY: division_defence_on_core_territory,
+                                             modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY: division_defence_on_core_territory,
                                              modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER: daily_command_power}, 
                                              True)
             self.add_to_full_added_bonuses(war_support_modifier)
@@ -731,7 +731,7 @@ class Country:
                                             None, 
                                             {modifier_types.Modifier_types.MOBILIZATION_SPEED: 0.0, 
                                              modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY: 0.0, 
-                                             modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY: 0.0, 
+                                             modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY: 0.0, 
                                              modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER: 0.0}, 
                                              True)
             self.add_to_full_added_bonuses(war_support_modifier)
@@ -919,6 +919,7 @@ class Country:
             modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_BASE: 0.0,
             modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.0,
             modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_RETENTION: 0.0,
+            modifier_types.Modifier_types.PRODUCTION_EFFICIENCY_CAP: 0.0,
 
             # Manpower
             modifier_types.Modifier_types.RECRUITABLE_POPULATION: 0.0,
@@ -978,7 +979,7 @@ class Country:
             modifier_types.Modifier_types.DAILY_NON_ALIGNED_SUPPORT: 0.0,
             modifier_types.Modifier_types.DAILY_COMMUNIST_SUPPORT: 0.0,
             modifier_types.Modifier_types.DAILY_FASCISM_SUPPORT: 0.0,
-            modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENCE: 0.0,
+            modifier_types.Modifier_types.IDEOLOGY_DRIFT_DEFENSE: 0.0,
 
             # Spies
             modifier_types.Modifier_types.OPERATIVE_SLOTS: 0,
@@ -987,29 +988,37 @@ class Country:
             modifier_types.Modifier_types.ARMY_INTELLIGENCE_TO_OTHERS: 0.0,
             modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.0,
             modifier_types.Modifier_types.AIR_FORCE_INTELLIGENCE_TO_OTHERS: 0.0,
+            modifier_types.Modifier_types.COUNTER_INTELLIGENCE: 0.0,
+            modifier_types.Modifier_types.INTELLIGENCE_GAINED_FROM_COMBAT: 0.0,
+            modifier_types.Modifier_types.BOOST_IDEOLOGY_MISSION_EFFECTS: 0.0,
 
             # Foreign meddling
             modifier_types.Modifier_types.FOREIGN_SUBVERSIVE_ACTIVITIES_EFFICIENCY: 0.0,
             modifier_types.Modifier_types.SUBVERSIVE_ACTIVITIES_COST: 0.0,
             modifier_types.Modifier_types.IMPROVE_RELATIONS_MAINTAIN_COST: 0.0,
+            modifier_types.Modifier_types.IMPROVE_RELATIONS_OPINION: 0.0,
             modifier_types.Modifier_types.TRADE_DEAL_OPINION_FACTOR: 0.0,
             modifier_types.Modifier_types.FACTION_TRADE_DEAL_OPINION_FACTOR: 0.0,
             modifier_types.Modifier_types.SAME_IDEOLOGY_MONTHLY_OPINION: 0.0,
+            modifier_types.Modifier_types.STRENGTHEN_RESISTANCE_EFFICIENCY: 0.0,
 
             # Subjects
             modifier_types.Modifier_types.SUBJECT_AUTONOMY_GAIN: 0.0,
+            modifier_types.Modifier_types.MASTER_IMPACT: 0.0,
 
             # Resistance and compliance
             modifier_types.Modifier_types.COMPLIANCE_GROWTH_SPEED: 0.0,
-            modifier_types.Modifier_types.RESITANCE_GROWTH_SPEED: 0.0,
+            modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED: 0.0,
             modifier_types.Modifier_types.DAILY_COMPLIANCE_GAIN: 0.0,
             modifier_types.Modifier_types.RESISTANCE_TARGET_IN_OCCUPIED_TERRITORIES: 0.0,
+            modifier_types.Modifier_types.RESISTANCE_TARGET: 0.0,
 
             # War goals
             modifier_types.Modifier_types.JUSTIFY_WAR_GOAL_TIME: 0.0,
 
             # Political power and costs
             modifier_types.Modifier_types.POLITICAL_POWER_GAIN: 0.0,
+            modifier_types.Modifier_types.DAILY_POLITICAL_POWER_GAIN: 0.0,
             modifier_types.Modifier_types.CONSCRIPTION_LAW_COST: 0.0,
             modifier_types.Modifier_types.TRADE_LAW_COST: 0.0,
             modifier_types.Modifier_types.ECONOMY_LAW_COST: 0.0,
@@ -1030,25 +1039,32 @@ class Country:
 
             # Militia
             modifier_types.Modifier_types.MILITIA_ATTACK: 0.0,
-            modifier_types.Modifier_types.MILITIA_DEFENCE: 0.0,
+            modifier_types.Modifier_types.MILITIA_DEFENSE: 0.0,
             modifier_types.Modifier_types.MILITIA_ORGANIZATION: 0.0,
 
             # Garrison
             modifier_types.Modifier_types.GARRISON_PENETRATION_CHANCE: 0.0,
+            modifier_types.Modifier_types.DAMAGE_TO_GARRISONS: 0.0,
 
             # Diplomacy
             modifier_types.Modifier_types.ACCEPTANCE_OF_COMMUNIST_DIPLOMACY: 0.0,
             modifier_types.Modifier_types.ACCEPTANCE_OF_FASCIST_DIPLOMACY: 0.0,
+            modifier_types.Modifier_types.ACCEPTANCE_OF_DEMOCRATIC_DIPLOMACY: 0.0,
+            modifier_types.Modifier_types.ACCEPTANCE_OF_NON_ALIGNED_DIPLOMACY: 0.0,
 
             # Divisions
-            modifier_types.Modifier_types.DIVISION_DEFENCE_ON_CORE_TERRITORY: 0.0,
+            modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY: 0.0,
             modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY: 0.0,
             modifier_types.Modifier_types.DIVISION_ORGANIZATION: 0.0,
             modifier_types.Modifier_types.DIVISION_TRAINING_TIME: 0.0,
             modifier_types.Modifier_types.DIVISION_ATTACK: 0.0,
+            modifier_types.Modifier_types.DIVISION_DEFENSE: 0.0,
             modifier_types.Modifier_types.DIVISION_SPEED: 0.0,
             modifier_types.Modifier_types.DIVISION_RECOVERY_RATE: 0.0,
             modifier_types.Modifier_types.DIVISION_ATTRITION: 0.0,
+
+            # Special forces
+            modifier_types.Modifier_types.SPECIAL_FORCES_CAPACITY_MULTIPLIER: 0.0,
 
             # Equipment
             modifier_types.Modifier_types.EQUIPMENT_CONVERSION_SPEED: 0.0,
@@ -1112,6 +1128,8 @@ class Country:
             modifier_types.Modifier_types.NAVAL_AA_ATTACK: 0.0,
             modifier_types.Modifier_types.SUBMARINE_ATTACK: 0.0,
             modifier_types.Modifier_types.SUBMARINE_DEFENSE: 0.0,
+            modifier_types.Modifier_types.FLEET_COORDINATION: 0.0,
+            modifier_types.Modifier_types.SHIP_RECOVERY_RATE: 0.0,
 
             # Planning
             modifier_types.Modifier_types.MAX_PLANNING_FACTOR: 0.0,
@@ -1120,7 +1138,9 @@ class Country:
             modifier_types.Modifier_types.DAILY_ARMY_EXPERIENCE_GAIN: 0.0,
             modifier_types.Modifier_types.DAILY_NAVAL_EXPERIENCE_GAIN: 0.0,
             modifier_types.Modifier_types.DAILY_AIR_EXPERIENCE_GAIN: 0.0,
+            modifier_types.Modifier_types.ARMY_EXPERIENCE_GAIN: 0.0,
             modifier_types.Modifier_types.AIR_EXPERIENCE_GAIN: 0.0,
+            modifier_types.Modifier_types.NAVAL_EXPERIENCE_GAIN: 0.0,
 
             # Command power
             modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE: 0.0,
@@ -1137,6 +1157,13 @@ class Country:
             # Other
             modifier_types.Modifier_types.WAR_PENALTY_STABILITY_MODIFIER: 0.0,
             modifier_types.Modifier_types.SURRENDER_LIMIT: 0.0,
+
+            # AI
+            modifier_types.Modifier_types.AI_DESIRED_DIVISIONS_FACTOR: 0.0,
+
+            # MIOs
+            modifier_types.Modifier_types.FUNDS_GAIN: 0.0,
+            modifier_types.Modifier_types.MILITARY_INDUSTRIAL_ORGANIZATION_RESEARCH_BONUS: 0.0
         }
 
         return defaults

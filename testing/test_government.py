@@ -49,7 +49,7 @@ def test_having_full_government(germany, new_game):
     assert germany.get_political_power() == 650
 
     #The Germany should have the following bonuses because of all the hirings
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESITANCE_GROWTH_SPEED] == -0.07
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RESISTANCE_GROWTH_SPEED] == -0.07
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.OPERATIVE_SLOTS] == 2
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS] == -0.152
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.ARMY_INTELLIGENCE_TO_OTHERS] == -0.252
