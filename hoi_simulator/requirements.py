@@ -63,4 +63,48 @@ def has_not_hired_advisor(country, advisor_name):
 def has_created_intelligence_agency(country):
     return country.has_created_intelligence_agency()
 
+def can_switch_to_civilian_economy(country): 
+    return True
+
+def can_switch_to_early_mobilization(country): 
+    return country.get_full_war_support() > 0.15 + 1e-12
+
+def can_switch_to_partial_mobilization(country): 
+    return country.get_full_war_support() > 0.25 + 1e-12
+    
+def can_switch_to_war_economy(country): 
+    if country.get_full_war_support() <= 0.50 + 1e-12: 
+        return False
+    if is_communist(country) or is_fascist(country): 
+        return True
+    elif country.get_is_at_war() == True and country.get_number_of_factories_enemy_country_with_most_factories_has() > (0.40 * country.get_total_factories()): 
+        return True
+    return False
+    
+def can_switch_to_total_mobilization(country): 
+    return country.get_is_at_war() and country.get_full_war_support() > 0.8 + 1e-12 and country.get_number_of_factories_enemy_country_with_most_factories_has() > (0.50 * country.get_total_factories())
+
+def can_switch_to_free_trade(country): 
+    return True
+
+def can_switch_to_export_focus(country): 
+    return True
+    
+def can_switch_to_limited_exports(country): 
+    if country.get_ideology() == ideologies.Ideologies.DEMOCRATIC: 
+        if country.get_is_at_war() == True and country.get_number_of_factories_enemy_country_with_most_factories_has() > (0.20 * country.get_total_factories()): 
+            return True
+        return False
+    else: 
+        if country.get_economy_law().get_id() == "Partial_mobilization" or country.get_economy_law().get_id() == "War_economy" or country.get_economy_law().get_id() == "Total_mobilization": 
+            return True
+        return False
+
+def can_switch_to_closed_economy(country): 
+    if country.get_is_at_war() == True and (is_fascist(country) or is_communist(country)): 
+        if country.get_economy_law().get_id() == "War_economy" or country.get_economy_law().get_id() == "Total_mobilization": 
+            return True
+    return False
+
+
 

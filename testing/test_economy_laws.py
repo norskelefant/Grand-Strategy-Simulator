@@ -109,7 +109,6 @@ def test_can_switch_economy_law_to_war_economy_two(germany, new_game):
 
     assert germany.get_is_at_war() == True
     assert germany.get_total_factories() * 0.40 < testing_country.get_total_factories()
-    assert germany.is_fascist_or_communist() == False
 
     germany.switch_economy_law(economy_laws.Economy_laws.WAR_ECONOMY)
 
@@ -139,7 +138,6 @@ def test_can_switch_economy_law_to_total_mobilization(germany, new_game):
 
     assert germany.get_is_at_war() == True
     assert germany.get_total_factories() * 0.40 < testing_country.get_total_factories()
-    assert germany.is_fascist_or_communist() == False
 
     germany.switch_economy_law(economy_laws.Economy_laws.TOTAL_MOBILIZATION)
 

@@ -9,35 +9,35 @@ POSSIBLE_ECONOMY_LAWS = {"Civilian_economy": modifier.Modifier("Civilian_economy
                             modifier_classes. Modifier_classes.ECONOMY_LAW, 
                             None, 
                             {modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.35, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: 0.30, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: 0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: -0.30, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.40, modifier_types.Modifier_types.FUEL_CAPACITY: -0.25, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.30, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.30}, 
-                            lambda country: country.can_switch_to_civilian_economy()), 
+                            lambda country: requirements.can_switch_to_civilian_economy(country)), 
                          "Early_mobilization": modifier.Modifier("Early_mobilization", 
                             "Early Mobilization",
                             150,
                             modifier_classes.Modifier_classes.ECONOMY_LAW, 
                             None, 
                             {modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: -0.15, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.25, modifier_types.Modifier_types.CIV_CONSTRUCTION_SPEED: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: -0.10},
-                            lambda country: country.can_switch_to_early_mobilization()), 
+                            lambda country: requirements.can_switch_to_early_mobilization(country)), 
                          "Partial_mobilization": modifier.Modifier("Partial_mobilization",
                             "Partial Mobilization", 
                             150,
                             modifier_classes.Modifier_classes.ECONOMY_LAW, 
                             None, 
                             {modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.25, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.10, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.10, modifier_types.Modifier_types.FUEL_GAIN_PER_OIL: -0.10, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.10}, 
-                            lambda country: country.can_switch_to_partial_mobilization()), 
+                            lambda country: requirements.can_switch_to_partial_mobilization(country)), 
                          "War_economy": modifier.Modifier("War_economy", 
                             "War Economy", 
                             150,
                             modifier_classes.Modifier_classes.ECONOMY_LAW, 
                             None, 
                             {modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.20, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.20, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.20, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.25, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.20}, 
-                            lambda country: country.can_switch_to_war_economy()), 
+                            lambda country: requirements.can_switch_to_war_economy(country)), 
                          "Total_mobilization": modifier.Modifier("Total_mobilization", 
                             "Total Mobilization",
                             150,
                             modifier_classes.Modifier_classes.ECONOMY_LAW, 
                             None, 
                             {modifier_types.Modifier_types.RECRUITABLE_POPULATION: -3, modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.15, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.30, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.50, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30},
-                            lambda country: country.can_switch_to_total_mobilization())
+                            lambda country: requirements.can_switch_to_total_mobilization(country))
                          }
 
 POSSIBLE_TRADE_LAWS = {"Free_trade": modifier.Modifier("Free_trade", 
@@ -46,14 +46,14 @@ POSSIBLE_TRADE_LAWS = {"Free_trade": modifier.Modifier("Free_trade",
                             modifier_classes.Modifier_classes.TRADE_LAW, 
                             None, 
                             {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.15, modifier_types.Modifier_types.RESEARCH_SPEED: 0.10, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.15, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.15, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.80, modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.40, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.20, modifier_types.Modifier_types.MARKET_CONSTRUCTION_BOOST_MULTIPLIER: 0.05}, 
-                            lambda country: country.can_switch_to_free_trade()), 
+                            lambda country: requirements.can_switch_to_free_trade(country)), 
                          "Export_focus": modifier.Modifier("Export_focus", 
                             "Export Focus", 
                             150,
                             modifier_classes.Modifier_classes.TRADE_LAW, 
                             None, 
                             {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.10, modifier_types.Modifier_types.RESEARCH_SPEED: 0.05, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.10, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.10, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.50, modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.20, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.10, modifier_types.Modifier_types.MARKET_CONSTRUCTION_BOOST_MULTIPLIER: 0.10}, 
-                            lambda country: country.can_switch_to_export_focus()), 
+                            lambda country: requirements.can_switch_to_export_focus(country)), 
                          "Limited_exports": modifier.Modifier("Limited_exports", 
                             "Limited Exports", 
                             150,
@@ -61,18 +61,108 @@ POSSIBLE_TRADE_LAWS = {"Free_trade": modifier.Modifier("Free_trade",
                             None, 
                             {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.05, modifier_types.Modifier_types.RESEARCH_SPEED: 0.01, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.05, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.05, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.25, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.20,
                             modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.10, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.05, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.05}, 
-                            lambda country: country.can_switch_to_limited_exports()),
+                            lambda country: requirements.can_switch_to_limited_exports(country)),
                          "Closed_economy": modifier.Modifier("Closed_economy", 
                             "Closed Economy",
                             150,
                             modifier_classes.Modifier_classes.TRADE_LAW, 
                             None, 
                             {modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.00, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.40, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.10, modifier_types.Modifier_types.CAN_ACCESS_INTERNATIONAL_MARKET: False}, 
-                            lambda country: country.can_switch_to_closed_economy())
+                            lambda country: requirements.can_switch_to_closed_economy(country))
                          }
 
-POSSIBLE_CONSCRIPTION_LAWS = None
-
+POSSIBLE_CONSCRIPTION_LAWS = {
+    "Disarmed_nation": modifier.Modifier(
+        "Disarmed_nation",
+        "Disarmed Nation",
+        150,
+        modifier_classes.Modifier_classes.CONSCRIPTION_LAW,
+        None,
+        {
+            modifier_types.Modifier_types.RECRUITABLE_POPULATION: 0.01,
+        },
+        lambda country: requirements.can_switch_to_disarmed_nation(country)
+    ),
+    "Volunteer_only": modifier.Modifier(
+        "Volunteer_only",
+        "Volunteer Only",
+        150,
+        modifier_classes.Modifier_classes.CONSCRIPTION_LAW,
+        None,
+        {
+            modifier_types.Modifier_types.RECRUITABLE_POPULATION: 0.015,
+        },
+        lambda country: requirements.can_switch_to_volunteer_only(country)
+    ),
+    "Limited_conscription": modifier.Modifier(
+        "Limited_conscription",
+        "Limited Conscription",
+        150,
+        modifier_classes.Modifier_classes.CONSCRIPTION_LAW,
+        None,
+        {
+            modifier_types.Modifier_types.RECRUITABLE_POPULATION: 0.025,
+        },
+        lambda country: requirements.can_switch_to_limited_conscription(country)
+    ),
+    "Extensive_conscription": modifier.Modifier(
+        "Extensive_conscription",
+        "Extensive Conscription",
+        150,
+        modifier_classes.Modifier_classes.CONSCRIPTION_LAW,
+        None,
+        {
+            modifier_types.Modifier_types.RECRUITABLE_POPULATION: 0.05,
+            modifier_types.Modifier_types.DIVISION_TRAINING_TIME: 0.10,
+        },
+        lambda country: requirements.can_switch_to_extensive_conscription(country)
+    ),
+    "Service_by_requirement": modifier.Modifier(
+        "Service_by_requirement",
+        "Service by Requirement",
+        150,
+        modifier_classes.Modifier_classes.CONSCRIPTION_LAW,
+        None,
+        {
+            modifier_types.Modifier_types.RECRUITABLE_POPULATION: 0.10,
+            modifier_types.Modifier_types.FACTORY_OUTPUT: -0.10,
+            modifier_types.Modifier_types.DOCKYARD_OUTPUT: -0.10,
+            modifier_types.Modifier_types.CONSTRUCTION_SPEED: -0.10,
+            modifier_types.Modifier_types.DIVISION_TRAINING_TIME: 0.20,
+        },
+        lambda country: requirements.can_switch_to_service_by_requirement(country)
+    ),
+    "All_adults_serve": modifier.Modifier(
+        "All_adults_serve",
+        "All Adults Serve",
+        150,
+        modifier_classes.Modifier_classes.CONSCRIPTION_LAW,
+        None,
+        {
+            modifier_types.Modifier_types.RECRUITABLE_POPULATION: 0.20,
+            modifier_types.Modifier_types.FACTORY_OUTPUT: -0.30,
+            modifier_types.Modifier_types.DOCKYARD_OUTPUT: -0.30,
+            modifier_types.Modifier_types.CONSTRUCTION_SPEED: -0.30,
+            modifier_types.Modifier_types.DIVISION_TRAINING_TIME: 0.30,
+        },
+        lambda country: requirements.can_switch_to_all_adults_serve(country)
+    ),
+    "Scraping_the_barrel": modifier.Modifier(
+        "Scraping_the_barrel",
+        "Scraping the Barrel",
+        150,
+        modifier_classes.Modifier_classes.CONSCRIPTION_LAW,
+        None,
+        {
+            modifier_types.Modifier_types.RECRUITABLE_POPULATION: 0.25,
+            modifier_types.Modifier_types.FACTORY_OUTPUT: -0.40,
+            modifier_types.Modifier_types.DOCKYARD_OUTPUT: -0.40,
+            modifier_types.Modifier_types.CONSTRUCTION_SPEED: -0.40,
+            modifier_types.Modifier_types.DIVISION_TRAINING_TIME: 0.50,
+        },
+        lambda country: requirements.can_switch_to_scraping_the_barrel(country)
+    ),
+}
 class Country: 
     def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, stability_modifier, economy_law, base_war_support, war_support_modifier, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, possible_advisors, industrial_concern, possible_industrial_concerns, theorist, possible_theorists, chief_of_army, possible_chiefs_of_army, chief_of_navy, possible_chiefs_of_navy, chief_of_air_force, possible_chiefs_of_air_force, high_commanders, possible_high_commanders, leader, possible_leaders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits, modifiers, events_gotten, possible_events, intelligence_agency, full_added_bonuses): 
         self.name = name
@@ -502,36 +592,6 @@ class Country:
             self.remove_from_full_added_bonuses(old_economy_law)
             self.add_to_full_added_bonuses(self.get_economy_law())
             self.remove_political_power(cost)
-
-    def can_switch_to_civilian_economy(self): 
-        return True
-
-    def can_switch_to_early_mobilization(self): 
-        if self.get_name() == "Hungary": 
-            return self.get_full_war_support() > 15 and self.has_national_spirit("hun_treaty_of_trianon")
-        #Turkey(more research needed to understand)
-        return self.get_full_war_support() > 0.15 + 1e-12
-
-    #From ChatGPT
-    def can_switch_to_partial_mobilization(self): 
-        return self.get_full_war_support() > 0.25 + 1e-12
-    
-    def can_switch_to_war_economy(self): 
-        if self.get_full_war_support() <= 0.50 + 1e-12: 
-            return False
-        if self.is_fascist_or_communist() == True: 
-            return True
-        elif self.get_is_at_war() == True and self.get_number_of_factories_enemy_country_with_most_factories_has() > (0.40 * self.get_total_factories()): 
-            return True
-        return False
-    
-    def is_fascist_or_communist(self): 
-        if self.get_ideology() == ideologies.Ideologies.FASCIST or self.get_ideology() == ideologies.Ideologies.COMMUNIST: 
-            return True
-        return False
-    
-    def can_switch_to_total_mobilization(self): 
-        return self.get_is_at_war() and self.get_full_war_support() > 0.8 + 1e-12 and self.get_number_of_factories_enemy_country_with_most_factories_has() > (0.50 * self.get_total_factories())
     
     def get_number_of_factories_enemy_country_with_most_factories_has(self): 
         number_of_factories_list = []
@@ -782,28 +842,6 @@ class Country:
             self.remove_from_full_added_bonuses(old_law)
             self.add_to_full_added_bonuses(self.get_trade_law())
             self.remove_political_power(cost)
-
-    def can_switch_to_free_trade(self): 
-        return True
-
-    def can_switch_to_export_focus(self): 
-        return True
-    
-    def can_switch_to_limited_exports(self): 
-        if self.get_ideology() == ideologies.Ideologies.DEMOCRATIC: 
-            if self.get_is_at_war() == True and self.get_number_of_factories_enemy_country_with_most_factories_has() > (0.20 * self.get_total_factories()): 
-                return True
-            return False
-        else: 
-            if self.get_economy_law().id == "Partial_mobilization" or self.get_economy_law().id == "War_economy" or self.get_economy_law().id == "Total_mobilization": 
-                return True
-            return False
-
-    def can_switch_to_closed_economy(self): 
-        if self.get_is_at_war() == True and (self.get_ideology() == ideologies.Ideologies.FASCIST or self.get_ideology() == ideologies.Ideologies.COMMUNIST): 
-            if self.get_economy_law().id == "War_economy" or self.get_economy_law().id == "Total_mobilization": 
-                return True
-        return False
 
     #Only used when creating country
     def set_trade_law(self, new_law): 
