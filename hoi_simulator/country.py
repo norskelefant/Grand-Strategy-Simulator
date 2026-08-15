@@ -164,7 +164,7 @@ POSSIBLE_CONSCRIPTION_LAWS = {
     ),
 }
 class Country: 
-    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, stability_modifier, economy_law, base_war_support, war_support_modifier, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, possible_advisors, industrial_concern, possible_industrial_concerns, theorist, possible_theorists, chief_of_army, possible_chiefs_of_army, chief_of_navy, possible_chiefs_of_navy, chief_of_air_force, possible_chiefs_of_air_force, high_commanders, possible_high_commanders, leader, possible_leaders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits, modifiers, events_gotten, possible_events, intelligence_agency, full_added_bonuses): 
+    def __init__(self, name, states, tiles, resources, free_civs, civs_used_on_consumer_goods,  free_mils, free_dockyards, construction, base_ic, base_stability, stability_modifier, economy_law, base_war_support, war_support_modifier, political_power, population, fuel, command_power, convoys, army_exp, navy_exp, air_exp, ideology, democratic_support, non_aligned_support, communist_support, fascist_support, at_war, countries_at_war_with, research_slots, has_researched, can_research, trade_law, conscription_law, advisors, possible_advisors, industrial_concern, possible_industrial_concerns, theorist, possible_theorists, chief_of_army, possible_chiefs_of_army, chief_of_navy, possible_chiefs_of_navy, chief_of_air_force, possible_chiefs_of_air_force, high_commanders, possible_high_commanders, leader, possible_leaders, focus_tree, focuses_done, focuses_that_can_be_done, national_spirits, modifiers, events_gotten, possible_events, intelligence_agency, full_added_bonuses, surrender_progress, number_of_divisions, number_of_planes, number_of_ships, victory_points_in_own_control, victory_points_in_enemy_control): 
         self.name = name
         self.states = states
         self.tiles = tiles
@@ -230,6 +230,14 @@ class Country:
 
         #Variable that has a simple count of all added bonuses. This is calculated by going through all modifiers and adding together
         self.full_added_bonuses = full_added_bonuses
+
+        self.surrender_progress = surrender_progress
+        self.number_of_divisions = number_of_divisions
+        self.number_of_planes = number_of_planes
+        self.number_of_ships = number_of_ships
+        self.victory_points_in_own_control = victory_points_in_own_control
+        self.victory_points_in_enemy_control = victory_points_in_enemy_control
+
 
     #Getter methods
     def get_name(self):

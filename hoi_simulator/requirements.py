@@ -91,7 +91,7 @@ def can_switch_to_export_focus(country):
     return True
     
 def can_switch_to_limited_exports(country): 
-    if country.get_ideology() == ideologies.Ideologies.DEMOCRATIC: 
+    if is_democratic(country): 
         if country.get_is_at_war() == True and country.get_number_of_factories_enemy_country_with_most_factories_has() > (0.20 * country.get_total_factories()): 
             return True
         return False
@@ -105,6 +105,48 @@ def can_switch_to_closed_economy(country):
         if country.get_economy_law().get_id() == "War_economy" or country.get_economy_law().get_id() == "Total_mobilization": 
             return True
     return False
+
+def can_switch_to_disarmed_nation(country): 
+    return True
+
+def can_switch_to_volunteer_only(country): 
+    return country.get_economy_law().get_id() != "Undisturbed_isolation" and country.get_economy_law().get_id() != "Isolation"
+
+def can_switch_to_limited_conscription(country): 
+    return country.get_economy_law().get_id() != "Undisturbed_isolation" and country.get_economy_law().get_id() != "Isolation" and country.get_full_war_support() > 0.10 + 1e-12
+
+def can_switch_to_extensive_conscription(country): 
+    if country.get_full_war_support() > 0.20 + 1e-12: 
+        if is_fascist(country): 
+            return True
+        if is_communist(country): 
+            return True
+        if country.is_at_war() == True and country.get_total_number_of_divisions_of_enemy() >= country.get_number_of_divisions() * 0.5: 
+            return True
+    return False
+
+def can_switch_to_service_by_requirement(country): 
+    if country.get_full_war_support() > 0.60 + 1e-12 or country.get_surrender_progress() > 0.0: 
+        if is_fascist(country): 
+            return True
+        if is_communist(country): 
+            return True
+        if country.is_at_war() == True and country.get_total_number_of_divisions_of_enemy() >= country.get_number_of_divisions() * 0.6: 
+            return True
+    return False
+
+def can_switch_to_all_adults_serve(country): 
+    if country.get_full_war_support() > 0.70 + 1e-12 or country.get_surrender_progress() > 0.0: 
+        if country.is_at_war() == True and country.get_total_number_of_divisions_of_enemy() >= country.get_number_of_divisions() * 0.7: 
+            return True
+    return False
+
+def can_switch_to_scraping_the_barrel(country): 
+    if country.get_full_war_support() > 0.85 + 1e-12 or country.get_surrender_progress() > 0.25: 
+        if country.is_at_war() == True and country.get_total_number_of_divisions_of_enemy() >= country.get_number_of_divisions() * 1.0: 
+            return True
+    return False
+    
 
 
 

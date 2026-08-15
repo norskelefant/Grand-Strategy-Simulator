@@ -65,7 +65,13 @@ def create_custom_country(game):
                        possible_events={}, 
                        events_gotten=[], 
                        intelligence_agency=None,
-                       full_added_bonuses={})
+                       full_added_bonuses={}, 
+                       surrender_progress=0.0, 
+                       number_of_divisions=10, 
+                       number_of_planes=0, 
+                       number_of_ships=0, 
+                       victory_points_in_own_control=0, 
+                       victory_points_in_enemy_control=0)
     
     custom_country.states["Custom_state"].set_country(custom_country)
 

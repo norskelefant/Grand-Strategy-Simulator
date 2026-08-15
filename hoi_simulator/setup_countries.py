@@ -107,7 +107,13 @@ def create_advanced_germany():
                        possible_events={}, 
                        events_gotten=set(), 
                        intelligence_agency=None,
-                       full_added_bonuses={}
+                       full_added_bonuses={}, 
+                       surrender_progress=0.0, 
+                       number_of_divisions=30, 
+                       number_of_planes=0, 
+                       number_of_ships=0, 
+                       victory_points_in_own_control=0, 
+                       victory_points_in_enemy_control=0
                        )
 
     germany.full_added_bonuses = germany.create_default_bonuses_map()
@@ -278,7 +284,13 @@ def create_simple_germany():
                         possible_events={}, 
                        events_gotten=[], 
                        intelligence_agency=None,
-                       full_added_bonuses={}
+                       full_added_bonuses={}, 
+                        surrender_progress=0.0, 
+                       number_of_divisions=0, 
+                       number_of_planes=0, 
+                       number_of_ships=0, 
+                       victory_points_in_own_control=0, 
+                       victory_points_in_enemy_control=0
                        )
 
     germany.full_added_bonuses = germany.create_default_bonuses_map()
