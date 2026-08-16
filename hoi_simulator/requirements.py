@@ -121,7 +121,7 @@ def can_switch_to_extensive_conscription(country):
             return True
         if is_communist(country): 
             return True
-        if country.is_at_war() == True and country.get_total_number_of_divisions_of_enemy() >= country.get_number_of_divisions() * 0.5: 
+        if country.get_is_at_war() == True and country.get_total_number_of_divisions_of_enemies() >= country.get_number_of_divisions() * 0.5: 
             return True
     return False
 
@@ -131,19 +131,19 @@ def can_switch_to_service_by_requirement(country):
             return True
         if is_communist(country): 
             return True
-        if country.is_at_war() == True and country.get_total_number_of_divisions_of_enemy() >= country.get_number_of_divisions() * 0.6: 
+        if country.get_is_at_war() == True and country.get_total_number_of_divisions_of_enemies() >= country.get_number_of_divisions() * 0.6: 
             return True
     return False
 
 def can_switch_to_all_adults_serve(country): 
     if country.get_full_war_support() > 0.70 + 1e-12 or country.get_surrender_progress() > 0.0: 
-        if country.is_at_war() == True and country.get_total_number_of_divisions_of_enemy() >= country.get_number_of_divisions() * 0.7: 
+        if country.get_is_at_war() == True and country.get_total_number_of_divisions_of_enemies() >= country.get_number_of_divisions() * 0.7: 
             return True
     return False
 
 def can_switch_to_scraping_the_barrel(country): 
     if country.get_full_war_support() > 0.85 + 1e-12 or country.get_surrender_progress() > 0.25: 
-        if country.is_at_war() == True and country.get_total_number_of_divisions_of_enemy() >= country.get_number_of_divisions() * 1.0: 
+        if country.get_is_at_war() == True and country.get_total_number_of_divisions_of_enemies() >= country.get_number_of_divisions() * 1.0: 
             return True
     return False
     

@@ -415,6 +415,9 @@ class Country:
     def get_war_support_modifier(self): 
         return self.war_support_modifier
 
+    def get_number_of_divisions(self): 
+        return self.number_of_divisions
+
     #Construction speed is calculated as follows
     #construction_per_civ_with_respect_to_coal * (1 + sum(modifiers)) * infrastructure_construction
     #Also note that coal at maximum can reduce ic to 4 for any factory, but it also gives a construction speed debuff in general
@@ -1584,3 +1587,8 @@ class Country:
             "Ernst_thalmann_has_been_freed_from_prison": "Ernst_thalmann_has_been_freed_from_prison"
         }
 
+    def get_total_number_of_divisions_of_enemies(self):
+        no_of_divisions = 0
+        for country in self.get_countries_at_war_with(): 
+            no_of_divisions += country.get_number_of_divisions()
+        return no_of_divisions
