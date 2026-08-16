@@ -418,6 +418,9 @@ class Country:
     def get_number_of_divisions(self): 
         return self.number_of_divisions
 
+    def get_surrender_progress(self): 
+        return self.surrender_progress
+
     #Construction speed is calculated as follows
     #construction_per_civ_with_respect_to_coal * (1 + sum(modifiers)) * infrastructure_construction
     #Also note that coal at maximum can reduce ic to 4 for any factory, but it also gives a construction speed debuff in general
@@ -1592,3 +1595,8 @@ class Country:
         for country in self.get_countries_at_war_with(): 
             no_of_divisions += country.get_number_of_divisions()
         return no_of_divisions
+
+    def add_surrender_progress(self, amount): 
+        self.surrender_progress += amount
+        if self.get_surrender_progress() < 0: 
+            self.surrender_progress = 0
