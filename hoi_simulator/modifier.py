@@ -32,7 +32,7 @@ class Modifier:
         return self.requirements
 
     def get_full_cost(self, country): 
-        if self.get_modifier_type() == modifier_classes.Modifier_classes.CONSCRIPTION_LAW: 
+        if self.get_modifier_type() == modifier_classes.Modifier_classes.CONSCRIPTION_LAW:
             return (1 + country.get_full_added_bonuses()[modifier_types.Modifier_types.CONSCRIPTION_LAW_COST]) * self.get_base_cost()
         if self.get_modifier_type() == modifier_classes.Modifier_classes.TRADE_LAW: 
             return (1 + country.get_full_added_bonuses()[modifier_types.Modifier_types.TRADE_LAW_COST]) * self.get_base_cost()

@@ -4,7 +4,7 @@ import pytest
 
 import math
 
-from hoi_simulator import country, state, setup_countries, construction, construction_types, construction_line, date, game, modifier, modifier_classes, modifier_types, economy_laws, ideologies, trade_laws, custom_country
+from hoi_simulator import country, state, setup_countries, construction, construction_types, construction_line, date, game, modifier, modifier_classes, modifier_types, economy_laws, ideologies, trade_laws, custom_country, conscription_laws
 
 @pytest.fixture
 def germany(): 
@@ -17,20 +17,116 @@ def new_game(germany):
     return create_game(germany)
 
 def test_germany_has_limited_conscription_by_default(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+
+    #When asking for the conscription law of germany
+    conscription_law = germany.get_conscription_law()
+
+    #Then the trade law should be limited export
+    assert conscription_law.get_id() == "Limited_conscription"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
+
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
 
 def test_can_switch_to_disarmed_nation(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+
+    #When Germany switches to Disarmed Nation with enough political power
+    germany.add_political_power(300)
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.DISARMED_NATION)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "Disarmed_nation") == 300
+
+    assert germany.get_political_power() == 0
+
+    #When asking for the conscription law of germany
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Disarmed nation
+    assert conscription_law.get_id() == "Disarmed_nation"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.01
+
+    #and Germany gets these bonuses because the new conscription law is Disarmed Nation
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.01
 
 def test_can_switch_to_volunteer_only(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+
+    #When Germany switches to Volunteer Only with enough political power
+    germany.add_political_power(150)
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.VOLUNTEER_ONLY)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "Volunteer_only") == 150
+
+    assert germany.get_political_power() == 0
+
+    #When asking for the conscription law of germany
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Volunteer Only
+    assert conscription_law.get_id() == "Volunteer_only"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.015
+
+    #and Germany gets these bonuses because the new conscription law is Volunteer Only
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.015
 
 def test_can_switch_to_limited_conscription_if_more_than_10_percent_war_support(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+
+    #When Germany switches to Limited Conscription with more than 10 percent war support
+    germany.add_political_power(300)
+
+    assert germany.get_full_war_support() == 0.35
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.VOLUNTEER_ONLY)
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.LIMITED_CONSCRIPTION)
+
+    assert germany.get_political_power() == 0
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Limited conscription
+    assert conscription_law.get_id() == "Limited_conscription"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
+
+    #and Germany gets these bonuses because the new conscription law is Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
 
 def test_cannot_switch_to_limited_conscription_if_less_than_10_percent_war_support(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
 
+    #When Germany switches to Limited Conscription with less than 10 percent war support
+    germany.add_base_war_support(-0.30)
+    germany.add_political_power(300)
+
+    assert germany.get_full_war_support() == 0.05
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.VOLUNTEER_ONLY)
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.LIMITED_CONSCRIPTION)
+
+    assert germany.get_political_power() == 150
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Volunteer Only,
+    assert conscription_law.get_id() == "Volunteer_only"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.015
+
+    #but Germany gets these bonuses because Germany does not get Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.015
 def test_can_switch_to_extensive_conscription_if_more_than_20_percent_war_support_and_being_fascist(germany, new_game): 
     assert True == False
 

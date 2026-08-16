@@ -1,4 +1,4 @@
-from hoi_simulator import construction_types, modifier_types, modifier_classes, economy_laws, modifier, ideologies, trade_laws, requirements
+from hoi_simulator import construction_types, modifier_types, modifier_classes, economy_laws, modifier, ideologies, trade_laws, requirements, conscription_laws
 
 import math
 
@@ -337,7 +337,7 @@ class Country:
     def get_trade_law(self): 
         return self.trade_law
     
-    def get_concription_law(self): 
+    def get_conscription_law(self): 
         return self.conscription_law
     
     def get_advisors(self): 
@@ -878,41 +878,65 @@ class Country:
 
     #Wait with conscription laws till later
     def switch_conscription_law(self, new_law): 
+        old_conscription_law = self.get_conscription_law()
         has_switched = False
-        if new_law.value == self.get_economy_law().name: 
+        cost = self.calculate_conscription_law_cost(old_conscription_law.get_id(), new_law.value)
+        #POSSIBLE_CONSCRIPTION_LAWS[new_law.value].get_full_cost(self)
+        if new_law.value == self.get_conscription_law().get_id(): 
             return
-        if self.get_political_power() < 150: 
+        if self.get_political_power() + 1e-12 < cost: 
             return
-        if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY and self.can_switch_to_civilian_economy() == True:
-            self.economy_law = POSSIBLE_ECONOMY_LAWS["Civilian_economy"]
+        if new_law == conscription_laws.Conscription_laws.DISARMED_NATION and POSSIBLE_CONSCRIPTION_LAWS["Disarmed_nation"].requirements_met(self) == True: 
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["Disarmed_nation"]
             has_switched = True
-        elif new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION and self.can_switch_to_early_mobilization() == True:
-            self.economy_law = POSSIBLE_ECONOMY_LAWS["Early_mobilization"]
+        elif new_law == conscription_laws.Conscription_laws.VOLUNTEER_ONLY and POSSIBLE_CONSCRIPTION_LAWS["Volunteer_only"].requirements_met(self) == True:
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["Volunteer_only"]
             has_switched = True
-        elif new_law == economy_laws.Economy_laws.PARTIAL_MOBILIZATION and self.can_switch_to_partial_mobilization() == True: 
-            self.economy_law = POSSIBLE_ECONOMY_LAWS["Partial_mobilization"]
+        elif new_law == conscription_laws.Conscription_laws.LIMITED_CONSCRIPTION and POSSIBLE_CONSCRIPTION_LAWS["Limited_conscription"].requirements_met(self) == True: 
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["Limited_conscription"]
             has_switched = True
-        elif new_law == economy_laws.Economy_laws.WAR_ECONOMY and self.can_switch_to_war_economy() == True: 
-            self.economy_law = POSSIBLE_ECONOMY_LAWS["War_economy"]
+        elif new_law == conscription_laws.Conscription_laws.EXTENSIVE_CONSCRIPTION and POSSIBLE_CONSCRIPTION_LAWS["Extensive_conscription"].requirements_met(self) == True: 
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["Extensive_conscription"]
             has_switched = True
-        elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION and self.can_switch_to_total_mobilization() == True: 
-            self.economy_law = POSSIBLE_ECONOMY_LAWS["Total_mobilization"]
-            has_switched = True        
+        elif new_law == conscription_laws.Conscription_laws.SERVICE_BY_REQUIREMENT and POSSIBLE_CONSCRIPTION_LAWS["Service_by_requirement"].requirements_met(self) == True: 
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["Service_by_requirement"]
+            has_switched = True
+        elif new_law == conscription_laws.Conscription_laws.ALL_ADULTS_SERVE and POSSIBLE_CONSCRIPTION_LAWS["All_adults_serve"].requirements_met(self) == True: 
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["All_adults_serve"]
+            has_switched = True
+        elif new_law == conscription_laws.Conscription_laws.SCRAPING_THE_BARREL and POSSIBLE_CONSCRIPTION_LAWS["Scraping_the_barrel"].requirements_met(self) == True: 
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["Scraping_the_barrel"]
+            has_switched = True
         if has_switched == True: 
-            self.remove_political_power(150)
+            self.remove_from_full_added_bonuses(old_conscription_law)
+            self.add_to_full_added_bonuses(self.get_conscription_law())
+            self.remove_political_power(cost)
 
     #Only used when creating country
     def set_conscription_law(self, new_law): 
-        if new_law == economy_laws.Economy_laws.CIVILIAN_ECONOMY:
-            self.economy_law = POSSIBLE_ECONOMY_LAWS["Civilian_economy"]
-        elif new_law == economy_laws.Economy_laws.EARLY_MOBILIZATION:
-            self.economy_law = POSSIBLE_ECONOMY_LAWS["Early_mobilization"]
-        elif new_law == economy_laws.Economy_laws.PARTIAL_MOBILIZATION: 
-            self.economy_law = POSSIBLE_ECONOMY_LAWS["Partial_mobilization"]
-        elif new_law == economy_laws.Economy_laws.WAR_ECONOMY: 
-            self.economy_law = POSSIBLE_ECONOMY_LAWS["War_economy"]
-        elif new_law == economy_laws.Economy_laws.TOTAL_MOBILIZATION: 
-            self.economy_law = POSSIBLE_ECONOMY_LAWS["Total_mobilization"]
+        if new_law == conscription_laws.Conscription_laws.DISARMED_NATION:
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["Disarmed_nation"]
+        elif new_law == conscription_laws.Conscription_laws.VOLUNTEER_ONLY:
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["Volunteer_only"]
+        elif new_law == conscription_laws.Conscription_laws.LIMITED_CONSCRIPTION:
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["Limited_conscription"]
+        elif new_law == conscription_laws.Conscription_laws.EXTENSIVE_CONSCRIPTION:
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["Extensive_conscription"]
+        elif new_law == conscription_laws.Conscription_laws.SERVICE_BY_REQUIREMENT:
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["Service_by_requirement"]
+        elif new_law == conscription_laws.Conscription_laws.ALL_ADULTS_SERVE:
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["All_aults_serve"]
+        elif new_law == conscription_laws.Conscription_laws.SCRAPING_THE_BARREL:
+            self.conscription_law = POSSIBLE_CONSCRIPTION_LAWS["Scraping_the_barrel"]
+
+    def calculate_conscription_law_cost(self, old_law, new_law): 
+        conscription_law_list = ["Disarmed_nation", "Volunteer_only", "Limited_conscription", "Extensive_conscription", "Service_by_requirement", "All_adults_serve", "Scraping_the_barrel"]
+        old_law_index = conscription_law_list.index(old_law)
+        new_law_index = conscription_law_list.index(new_law)
+        difference = abs(old_law_index - new_law_index)
+        each_switch_cost = POSSIBLE_CONSCRIPTION_LAWS[new_law].get_full_cost(self)
+        full_cost = each_switch_cost * difference
+        return full_cost
 
     def get_modifiers(self): 
         return self.modifiers
@@ -1339,8 +1363,8 @@ class Country:
             return POSSIBLE_ECONOMY_LAWS[modifier_id]
         if modifier_id in POSSIBLE_TRADE_LAWS: 
             return POSSIBLE_TRADE_LAWS[modifier_id]
-        #if modifier_id in POSSIBLE_CONSCRIPTION_LAWS: 
-        #    return POSSIBLE_CONSCRIPTION_LAWS[modifier_id]
+        if modifier_id in POSSIBLE_CONSCRIPTION_LAWS: 
+            return POSSIBLE_CONSCRIPTION_LAWS[modifier_id]
         if modifier_id in self.get_possible_advisors(): 
             return self.get_possible_advisors()[modifier_id]
         if modifier_id in self.get_possible_theorists(): 

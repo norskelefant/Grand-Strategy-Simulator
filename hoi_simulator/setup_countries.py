@@ -48,6 +48,18 @@ def create_advanced_germany():
     limited_exports = modifier.Modifier("Limited_exports", "Limited Exports", 0, modifier_classes. Modifier_classes.TRADE_LAW, None, {modifier_types.Modifier_types.CONSTRUCTION_SPEED: 0.05, modifier_types.Modifier_types.RESEARCH_SPEED: 0.01, modifier_types.Modifier_types.FACTORY_OUTPUT: 0.05, modifier_types.Modifier_types.DOCKYARD_OUTPUT: 0.05, modifier_types.Modifier_types.RESOURCES_TO_MARKET: 0.25, modifier_types.Modifier_types.LEND_LEASE_TENSION_LIMIT: 0.20,
                        modifier_types.Modifier_types.CIVILIAN_INTELLIGENCE_TO_OTHERS: 0.10, modifier_types.Modifier_types.NAVY_INTELLIGENCE_TO_OTHERS: 0.05, modifier_types.Modifier_types.BASE_CONSTRUCTION_LINE_SPEED_BOOST: -0.05}, True)
 
+    limited_conscription = modifier.Modifier(
+        "Limited_conscription",
+        "Limited Conscription",
+        150,
+        modifier_classes.Modifier_classes.CONSCRIPTION_LAW,
+        None,
+        {
+            modifier_types.Modifier_types.RECRUITABLE_POPULATION: 0.025,
+        },
+        True
+    )
+
     germany = country.Country(name="Germany", 
                        states={"baden": baden, "brandenburg": brandenburg, "ermland_masuren": ermland_masuren, "franken": franken, "hannover": hannover, "hessen": hessen, "hinterpommern": hinterpommern, "holstein": holstein, "konigsberg": konigsberg, "mecklenburg": mecklenburg, "moselland": moselland, "niederbayern": niederbayern, "niederschlesien": niederschlesien, "oberbayern": oberbayern, "oberschlesien": oberschlesien, "ostmark": ostmark, "rhineland": rhineland, "sachsen": sachsen, "schleswig": schleswig, "thuringen": thuringen, "vorpommern": vorpommern, "weser_ems": weser_ems, "westfalen": westfalen, "wurttemberg": wurttemberg},
                        tiles=None, 
@@ -82,7 +94,7 @@ def create_advanced_germany():
                        has_researched=[], 
                        can_research=[],
                        trade_law=limited_exports,
-                       conscription_law=None, 
+                       conscription_law=limited_conscription, 
                        advisors=[None, None, None], 
                        possible_advisors=germany_advisors.create_german_advisors(),
                        industrial_concern=None, 
@@ -123,6 +135,7 @@ def create_advanced_germany():
 
     germany.add_to_full_added_bonuses(partial_mobilization)
     germany.add_to_full_added_bonuses(limited_exports)
+    germany.add_to_full_added_bonuses(limited_conscription)
 
     for each_state in germany.get_states(): 
         germany.states[each_state].set_country(germany)
