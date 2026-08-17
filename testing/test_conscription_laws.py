@@ -778,7 +778,7 @@ def test_cannot_switch_to_service_by_requirement_without_enough_political_power(
     assert conscription_law.get_end_date() == None
     assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
 
-    #and Germany gets these bonuses because the conscription law is Limited_conscription
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.174)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.174)
@@ -798,7 +798,6 @@ def test_cannot_switch_to_service_by_requirement_if_country_has_less_than_60_per
 
     germany.add_political_power(300)
 
-    assert requirements
     assert germany.get_full_war_support() == 0.35
     assert germany.get_ideology() == ideologies.Ideologies.FASCIST
     assert germany.get_is_at_war() == False
@@ -818,7 +817,7 @@ def test_cannot_switch_to_service_by_requirement_if_country_has_less_than_60_per
     assert conscription_law.get_end_date() == None
     assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
 
-    #and Germany gets these bonuses because the conscription law is Limited_conscription
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.174)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.174)
@@ -839,7 +838,6 @@ def test_cannot_switch_to_service_by_requirement_if_country_is_not_communist_or_
 
     germany.add_political_power(300)
 
-    assert requirements
     assert germany.get_full_war_support() == pytest.approx(0.61)
     assert germany.get_ideology() == ideologies.Ideologies.DEMOCRATIC
     assert germany.get_is_at_war() == False
@@ -859,7 +857,7 @@ def test_cannot_switch_to_service_by_requirement_if_country_is_not_communist_or_
     assert conscription_law.get_end_date() == None
     assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
 
-    #and Germany gets these bonuses because the conscription law is Limited_conscription
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.174)
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.174)
@@ -867,44 +865,691 @@ def test_cannot_switch_to_service_by_requirement_if_country_is_not_communist_or_
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
 
 def test_cannot_switch_to_service_by_requirement_if_country_is_at_war_and_enemies_army_strength_is_less_than_60_percent_of_country(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany switches to Service by Requirement at war with one country with 10 divisions(meaning enemies don't fulfill 60% strength ratio) and over 60% war support
+    germany.change_ideology(ideologies.Ideologies.DEMOCRATIC)
+    testing_country = custom_country.create_custom_country(new_game)
+
+    germany.declare_war(testing_country)
+
+    germany.add_base_war_support(0.26)
+
+    germany.add_political_power(300)
+
+    assert germany.get_full_war_support() == pytest.approx(0.61)
+    assert germany.get_ideology() == ideologies.Ideologies.DEMOCRATIC
+    assert germany.get_is_at_war() == True
+    assert germany.get_surrender_progress() == 0.0
+    assert requirements.can_switch_to_service_by_requirement(germany) == False
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.SERVICE_BY_REQUIREMENT)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "Service_by_requirement") == 300
+
+    assert germany.get_political_power() == 300
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Limited Conscription
+    assert conscription_law.get_id() == "Limited_conscription"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
+
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(0.174)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(0.174)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
 
 def test_can_switch_to_all_adults_serve_if_country_is_at_war_with_enemies_having_more_than_70_percent_army_strength_ratio_and_country_has_more_than_70_percent_war_support(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany switches to All Adults Serve while having more than 70 percent war support and being at war with three countries with 10 divisions(more than 70% strength ratio)
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+    testing_country_1 = custom_country.create_custom_country(new_game)
+    testing_country_2 = custom_country.create_custom_country(new_game)
+    testing_country_3 = custom_country.create_custom_country(new_game)
+
+    germany.declare_war(testing_country_1)
+    germany.declare_war(testing_country_2)
+    germany.declare_war(testing_country_3)
+
+    germany.add_base_war_support(0.36)
+
+    germany.add_political_power(450)
+
+    assert germany.get_full_war_support() == pytest.approx(0.71)
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert germany.get_is_at_war() == True
+    assert germany.get_surrender_progress() == 0.0
+    assert requirements.can_switch_to_all_adults_serve(germany) == True
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.ALL_ADULTS_SERVE)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "All_adults_serve") == 450
+
+    assert germany.get_political_power() == 0
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be All Adults Serve
+    assert conscription_law.get_id() == "All_adults_serve"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.20
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == -0.30
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.DOCKYARD_OUTPUT) == -0.30
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSTRUCTION_SPEED) == -0.30
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.DIVISION_TRAINING_TIME) == 0.30
+
+    #and Germany gets these bonuses because the conscription law is All Adults Serve
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.20
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == -0.126
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == -0.126
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == -0.25
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.30
 
 def test_can_switch_to_all_adults_serve_if_country_is_at_war_with_enemies_having_more_than_70_percent_army_strength_ratio_and_country_has_more_than_0_percent_surrender_progress(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany switches to All Adults Serve while having more than 0 percent surrender progress and being at war with three countries with 10 divisions(more than 70% strength ratio)
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+    testing_country_1 = custom_country.create_custom_country(new_game)
+    testing_country_2 = custom_country.create_custom_country(new_game)
+    testing_country_3 = custom_country.create_custom_country(new_game)
+
+    germany.declare_war(testing_country_1)
+    germany.declare_war(testing_country_2)
+    germany.declare_war(testing_country_3)
+
+    germany.add_surrender_progress(0.10)
+
+    germany.add_political_power(450)
+
+    assert germany.get_full_war_support() == 0.35
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert germany.get_is_at_war() == True
+    assert germany.get_surrender_progress() == 0.1
+    assert requirements.can_switch_to_all_adults_serve(germany) == True
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.ALL_ADULTS_SERVE)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "All_adults_serve") == 450
+
+    assert germany.get_political_power() == 0
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be All Adults Serve
+    assert conscription_law.get_id() == "All_adults_serve"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.20
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == -0.30
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.DOCKYARD_OUTPUT) == -0.30
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSTRUCTION_SPEED) == -0.30
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.DIVISION_TRAINING_TIME) == 0.30
+
+    #and Germany gets these bonuses because the conscription law is All Adults Serve
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.20
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == -0.126
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == -0.126
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == -0.25
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.30
 
 def test_cannot_switch_to_all_aults_serve_without_enough_political_power(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany switches to All Adults Serve while having more than 0 percent surrender progress and being at war with three countries with 10 divisions(more than 70% strength ratio) but does not have enough political power
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+    testing_country_1 = custom_country.create_custom_country(new_game)
+    testing_country_2 = custom_country.create_custom_country(new_game)
+    testing_country_3 = custom_country.create_custom_country(new_game)
+
+    germany.declare_war(testing_country_1)
+    germany.declare_war(testing_country_2)
+    germany.declare_war(testing_country_3)
+
+    germany.add_surrender_progress(0.10)
+
+    germany.add_political_power(300)
+
+    assert germany.get_full_war_support() == 0.35
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert germany.get_is_at_war() == True
+    assert germany.get_surrender_progress() == 0.1
+    assert requirements.can_switch_to_all_adults_serve(germany) == True
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.ALL_ADULTS_SERVE)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "All_adults_serve") == 450
+
+    assert germany.get_political_power() == 300
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Limited Conscription
+    assert conscription_law.get_id() == "Limited_conscription"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
+
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
 
 def test_cannot_switch_to_all_adults_serve_if_country_is_at_war_with_enemies_having_more_than_70_percent_army_strength_ratio_and_country_does_not_fulfill_having_enough_war_support_or_surrender_progress(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany switches to All Adults Serve while being at war with three countries with 10 divisions(more than 70% strength ratio) but does not have enough war support or surrender progress
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+    testing_country_1 = custom_country.create_custom_country(new_game)
+    testing_country_2 = custom_country.create_custom_country(new_game)
+    testing_country_3 = custom_country.create_custom_country(new_game)
+
+    germany.declare_war(testing_country_1)
+    germany.declare_war(testing_country_2)
+    germany.declare_war(testing_country_3)
+
+    germany.add_political_power(450)
+
+    assert germany.get_full_war_support() == 0.35
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert germany.get_is_at_war() == True
+    assert germany.get_surrender_progress() == 0.0
+    assert requirements.can_switch_to_all_adults_serve(germany) == False
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.ALL_ADULTS_SERVE)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "All_adults_serve") == 450
+
+    assert germany.get_political_power() == 450
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Limited Conscription
+    assert conscription_law.get_id() == "Limited_conscription"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
+
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
 
 def test_cannot_switch_to_all_adults_serve_if_country_is_not_at_war(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany switches to All Adults Serve while not being at war and having over 70% war support
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+    germany.add_base_war_support(0.36)
+
+    germany.add_political_power(450)
+
+    assert germany.get_full_war_support() == 0.71
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert germany.get_is_at_war() == False
+    assert germany.get_surrender_progress() == 0.0
+    assert requirements.can_switch_to_all_adults_serve(germany) == False
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.ALL_ADULTS_SERVE)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "All_adults_serve") == 450
+
+    assert germany.get_political_power() == 450
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Limited Conscription
+    assert conscription_law.get_id() == "Limited_conscription"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
+
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
 
 def test_cannot_switch_to_all_adults_serve_if_country_is_at_war_but_enemies_army_strength_is_not_more_than_70_compared_to_country(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany switches to All Adults Serve while being at war with two countries with 10 divisions each(which does not fulfill army strength requirement)
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+    testing_country_1 = custom_country.create_custom_country(new_game)
+    testing_country_2 = custom_country.create_custom_country(new_game)
+
+    germany.declare_war(testing_country_1)
+    germany.declare_war(testing_country_2)
+
+    germany.add_base_war_support(0.36)
+    germany.add_political_power(450)
+
+    assert requirements
+    assert germany.get_full_war_support() == 0.71
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert germany.get_is_at_war() == True
+    assert germany.get_surrender_progress() == 0.0
+    assert requirements.can_switch_to_all_adults_serve(germany) == False
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.ALL_ADULTS_SERVE)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "All_adults_serve") == 450
+
+    assert germany.get_political_power() == 450
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Limited Conscription
+    assert conscription_law.get_id() == "Limited_conscription"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
+
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
 
 def test_can_switch_to_scraping_the_barrel_if_enemies_army_have_more_than_100_percent_strength_ratio_and_country_has_more_than_85_percent_war_support(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany switches to Scraping the Barrel while being at war with four countries with 10 divisions each(which fulfills army strength requirement) and Germany has over 85% war support
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+    testing_country_1 = custom_country.create_custom_country(new_game)
+    testing_country_2 = custom_country.create_custom_country(new_game)
+    testing_country_3 = custom_country.create_custom_country(new_game)
+    testing_country_4 = custom_country.create_custom_country(new_game)
+
+    germany.declare_war(testing_country_1)
+    germany.declare_war(testing_country_2)
+    germany.declare_war(testing_country_3)
+    germany.declare_war(testing_country_4)
+
+    germany.add_base_war_support(0.51)
+    germany.add_political_power(600)
+
+    assert requirements
+    assert germany.get_full_war_support() == pytest.approx(0.86)
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert germany.get_is_at_war() == True
+    assert germany.get_surrender_progress() == 0.0
+    assert requirements.can_switch_to_scraping_the_barrel(germany) == True
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.SCRAPING_THE_BARREL)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "Scraping_the_barrel") == 600
+
+    assert germany.get_political_power() == 0
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Scraping the Barrel
+    assert conscription_law.get_id() == "Scraping_the_barrel"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.25
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == -0.40
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.DOCKYARD_OUTPUT) == -0.40
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSTRUCTION_SPEED) == -0.40
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.DIVISION_TRAINING_TIME) == 0.50
+
+    #and Germany gets these bonuses because the conscription law is Scraping the Barrel
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.25
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.226)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.226)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == pytest.approx(-0.35)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.50
 
 def test_can_switch_to_scraping_the_barrel_if_enemies_army_have_more_than_100_percent_strength_ratio_and_country_has_more_than_25_percent_surrender_progress(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany switches to Scraping the Barrel while being at war with four countries with 10 divisions each(which fulfills army strength requirement) and Germany has over 25% surrender progress
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+    testing_country_1 = custom_country.create_custom_country(new_game)
+    testing_country_2 = custom_country.create_custom_country(new_game)
+    testing_country_3 = custom_country.create_custom_country(new_game)
+    testing_country_4 = custom_country.create_custom_country(new_game)
+
+    germany.declare_war(testing_country_1)
+    germany.declare_war(testing_country_2)
+    germany.declare_war(testing_country_3)
+    germany.declare_war(testing_country_4)
+
+    germany.add_surrender_progress(0.26)
+    germany.add_political_power(600)
+
+    assert requirements
+    assert germany.get_full_war_support() == 0.35
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert germany.get_is_at_war() == True
+    assert germany.get_surrender_progress() == 0.26
+    assert requirements.can_switch_to_scraping_the_barrel(germany) == True
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.SCRAPING_THE_BARREL)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "Scraping_the_barrel") == 600
+
+    assert germany.get_political_power() == 0
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Scraping the Barrel
+    assert conscription_law.get_id() == "Scraping_the_barrel"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.25
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.FACTORY_OUTPUT) == -0.40
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.DOCKYARD_OUTPUT) == -0.40
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.CONSTRUCTION_SPEED) == -0.40
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.DIVISION_TRAINING_TIME) == 0.50
+
+    #and Germany gets these bonuses because the conscription law is Scraping the Barrel
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.25
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == pytest.approx(-0.226)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == pytest.approx(-0.226)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == pytest.approx(-0.35)
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.50
 
 def test_cannot_switch_to_scraping_the_barrel_without_enough_political_power(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany switches to Scraping the Barrel while being at war with four countries with 10 divisions each(which fulfills army strength requirement) and Germany has over 25% surrender progress but not enough political power
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+    testing_country_1 = custom_country.create_custom_country(new_game)
+    testing_country_2 = custom_country.create_custom_country(new_game)
+    testing_country_3 = custom_country.create_custom_country(new_game)
+    testing_country_4 = custom_country.create_custom_country(new_game)
+
+    germany.declare_war(testing_country_1)
+    germany.declare_war(testing_country_2)
+    germany.declare_war(testing_country_3)
+    germany.declare_war(testing_country_4)
+
+    germany.add_surrender_progress(0.26)
+    germany.add_political_power(599.99)
+
+    assert requirements
+    assert germany.get_full_war_support() == 0.35
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert germany.get_is_at_war() == True
+    assert germany.get_surrender_progress() == 0.26
+    assert requirements.can_switch_to_scraping_the_barrel(germany) == True
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.SCRAPING_THE_BARREL)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "Scraping_the_barrel") == 600
+
+    assert germany.get_political_power() == 599.99
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Limited Conscription
+    assert conscription_law.get_id() == "Limited_conscription"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
+
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
 
 def test_cannot_switch_to_scraping_the_barrel_if_enemies_army_have_more_than_100_percent_strength_ratio_but_country_does_not_fulfill_war_support_or_surrender_progress_criteria(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany switches to Scraping the Barrel while being at war with four countries with 10 divisions each(which fulfills army strength requirement) but does not fulfill war support or surrender progress requirements
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+    testing_country_1 = custom_country.create_custom_country(new_game)
+    testing_country_2 = custom_country.create_custom_country(new_game)
+    testing_country_3 = custom_country.create_custom_country(new_game)
+    testing_country_4 = custom_country.create_custom_country(new_game)
+
+    germany.declare_war(testing_country_1)
+    germany.declare_war(testing_country_2)
+    germany.declare_war(testing_country_3)
+    germany.declare_war(testing_country_4)
+
+    germany.add_political_power(600)
+
+    assert requirements
+    assert germany.get_full_war_support() == 0.35
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert germany.get_is_at_war() == True
+    assert germany.get_surrender_progress() == 0.0
+    assert requirements.can_switch_to_scraping_the_barrel(germany) == False
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.SCRAPING_THE_BARREL)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "Scraping_the_barrel") == 600
+
+    assert germany.get_political_power() == 600
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Limited Conscription
+    assert conscription_law.get_id() == "Limited_conscription"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
+
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
 
 def test_cannot_switch_to_scraping_the_barrel_if_not_at_war(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany switches to Scraping the Barrel while not being at war and fulfilling war support requirement
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+
+    germany.add_base_war_support(0.51)
+    germany.add_political_power(600)
+
+    assert requirements
+    assert germany.get_full_war_support() == pytest.approx(0.86)
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert germany.get_is_at_war() == False
+    assert germany.get_surrender_progress() == 0.0
+    assert requirements.can_switch_to_scraping_the_barrel(germany) == False
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.SCRAPING_THE_BARREL)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "Scraping_the_barrel") == 600
+
+    assert germany.get_political_power() == 600
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Limited Conscription
+    assert conscription_law.get_id() == "Limited_conscription"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
+
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
 
 def test_cannot_switch_to_scraping_the_barrel_if_at_war_but_enemies_army_strength_ratio_is_lower_than_100_percent(germany, new_game): 
-    assert True == False
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
 
+    #When Germany switches to Scraping the Barrel while being at war with two countries with 10 divisions each(which doesn't fulfill army strength requirement) and has 86% war support
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+    testing_country_1 = custom_country.create_custom_country(new_game)
+    testing_country_2 = custom_country.create_custom_country(new_game)
+
+    germany.declare_war(testing_country_1)
+    germany.declare_war(testing_country_2)
+
+    germany.add_base_war_support(0.51)
+    germany.add_political_power(600)
+
+    assert requirements
+    assert germany.get_full_war_support() == pytest.approx(0.86)
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert germany.get_is_at_war() == True
+    assert germany.get_surrender_progress() == 0.0
+    assert requirements.can_switch_to_scraping_the_barrel(germany) == False
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.SCRAPING_THE_BARREL)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "Scraping_the_barrel") == 600
+
+    assert germany.get_political_power() == 600
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Limited Conscription
+    assert conscription_law.get_id() == "Limited_conscription"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
+
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+def test_cannot_switch_to_one_conscription_law_without_fulfilling_requirements_but_can_switch_to_another(germany, new_game): 
+    #Given a normal Germany game
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany switches to Scraping the Barrel while being at war with two countries with 10 divisions each(which doesn't fulfill army strength requirement) and has 86% war support
+    germany.change_ideology(ideologies.Ideologies.FASCIST)
+    testing_country_1 = custom_country.create_custom_country(new_game)
+    testing_country_2 = custom_country.create_custom_country(new_game)
+
+    germany.declare_war(testing_country_1)
+    germany.declare_war(testing_country_2)
+
+    germany.add_base_war_support(0.51)
+    germany.add_political_power(600)
+
+    assert requirements
+    assert germany.get_full_war_support() == pytest.approx(0.86)
+    assert germany.get_ideology() == ideologies.Ideologies.FASCIST
+    assert germany.get_is_at_war() == True
+    assert germany.get_surrender_progress() == 0.0
+    assert requirements.can_switch_to_scraping_the_barrel(germany) == False
+
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.SCRAPING_THE_BARREL)
+
+    assert germany.calculate_conscription_law_cost("Limited_conscription", "Scraping_the_barrel") == 600
+
+    assert germany.get_political_power() == 600
+
+    conscription_law = germany.get_conscription_law()
+
+    #Then the conscription law should be Limited Conscription
+    assert conscription_law.get_id() == "Limited_conscription"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.025
+
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.025
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
+
+    #When Germany then switches to disarmed nation
+    germany.switch_conscription_law(conscription_laws.Conscription_laws.DISARMED_NATION)
+
+    conscription_law = germany.get_conscription_law()
+
+    assert germany.get_political_power() == 300
+
+    #Then the conscription law should be Disarmed Nation
+    assert conscription_law.get_id() == "Disarmed_nation"
+    assert conscription_law.get_end_date() == None
+    assert conscription_law.get_modifier_bonuses().get(modifier_types.Modifier_types.RECRUITABLE_POPULATION) == 0.01
+
+    #and Germany gets these bonuses because the conscription law is Limited Conscription
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.RECRUITABLE_POPULATION] == 0.01
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.FACTORY_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DOCKYARD_OUTPUT] == 0.174
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.CONSTRUCTION_SPEED] == 0.05
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_TRAINING_TIME] == 0.0
     
 
 def created_advanced_germany(): 
