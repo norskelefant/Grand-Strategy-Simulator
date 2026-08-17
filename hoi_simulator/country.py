@@ -36,7 +36,7 @@ POSSIBLE_ECONOMY_LAWS = {"Civilian_economy": modifier.Modifier("Civilian_economy
                             150,
                             modifier_classes.Modifier_classes.ECONOMY_LAW, 
                             None, 
-                            {modifier_types.Modifier_types.RECRUITABLE_POPULATION: -3, modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.15, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.30, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.50, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30},
+                            {modifier_types.Modifier_types.RECRUITABLE_POPULATION: -0.03, modifier_types.Modifier_types.BASE_CONSUMER_GOODS: 0.15, modifier_types.Modifier_types.MIL_TO_CIV_CONVERSION_COST: -0.30, modifier_types.Modifier_types.CIV_TO_MIL_CONVERSION_COST: -0.30, modifier_types.Modifier_types.FACTORY_ENERGY_CONSUMPTION: 0.50, modifier_types.Modifier_types.MIL_CONSTRUCTION_SPEED: 0.30},
                             lambda country: requirements.can_switch_to_total_mobilization(country))
                          }
 
