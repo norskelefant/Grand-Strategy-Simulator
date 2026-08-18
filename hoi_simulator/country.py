@@ -649,6 +649,10 @@ class Country:
 
     def add_political_power(self, amount): 
         self.political_power += amount
+        if self.get_political_power() > 2000: 
+            self.political_power = 2000
+        if self.political_power() < -500: 
+            self.political_power = -500
 
     def remove_political_power(self, amount): 
         self.political_power -= amount
@@ -1246,6 +1250,8 @@ class Country:
         return defaults
 
     def day_has_passed(self, game): 
+        daily_pp_gain = self.calculate_daily_political_power_gain()
+        self.add_political_power(daily_pp_gain)
         for modifier in self.get_modifiers().copy(): 
             if modifier.get_end_date() is None: 
                 continue
@@ -1600,3 +1606,27 @@ class Country:
         self.surrender_progress += amount
         if self.get_surrender_progress() < 0: 
             self.surrender_progress = 0
+
+    def calculate_daily_political_power_gain(self): 
+        #The 2 base daily political power
+        return (self.get_base_daily_political_power() + self.get_daily_political_power_gain_bonus() - self.get_political_power_gain_used_by_focus()) * (1 + self.get_political_power_gain_percentage_bonus())
+
+    #This gain depends on which difficulty hoi4 is on. Implement political power gain based on difficulty from the wiki later: https://hoi4.paradoxwikis.com/Government
+    def get_base_daily_political_power(self): 
+        return 2
+
+    def get_daily_political_power_gain_bonus(self): 
+        return self.get_full_added_bonuses().get(modifier_types.Modifier_types.DAILY_POLITICAL_POWER_GAIN, 0)
+
+    def get_political_power_gain_percentage_bonus(self): 
+        return self.get_full_added_bonuses().get(modifier_types.Modifier_types.POLITICAL_POWER_GAIN, 0)
+
+    def get_political_power_gain_used_by_focus(self): 
+        if self.is_doing_a_focus() == True: 
+            return 1.0
+        else: 
+            return 0.0
+
+    #Implement this later
+    def is_doing_a_focus(self): 
+        return False
