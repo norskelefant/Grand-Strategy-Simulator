@@ -651,7 +651,7 @@ class Country:
         self.political_power += amount
         if self.get_political_power() > 2000: 
             self.political_power = 2000
-        if self.political_power() < -500: 
+        if self.get_political_power() < -500: 
             self.political_power = -500
 
     def remove_political_power(self, amount): 
@@ -789,7 +789,7 @@ class Country:
             war_support_under_50 = max(50 - war_support_percent, 0)
             mobilization_speed = -0.01 * war_support_under_50
             surrender_limit = -0.006 * war_support_under_50
-            daily_command_power = -0.01 * war_support_under_50
+            daily_command_power = -0.019 * war_support_under_50
             war_support_modifier = modifier.Modifier("War_support", 
                                             "War support", 
                                             0, 
@@ -1252,6 +1252,8 @@ class Country:
     def day_has_passed(self, game): 
         daily_pp_gain = self.calculate_daily_political_power_gain()
         self.add_political_power(daily_pp_gain)
+        daily_command_power_gain = self.calculate_daily_command_power_gain()
+        self.add_command_power(daily_command_power_gain)
         for modifier in self.get_modifiers().copy(): 
             if modifier.get_end_date() is None: 
                 continue
@@ -1334,7 +1336,6 @@ class Country:
     #----------------------------
 
     def is_already_hired_elsewhere(self, advisor_name): 
-        print(advisor_name)
         if any(advisor is not None and advisor.get_id() == advisor_name for advisor in self.get_advisors()): 
             return True
         if any(advisor is not None and advisor.get_id() == advisor_name for advisor in self.get_high_commanders()):
@@ -1485,7 +1486,9 @@ class Country:
         self.add_to_full_added_bonuses(chief_of_army)
         
     def resign_chief_of_army(self): 
+        command_power_before = self.get_command_power()
         self.remove_from_full_added_bonuses(self.get_chief_of_army())
+        self.change_command_power_after_replacing_advisor(command_power_before)
         self.chief_of_army = None 
 
     def hire_chief_of_navy(self, chief_of_navy_name):
@@ -1503,7 +1506,9 @@ class Country:
         self.add_to_full_added_bonuses(chief_of_navy)
 
     def resign_chief_of_navy(self):
+        command_power_before = self.get_command_power()
         self.remove_from_full_added_bonuses(self.get_chief_of_navy())
+        self.change_command_power_after_replacing_advisor(command_power_before)
         self.chief_of_navy = None
 
     def hire_chief_of_air_force(self, chief_of_air_force_name):
@@ -1521,7 +1526,9 @@ class Country:
         self.add_to_full_added_bonuses(chief_of_air_force)
 
     def resign_chief_of_air_force(self):
+        command_power_before = self.get_command_power()
         self.remove_from_full_added_bonuses(self.get_chief_of_air_force())
+        self.change_command_power_after_replacing_advisor(command_power_before)
         self.chief_of_air_force = None
 
     def hire_high_commander(self, high_commander_name, slot): 
@@ -1541,7 +1548,9 @@ class Country:
         self.add_to_full_added_bonuses(high_commander)
         
     def resign_high_commander(self, slot): 
+        command_power_before = self.get_command_power()
         self.remove_from_full_added_bonuses(self.get_high_commanders()[slot])
+        self.change_command_power_after_replacing_advisor(command_power_before)
         self.get_high_commanders()[slot] = None
 
     def switch_leader(self, leader_name): 
@@ -1630,3 +1639,25 @@ class Country:
     #Implement this later
     def is_doing_a_focus(self): 
         return False
+
+    def calculate_daily_command_power_gain(self): 
+        return (self.get_base_daily_command_power()) * (1 + self.get_command_power_gain_percentage_bonus())
+
+    def get_base_daily_command_power(self): 
+        return 0.4
+
+    def get_command_power_gain_percentage_bonus(self): 
+        return self.get_full_added_bonuses().get(modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER, 0)
+
+    def add_command_power(self, amount):
+        self.command_power += amount
+        if self.get_command_power() > self.get_maximum_command_power(): 
+            self.command_power = self.get_maximum_command_power()
+        if self.get_command_power() < 0: 
+            self.command_power = 0
+
+    def get_maximum_command_power(self): 
+        return 80 + self.get_full_added_bonuses().get(modifier_types.Modifier_types.MAX_COMMAND_POWER_INCREASE, 0)
+
+    def change_command_power_after_replacing_advisor(self, value): 
+        self.command_power = min(value, self.get_maximum_command_power())

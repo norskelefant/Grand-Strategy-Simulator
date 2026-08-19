@@ -47,8 +47,8 @@ def test_war_support_modifier_at_start(germany, new_game):
     #0.0020 * 0 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY] == 0.0
-    #-0.01 * 15 = -0.15
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.15
+    #-0.019 * 15 = -0.285
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.285
     #-0.006 * 15 = -0.09
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SURRENDER_LIMIT] == -0.09
 
@@ -658,8 +658,8 @@ def test_war_support_modifier_at_26_percent(germany, new_game):
     #0.0020 * 0 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY] == 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY] == 0
-    #-0.01 * 24 = -0.24
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.24
+    #-0.019 * 24 = -0.456
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == pytest.approx(-0.456)
     #-0.006 * 24 = -0.144
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SURRENDER_LIMIT] == pytest.approx(-0.144)
 
@@ -677,8 +677,8 @@ def test_war_support_modifier_at_27_percent(germany, new_game):
     #0.0020 * 0 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY] == 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY] == 0
-    #-0.01 * 23 = -0.23
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.23
+    #-0.019 * 23 = -0.437
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.437
     #-0.006 * 23 = -0.138
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SURRENDER_LIMIT] == pytest.approx(-0.138)
 
@@ -727,8 +727,8 @@ def test_war_support_modifier_at_0_percent(germany, new_game):
     #0.0020 * 0 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY] == 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY] == 0
-    #-0.01 * 59 = -0.50
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.50
+    #-0.019 * 50 = -0.95
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.95
     #-0.006 * 50 = -0.30
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SURRENDER_LIMIT] == -0.30
 
@@ -816,8 +816,8 @@ def test_war_support_increased_from_7_to_31_changes_modifier(germany, new_game):
     #0.0020 * 0 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY] == 0.0
-    #-0.01 * 43 = -0.43
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.43
+    #-0.019 * 43 = -0.817
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.817
     #-0.006 * 43 = -0.258
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SURRENDER_LIMIT] == -0.258
 
@@ -832,8 +832,8 @@ def test_war_support_increased_from_7_to_31_changes_modifier(germany, new_game):
     #0.0020 * 0 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY] == 0.0
-    #-0.01 * 19 = -0.19
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.19
+    #-0.019 * 19 = -0.361
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.361
     #-0.006 * 19 = -0.114
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SURRENDER_LIMIT] == -0.114
 
@@ -851,8 +851,8 @@ def test_war_support_decreased_from_43_to_30_changes_modifier(germany, new_game)
     #0.0020 * 0 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY] == 0.0
-    #-0.01 * 7 = -0.07
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.07
+    #-0.019 * 7 = -0.133
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.133
     #-0.006 * 7 = -0.042
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SURRENDER_LIMIT] == -0.042
 
@@ -867,8 +867,8 @@ def test_war_support_decreased_from_43_to_30_changes_modifier(germany, new_game)
     #0.0020 * 0 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY] == 0.0
-    #-0.01 * 20 = -0.20
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.20
+    #-0.019 * 20 = -0.38
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.38
     #-0.006 * 20 = -0.12
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SURRENDER_LIMIT] == -0.12
 
@@ -937,8 +937,8 @@ def test_war_support_decreased_from_50_to_25_changes_modifier(germany, new_game)
     #0.0020 * 0 = 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY] == 0.0
-    #-0.01 * 25 = -0.25
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.25
+    #-0.019 * 25 = -0.475
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.475
     #-0.006 * 25 = -0.15
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SURRENDER_LIMIT] == -0.15
 
@@ -956,8 +956,8 @@ def test_war_support_increased_from_40_to_60_changes_modifier(germany, new_game)
     #0.0020 * 0 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY] == 0.0
-    #-0.01 * 10 = -0.10
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.10
+    #-0.019 * 10 = -0.19
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.19
     #-0.006 * 10 = -0.06
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SURRENDER_LIMIT] == -0.06
 
@@ -1007,8 +1007,8 @@ def test_war_support_decreased_from_60_to_40_changes_modifier(germany, new_game)
     #0.0020 * 0 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY] == 0.0
-    #-0.01 * 10 = -0.10
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.10
+    #-0.019 * 10 = -0.19
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.19
     #-0.006 * 10 = -0.06
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SURRENDER_LIMIT] == -0.06
 
@@ -1038,8 +1038,8 @@ def test_war_support_bonuses_do_not_go_under_0_percent(germany, new_game):
     #0.0020 * 0 = 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY] == 0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY] == 0
-    #-0.01 * 59 = -0.50
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.50
+    #-0.019 * 50 = -0.95
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.95
     #-0.006 * 50 = -0.30
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SURRENDER_LIMIT] == -0.30
 
@@ -1091,8 +1091,8 @@ def test_stability_and_war_support_changes_at_the_same_time_changes_modifier(ger
     #0.0020 * 0 = 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_ATTACK_ON_CORE_TERRITORY] == 0.0
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DIVISION_DEFENSE_ON_CORE_TERRITORY] == 0.0
-    #-0.01 * 30 = -0.30
-    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.30
+    #-0.019 * 30 = -0.57
+    assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.DAILY_COMMAND_POWER_GAIN_MULTIPLIER] == -0.57
     #-0.006 * 30 = -0.18
     assert germany.get_full_added_bonuses()[modifier_types.Modifier_types.SURRENDER_LIMIT] == -0.18
 
