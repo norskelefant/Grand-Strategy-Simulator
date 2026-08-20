@@ -9,6 +9,8 @@ def parse_file(path):
     file = open(path, "r")
     text = file.read()
 
+    text_without_comments = remove_comments_from_text(text)
+
     target = "focus = {"
     index = 0
 
@@ -23,6 +25,18 @@ def parse_file(path):
                 index += extra_index
                 handle_focus(focus_text)
         index += 1
+
+def remove_comments_from_text(text): 
+    lines = text.splitlines(True)
+    new_text = ""
+    for line in lines: 
+        comment_index = line.find("#")
+        if comment_index != -1: 
+            new_text += line
+        else: 
+            #Adds eveything before the comment. THe \n is because that would become part of the comment, but it is still needed to get to the next line
+            new_text += line[:comment_index] + "\n"
+    return new_text
 
 #Finds when a focus block ends, where the whole focus block can be sent to handle focus
 def find_block_end(text): 
@@ -94,6 +108,8 @@ def handle_focus(text):
             else: 
                 mut_excl_focus_id += text[mut_excl_index]
             mut_excl_index += 1
+
+    
 
 
 
